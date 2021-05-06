@@ -3,6 +3,9 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { EditModule } from './edit-page/edit.module';
+import { EditComponent } from './edit-page/edit/edit.component';
+import { FrontPageModule } from './front-page/front-page.module';
 
 @NgModule({
   declarations: [
@@ -10,7 +13,9 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FrontPageModule,
+    EditModule
   ],
   providers: [],
   bootstrap: [AppComponent]
