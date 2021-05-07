@@ -19,10 +19,14 @@ const routes: Routes = [
     resolve: [OpenLocalService]
   },
   {
-    path: ':id/edit', // Edit the selected graph
-    component: EditComponent,
-    resolve: [OpenLocalService]
-  }
+    path: 'edit', // Edit the selected graph
+    component: EditComponent
+  },
+  // {
+  //   path: 'edit/:id', // Edit the selected graph
+  //   component: EditComponent,
+  //   resolve: [OpenLocalService]
+  // }
 ];
 
 @NgModule({
