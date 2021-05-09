@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { OpenLocalService } from './open-local.service';
+import { SharedGraphService } from './shared-graph.service';
 
-describe('OpenLocalService', () => {
-  let service: OpenLocalService;
+describe('SharedGraphService', () => {
+  let service: SharedGraphService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(OpenLocalService);
+    service = TestBed.inject(SharedGraphService);
   });
 
   it('should be created', () => {
