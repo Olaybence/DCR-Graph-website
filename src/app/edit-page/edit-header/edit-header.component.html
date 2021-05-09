@@ -1,1 +1,26 @@
-<p>edit-header works!</p>
+<mat-toolbar color="primary">
+  <span>GCR graph</span>
+
+  <button mat-button [matMenuTriggerFor]="edit">Edit</button>
+  <mat-menu #edit="matMenu">
+    <button mat-menu-item>Add object</button>
+    <button mat-menu-item>Remove object</button>
+    <button mat-menu-item>Connect object</button>
+    <button mat-menu-item>Save as</button>
+    <button mat-menu-item>Load</button>
+  </mat-menu>
+
+  <button mat-button [matMenuTriggerFor]="simulate">Simulate</button>
+  <mat-menu #simulate="matMenu">
+    <button mat-menu-item>Run Simulate on graph</button>
+    <button mat-menu-item>Edit parameters</button>
+    <button mat-menu-item>View execution log</button>
+  </mat-menu>
+
+  <button mat-button [matMenuTriggerFor]="analyze">Analyze</button>
+  <mat-menu #analyze="matMenu">
+    <button mat-menu-item>Run analyse on graph</button>
+    <button mat-menu-item>View metrics</button>
+    <button mat-menu-item>View logs</button>
+  </mat-menu>
+</mat-toolbar>
