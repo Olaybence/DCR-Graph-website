@@ -43,4 +43,7 @@ export class EditHeaderComponent implements OnInit {
   handleOnViewLogs() {
     console.log('clicked on AddObject');
   }
+  handleOnShareGraph() {
+    console.log('clicked on ShareGraph');
+  }
 }
