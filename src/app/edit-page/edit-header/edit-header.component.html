@@ -3,24 +3,24 @@
 
   <button mat-button [matMenuTriggerFor]="edit">Edit</button>
   <mat-menu #edit="matMenu">
-    <button mat-menu-item>Add object</button>
-    <button mat-menu-item>Remove object</button>
-    <button mat-menu-item>Connect object</button>
-    <button mat-menu-item>Save as</button>
-    <button mat-menu-item>Load</button>
+    <button mat-menu-item (click)="handleOnAddObject()">Add object</button>
+    <button mat-menu-item (click)="handleOnRemoveObject()">Remove object</button>
+    <button mat-menu-item (click)="handleOnConnectObject()">Connect object</button>
+    <button mat-menu-item (click)="handleOnSaveAs()">Save as</button>
+    <button mat-menu-item (click)="handleOnLoad()">Load</button>
   </mat-menu>
 
   <button mat-button [matMenuTriggerFor]="simulate">Simulate</button>
   <mat-menu #simulate="matMenu">
-    <button mat-menu-item>Run Simulate on graph</button>
-    <button mat-menu-item>Edit parameters</button>
-    <button mat-menu-item>View execution log</button>
+    <button mat-menu-item (click)="handleOnSimulateGraph()">Run Simulate on graph</button>
+    <button mat-menu-item (click)="handleOnEditParameters()">Edit parameters</button>
+    <button mat-menu-item (click)="handleOnViewExecutionLog()">View execution log</button>
   </mat-menu>
 
   <button mat-button [matMenuTriggerFor]="analyze">Analyze</button>
   <mat-menu #analyze="matMenu">
-    <button mat-menu-item>Run analyse on graph</button>
-    <button mat-menu-item>View metrics</button>
-    <button mat-menu-item>View logs</button>
+    <button mat-menu-item (click)="handleOnAnalyzeGraph()">Run analyse on graph</button>
+    <button mat-menu-item (click)="handleOnViewMetrics()">View metrics</button>
+    <button mat-menu-item (click)="handleOnViewLogs()">View logs</button>
   </mat-menu>
 </mat-toolbar>
