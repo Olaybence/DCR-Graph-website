@@ -49,3 +49,15 @@ changes that was described by the issue.
 The group is working on the development branch where the newest code is.
 On the other hand, the Master branch will give place for the release LTS versions of our product
 with a stable, working and tested DCR-Graph web-application.
+
+# Branch rules
+
+## Development and Master branch lock
+
+### Require pull request reviews before merging
+
+When enabled, all commits must be made to a non-protected branch and submitted via a pull request with the required number of approving reviews and no changes requested before it can be merged into a branch that matches this rule.
+
+### Include administrators
+
+Enforce all configured restrictions above for administrators.
