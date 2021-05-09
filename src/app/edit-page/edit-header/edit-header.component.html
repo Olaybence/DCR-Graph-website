@@ -25,7 +25,7 @@
   </mat-menu>
 
   <span class="spacer"></span>
-  <button mat-button [matMenuTriggerFor]="viewType">Select view type</button>
+  <button mat-button [matMenuTriggerFor]="viewType">Selected view: {{ getSelectedViewType }}</button>
   <mat-menu #viewType="matMenu">
     <button
       mat-menu-item

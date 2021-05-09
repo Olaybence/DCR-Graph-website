@@ -54,4 +54,8 @@ export class EditHeaderComponent implements OnInit {
   handleOnViewType(vt: ViewType) {
     this.selectedViewType = vt;
   }
+
+  get getSelectedViewType(): string {
+    return this.selectedViewType.charAt(0).toUpperCase() + this.selectedViewType.slice(1)
+  }
 }
