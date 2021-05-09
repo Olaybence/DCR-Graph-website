@@ -1,11 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 
+type ViewType = 'text' | 'visual';
+
 @Component({
   selector: 'app-edit-header',
   templateUrl: './edit-header.component.html',
   styleUrls: ['./edit-header.component.css'],
 })
 export class EditHeaderComponent implements OnInit {
+  selectedViewType: ViewType = 'text';
+  viewTypes: ViewType[] = ['text', 'visual'];
+
   constructor() {}
 
   ngOnInit(): void {}
@@ -45,5 +50,8 @@ export class EditHeaderComponent implements OnInit {
   }
   handleOnShareGraph() {
     console.log('clicked on ShareGraph');
+  }
+  handleOnViewType(vt: ViewType) {
+    this.selectedViewType = vt;
   }
 }

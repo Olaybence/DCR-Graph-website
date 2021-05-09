@@ -25,5 +25,16 @@
   </mat-menu>
 
   <span class="spacer"></span>
+  <button mat-button [matMenuTriggerFor]="viewType">Select view type</button>
+  <mat-menu #viewType="matMenu">
+    <button
+      mat-menu-item
+      *ngFor="let vt of viewTypes"
+      (click)="handleOnViewType(vt)"
+    >
+      {{ vt.charAt(0).toUpperCase() + vt.slice(1) }}
+    </button>
+  </mat-menu>
+
   <button mat-button (click)="handleOnShareGraph()">Share graph</button>
 </mat-toolbar>
