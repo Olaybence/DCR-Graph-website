@@ -4,7 +4,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { EditModule } from './edit-page/edit.module';
-import { EditComponent } from './edit-page/edit/edit.component';
 import { FrontPageModule } from './front-page/front-page.module';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
