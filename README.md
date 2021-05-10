@@ -31,3 +31,33 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 Install script: `ng add @angular/material`
 
 Website:  https://material.angular.io/
+
+# Task based workflow
+
+We manages our work by the issues, where we create issues that focuses on a given feature.
+After an issue is created, we make a branch regarding to the given issue, which contains 
+changes that was described by the issue.
+
+## Final steps after a feature is done:
+- Test the application is working as it needs to.
+- Pull all the changes happened on ORIGIN.
+- Merge the changes into the branch with the new feature.
+- Create a Pull Request that merges the new feature into the development branch
+
+## Master & Development branches
+
+The group is working on the development branch where the newest code is.
+On the other hand, the Master branch will give place for the release LTS versions of our product
+with a stable, working and tested DCR-Graph web-application.
+
+# Branch rules
+
+## Development and Master branch lock
+
+### Require pull request reviews before merging
+
+When enabled, all commits must be made to a non-protected branch and submitted via a pull request with the required number of approving reviews and no changes requested before it can be merged into a branch that matches this rule.
+
+### Include administrators
+
+Enforce all configured restrictions above for administrators.
