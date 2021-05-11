@@ -13,7 +13,7 @@ import { LocalGraphService } from './services/local-graph.service';
 const routes: Routes = [
   { path: "", redirectTo: "/select", pathMatch: "full" },
   {
-    path: 'select/:id', // Component Selected (Select feature)
+    path: 'select', // Component Selected (Select feature)
     component: SelectGraphComponent, children: [
       {
         path: ':id',
