@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { EditComponent } from './edit-page/edit/edit.component';
@@ -9,24 +9,24 @@ import { OpenLocalService } from './services/open-local.service';
 
 const routes: Routes = [
   { path: "", redirectTo: "/select", pathMatch: "full" },
-  { 
-    path: 'select', 
-    component: SelectGraphComponent,
-
-  } , { 
+  {
     path: 'select/:id', // Component Selected (Select feature)
-    component: SelectGraphComponent,
-    resolve: [OpenLocalService]
+    component: SelectGraphComponent, children: [
+      {
+        path: ':id',
+        component: SelectGraphComponent,
+      }
+    ]
   },
   {
     path: 'edit', // Edit the selected graph
-    component: EditComponent
-  },
-  // {
-  //   path: 'edit/:id', // Edit the selected graph
-  //   component: EditComponent,
-  //   resolve: [OpenLocalService]
-  // }
+    component: EditComponent, children: [
+      {
+        path: ':id',
+        component: EditComponent,
+      }
+    ]
+  }
 ];
 
 @NgModule({
