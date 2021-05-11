@@ -1,15 +1,61 @@
 import { Component, OnInit } from '@angular/core';
 
+type ViewType = 'text' | 'visual';
+
 @Component({
   selector: 'app-edit-header',
   templateUrl: './edit-header.component.html',
-  styleUrls: ['./edit-header.component.css']
+  styleUrls: ['./edit-header.component.css'],
 })
 export class EditHeaderComponent implements OnInit {
+  selectedViewType: ViewType = 'text';
+  viewTypes: ViewType[] = ['text', 'visual'];
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  handleOnAddObject() {
+    console.log('clicked on AddObject');
+  }
+  handleOnRemoveObject() {
+    console.log('clicked on RemoveObject');
+  }
+  handleOnConnectObject() {
+    console.log('clicked on ConnectObject');
+  }
+  handleOnSaveAs() {
+    console.log('clicked on SaveAs');
+  }
+  handleOnLoad() {
+    console.log('clicked on Load');
+  }
+  handleOnSimulateGraph() {
+    console.log('clicked on SimulateGraph');
+  }
+  handleOnEditParameters() {
+    console.log('clicked on EditParameters');
+  }
+  handleOnViewExecutionLog() {
+    console.log('clicked on ViewExecutionLog');
+  }
+  handleOnAnalyzeGraph() {
+    console.log('clicked on AnalyzeGraph');
+  }
+  handleOnViewMetrics() {
+    console.log('clicked on ViewMetrics');
+  }
+  handleOnViewLogs() {
+    console.log('clicked on AddObject');
+  }
+  handleOnShareGraph() {
+    console.log('clicked on ShareGraph');
+  }
+  handleOnViewType(vt: ViewType) {
+    this.selectedViewType = vt;
   }
 
+  get getSelectedViewType(): string {
+    return this.selectedViewType.charAt(0).toUpperCase() + this.selectedViewType.slice(1)
+  }
 }

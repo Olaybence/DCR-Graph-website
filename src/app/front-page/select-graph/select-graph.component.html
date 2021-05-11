@@ -1,10 +1,25 @@
-<h2>DCR Graph Manager</h2>
-<!-- INSERT Beautiful home page -->
-<mat-grid-list cols="2" rowHeight="2:1">
-    <mat-grid-tile>
-        <app-select-source></app-select-source>
-    </mat-grid-tile>
-    <mat-grid-tile>
-        <app-select-feature ></app-select-feature>
-    </mat-grid-tile>
-</mat-grid-list>
+<div class="page">
+    <app-header></app-header>
+
+    <mat-tab-group>
+        <mat-tab label="Local Projects">
+            <mat-list>
+                <mat-list-item (click)="selectGraph(graph)" class="items" *ngFor="let graph of localGraphs">
+                    <div mat-line>{{graph.name}}</div>
+                    <div mat-line> {{graph.shortDescription}} </div>
+                </mat-list-item>
+            </mat-list>
+        </mat-tab>
+
+        <mat-tab label="Shared Projects">
+            <mat-list>
+                <mat-list-item (click)="selectGraph(graph)" class="items" *ngFor="let graph of sharedGraphs">
+                    <div mat-line>{{graph.name}}</div>
+                    <div mat-line> {{graph.shortDescription}} </div>
+                </mat-list-item>
+            </mat-list>
+        </mat-tab>
+    </mat-tab-group>
+
+    <app-footer></app-footer>
+</div>
