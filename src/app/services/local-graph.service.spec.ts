@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { CreateGraphService } from './create-graph.service';
+import { LocalGraphService } from './local-graph.service';
 
-describe('CreateGraphService', () => {
-  let service: CreateGraphService;
+describe('LocalGraphService', () => {
+  let service: LocalGraphService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(CreateGraphService);
+    service = TestBed.inject(LocalGraphService);
   });
 
   it('should be created', () => {

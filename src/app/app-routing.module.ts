@@ -1,24 +1,24 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { EditComponent } from './edit-page/edit/edit.component';
+
+import { EditModule } from './edit-page/edit.module';
 import { FrontPageModule } from './front-page/front-page.module';
+
+import { EditComponent } from './edit-page/edit/edit.component';
 import { SelectGraphComponent } from './front-page/select-graph/select-graph.component';
-import { CreateGraphService } from './services/create-graph.service';
-import { OpenLocalService } from './services/open-local.service';
+
+import { LocalGraphService } from './services/local-graph.service';
 
 const routes: Routes = [
   { path: "", redirectTo: "/select", pathMatch: "full" },
   { 
     path: 'select', 
     component: SelectGraphComponent,
-
-  } , { 
+  },{ 
     path: 'select/:id', // Component Selected (Select feature)
     component: SelectGraphComponent,
-    resolve: [OpenLocalService]
-  },
-  {
+    resolve: [LocalGraphService]
+  },{
     path: 'edit', // Edit the selected graph
     component: EditComponent
   },
@@ -30,7 +30,11 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes),
+    FrontPageModule,
+    EditModule
+  ],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

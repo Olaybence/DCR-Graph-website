@@ -1,0 +1,15 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px
+}
+
+.middle {
+    font-size: 20px;
+    font-weight: bold;
+    color: pink;
+}
+
+.new-project {
+    color: white
+}
