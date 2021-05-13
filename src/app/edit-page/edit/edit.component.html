@@ -1,6 +1,9 @@
 <div>
-  <app-edit-header></app-edit-header>
+  <app-edit-header
+    [selectedViewType]="selectedViewType"
+    (onChangeView)="handleOnChangeView($event)"
+  ></app-edit-header>
 
-  <p>edit works!</p>
+  <app-text-view *ngIf="renderTextView()"></app-text-view>
+  <app-visual-view *ngIf="renderVisualView()"></app-visual-view>
 </div>
-
