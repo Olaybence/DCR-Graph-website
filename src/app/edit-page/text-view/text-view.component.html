@@ -10,6 +10,7 @@ A --><> (B, D)
 </textarea>
 
 <button (click)="parse(userInput.value)">Parse</button>
+<button (click)="time()">Time</button>
 
 <p>{{ errorMsg }}</p>
 
@@ -22,11 +23,21 @@ A --><> (B, D)
     <th>Name</th>
   </tr>
 
-  <tr *ngFor="let d of graphStatus">
-    <td>{{ d.executed }}</td>
-    <td>{{ d.included }}</td>
-    <td>{{ d.pending }}</td>
-    <td>{{ d.enabled }}</td>
-    <td>{{ d.name }}</td>
+  <tr *ngFor="let gs of graphStatus">
+    <td>{{ gs.executed ? "V:" + gs.lastExecuted : "" }}</td>
+    <td>{{ gs.included ? "" : "%" }}</td>
+    <td>
+      {{
+        gs.pending
+          ? "!" + (gs.deadline === undefined ? "" : ":" + gs.deadline)
+          : ""
+      }}
+    </td>
+    <td>{{ gs.enabled }}</td>
+    <td>
+      <button (click)="execute(gs.name)" [disabled]="gs.enabled">
+        {{ gs.label }}
+      </button>
+    </td>
   </tr>
 </table>

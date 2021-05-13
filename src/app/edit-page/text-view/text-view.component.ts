@@ -18,7 +18,7 @@ type Status = {
 })
 export class TextViewComponent implements OnInit {
   errorMsg: string;
-  graphStatus: Status[];
+  graph: any;
 
   constructor() {}
   ngOnInit(): void {}
@@ -28,11 +28,25 @@ export class TextViewComponent implements OnInit {
 
     try {
       const graph = window.parser.parse(input);
-      console.log(graph.status());
-      this.graphStatus = graph.status();
+      this.graph = graph;
     } catch (error) {
-      this.graphStatus = [];
       this.errorMsg = error.message + JSON.stringify(error.location);
     }
+  }
+
+  get graphStatus(): Status[] {
+    if (!this.graph) {
+      return [];
+    }
+
+    return this.graph.status();
+  }
+
+  time() {
+    this.graph.timeStep(1);
+  }
+
+  execute(name: string) {
+    this.graph.execute(name);
   }
 }
