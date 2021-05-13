@@ -1,1 +1,32 @@
-<p>text-view works!</p>
+<textarea #userInput type="text" rows="20" cols="150">
+A(0,0,0)
+B(0,1,1)
+A -->* B
+B *--> A
+C -->% A
+D -->+ A
+D -->* B
+A --><> (B, D)
+</textarea>
+
+<button (click)="parse(userInput.value)">Parse</button>
+
+<p>{{ errorMsg }}</p>
+
+<table>
+  <tr>
+    <th>Executed</th>
+    <th>Included</th>
+    <th>Pending</th>
+    <th>Enabled</th>
+    <th>Name</th>
+  </tr>
+
+  <tr *ngFor="let d of graphStatus">
+    <td>{{ d.executed }}</td>
+    <td>{{ d.included }}</td>
+    <td>{{ d.pending }}</td>
+    <td>{{ d.enabled }}</td>
+    <td>{{ d.name }}</td>
+  </tr>
+</table>
