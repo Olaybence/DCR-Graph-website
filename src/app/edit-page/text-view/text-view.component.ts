@@ -27,8 +27,7 @@ export class TextViewComponent implements OnInit {
     this.errorMsg = '';
 
     try {
-      const graph = window.parser.parse(input);
-      this.graph = graph;
+      this.graph = window.parser.parse(input);
     } catch (error) {
       this.errorMsg = error.message + JSON.stringify(error.location);
     }
@@ -43,10 +42,12 @@ export class TextViewComponent implements OnInit {
   }
 
   time() {
+    // Does not work
     this.graph.timeStep(1);
   }
 
   execute(name: string) {
+    // Does not work
     this.graph.execute(name);
   }
 }
