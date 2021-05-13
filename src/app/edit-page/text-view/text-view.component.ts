@@ -42,12 +42,10 @@ export class TextViewComponent implements OnInit {
   }
 
   time() {
-    // Does not work
     this.graph.timeStep(1);
   }
 
   execute(name: string) {
-    // Does not work
     this.graph.execute(name);
   }
 }

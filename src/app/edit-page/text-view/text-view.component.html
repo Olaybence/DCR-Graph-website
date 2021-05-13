@@ -35,7 +35,7 @@ A --><> (B, D)
     </td>
     <td>{{ gs.enabled }}</td>
     <td>
-      <button (click)="execute(gs.name)" [disabled]="gs.enabled">
+      <button (click)="execute(gs.name)" [disabled]="!gs.enabled">
         {{ gs.label }}
       </button>
     </td>
