@@ -5,6 +5,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { CommonModule } from '@angular/common';
 import { EditComponent, Task } from './edit/edit.component';
 import { EditHeaderComponent } from './edit-header/edit-header.component';
+import { TextViewComponent } from './text-view/text-view.component';
+import { VisualViewComponent } from './visual-view/visual-layout.component';
 
 
 
@@ -12,7 +14,9 @@ import { EditHeaderComponent } from './edit-header/edit-header.component';
   declarations: [
     EditComponent,
     EditHeaderComponent,
-    Task
+    Task,
+    TextViewComponent,
+    VisualViewComponent
   ],
   imports: [
     CommonModule,

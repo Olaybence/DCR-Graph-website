@@ -9,14 +9,18 @@ import { Graph, Node, Role } from 'src/app/utils/graph.model';
 })
 export class Task {}
 
+export type ViewType = 'text' | 'visual';
+
 @Component({
   selector: 'app-edit',
   templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.css']
+  styleUrls: ['./edit.component.css'],
 })
 export class EditComponent implements OnInit {
-
+  selectedViewType: ViewType = 'text';
   graph: Graph = new Graph(0,"Sed vel ultrices","Mauris elit metus, posuere quis nisi a, sodales ornare odio.");
+
+  ngOnInit(): void {}
   
   constructor() {
     this.graph.nodes = [
@@ -49,7 +53,16 @@ export class EditComponent implements OnInit {
     </svg>`;
   }
 
-  ngOnInit(): void {
+  handleOnChangeView(vt: ViewType) {
+    this.selectedViewType = vt;
   }
 
-}
+  renderTextView(): boolean {
+    return this.selectedViewType === 'text';
+  }
+
+  renderVisualView(): boolean {
+      return this.selectedViewType === 'visual';
+    }
+  }
+

@@ -1,6 +1,17 @@
 <app-edit-header></app-edit-header>
 
+<div>
+  <app-edit-header
+    [selectedViewType]="selectedViewType"
+    (onChangeView)="handleOnChangeView($event)"
+  ></app-edit-header>
+
+  <app-text-view *ngIf="renderTextView()"></app-text-view>
+  <app-visual-view *ngIf="renderVisualView()"></app-visual-view>
+</div>
+
 <task-div></task-div>
+
 <!-- <svg xmlns="http://www.w3.org/2000/svg" id="master" version="1.1" width="720" height="320" viewBox="0, 0, 720, 320">
   <rect id="background" width="100%" height="100%" stroke="rgb(212,202,202)" stroke-width="1" fill="rgb(240,240,241)">
   </rect><svg id="roles" viewBox="0, 0, 120, 320" x="0" y="0" width="120" height="320"><svg viewBox="0 0 120 80" x="0"
