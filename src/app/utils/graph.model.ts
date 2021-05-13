@@ -1,6 +1,7 @@
 import { User } from "./user.model";
 
 /**
+ * DCR Graph
  * A DCR Graph representation
  * @public id : number
  * @public name : string
@@ -41,6 +42,7 @@ export class Graph {
 }
 
 /**
+ * DCR Graph
  * This class is representing one role in DCR Graph
  * @public id : number
  * @public name : string
@@ -60,6 +62,7 @@ export class Role {
 }
 
 /**
+ * DCR Graph
  * @public id: number
  * @public roleID: number
  * @public name: string

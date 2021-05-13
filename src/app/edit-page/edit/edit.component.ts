@@ -3,6 +3,13 @@ import { ResolveStart } from '@angular/router';
 import { Graph, Node, Role } from 'src/app/utils/graph.model';
 
 @Component({
+  selector: 'task-div',
+  templateUrl: 'task-div.svg',
+  styleUrls: []
+})
+export class Task {}
+
+@Component({
   selector: 'app-edit',
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.css']
@@ -28,6 +35,18 @@ export class EditComponent implements OnInit {
       new Role(0,"Intern"),
     ];
     console.log(this.graph);
+  }
+
+  taskDiv() {
+    return `
+    <svg viewBox="0 0 120 80" x="0" y="80" width="120" height="80">
+      <text transform="rotate(270 80,20)"
+          font-size="11px" font-weight="bold" x="60" y="40" font-family="Arial, Helvetica, sans-serif"
+          text-anchor="middle">
+          <tspan dy="0">IT B</tspan>
+          <tspan dy="15" x="60"></tspan>
+      </text>"
+    </svg>`;
   }
 
   ngOnInit(): void {
