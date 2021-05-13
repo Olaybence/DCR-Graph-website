@@ -6,3 +6,8 @@
 .spacer {
     flex: 1 1 auto;
 }
+
+.items:hover {
+    background-color: grey;
+    cursor: pointer;
+}

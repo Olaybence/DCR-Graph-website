@@ -24,7 +24,7 @@ export class SelectGraphComponent implements OnInit {
   }
   
   selectGraph(graph: Graph) {
-    console.log(graph);
+    console.log(graph.id, graph);
     // this.router.navigate(['./edit/'+graph.id]);
     this.router.navigate(['./edit']);
   }

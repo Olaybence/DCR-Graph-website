@@ -3,7 +3,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { CommonModule } from '@angular/common';
-import { EditComponent } from './edit/edit.component';
+import { EditComponent, Task } from './edit/edit.component';
 import { EditHeaderComponent } from './edit-header/edit-header.component';
 
 
@@ -11,7 +11,8 @@ import { EditHeaderComponent } from './edit-header/edit-header.component';
 @NgModule({
   declarations: [
     EditComponent,
-    EditHeaderComponent
+    EditHeaderComponent,
+    Task
   ],
   imports: [
     CommonModule,
@@ -19,8 +20,7 @@ import { EditHeaderComponent } from './edit-header/edit-header.component';
     MatMenuModule,
     MatButtonModule
   ], exports: [
-    EditComponent,
-    EditHeaderComponent
+    EditComponent
   ]
 })
 export class EditModule { }
