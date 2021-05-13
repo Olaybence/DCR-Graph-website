@@ -2,13 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ResolveStart } from '@angular/router';
 import { Graph, Node, Role } from 'src/app/utils/graph.model';
 
-@Component({
-  selector: 'task-div',
-  templateUrl: 'task-div.svg',
-  styleUrls: []
-})
-export class Task {}
-
 export type ViewType = 'text' | 'visual';
 
 @Component({
