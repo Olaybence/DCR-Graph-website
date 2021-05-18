@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { EditComponent } from './edit/edit.component';
 import { EditHeaderComponent } from './edit-header/edit-header.component';
 import { TextViewComponent } from './text-view/text-view.component';
-import { VisualViewComponent } from './visual-view/visual-layout.component';
+import { VisualViewComponent } from './visual-view/visual-view.component';
 
 
 
@@ -23,8 +23,7 @@ import { VisualViewComponent } from './visual-view/visual-layout.component';
     MatMenuModule,
     MatButtonModule
   ], exports: [
-    EditComponent,
-    EditHeaderComponent
+    EditComponent
   ]
 })
 export class EditModule { }
