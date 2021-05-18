@@ -25,8 +25,12 @@ export class SelectGraphComponent implements OnInit {
   
   selectGraph(graph: Graph) {
     console.log(graph.id, graph);
-    // this.router.navigate(['./edit/'+graph.id]);
-    this.router.navigate(['./edit']);
+
+    if (this.sharedGraphs.includes(graph)) {
+      this.router.navigate(['./edit/shared/'+graph.id]);
+    } else {
+      this.router.navigate(['./edit/local/'+graph.id]);
+    }
   }
 
 }

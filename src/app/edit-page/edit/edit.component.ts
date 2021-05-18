@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { ResolveStart } from '@angular/router';
 import { Graph, Node, Role } from 'src/app/utils/graph.model';
 
@@ -10,12 +11,12 @@ export type ViewType = 'text' | 'visual';
   styleUrls: ['./edit.component.css'],
 })
 export class EditComponent implements OnInit {
-  selectedViewType: ViewType = 'visual';
+  edit_id: string;
   graph: Graph = new Graph(0,"Sed vel ultrices","Mauris elit metus, posuere quis nisi a, sodales ornare odio.");
+  selectedViewType: ViewType = 'visual';
 
-  ngOnInit(): void {}
   
-  constructor() {
+  constructor(private router: Router) {
     this.graph.nodes = [
       new Node(0,"Collect documents",0,null).setNextForMockUp(1),
       new Node(1,"Unusual property",0,1).setNextForMockUp(2),
@@ -31,8 +32,19 @@ export class EditComponent implements OnInit {
       new Role(0,"Client"),
       new Role(0,"Intern"),
     ];
-    console.log(this.graph);
-  }
+    //console.log(this.graph);
+
+
+    router.events.subscribe((evt) => {
+      if (evt instanceof NavigationEnd) {
+        this.edit_id = evt.url.split('/').pop();
+       console.log("I got it in .ts!!! " + this.edit_id);
+      }
+    })
+    }
+
+
+
 
   taskDiv() {
     return `
@@ -46,6 +58,11 @@ export class EditComponent implements OnInit {
     </svg>`;
   }
 
+
+  ngOnInit(): void {
+
+  }
+
   handleOnChangeView(vt: ViewType) {
     this.selectedViewType = vt;
   }
@@ -56,6 +73,7 @@ export class EditComponent implements OnInit {
 
   renderVisualView(): boolean {
       return this.selectedViewType === 'visual';
-    }
   }
+  }
+
 
