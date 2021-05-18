@@ -3,22 +3,19 @@ import { NavigationEnd, Router } from '@angular/router';
 import { ResolveStart } from '@angular/router';
 import { Graph, Node, Role } from 'src/app/utils/graph.model';
 
-@Component({
-  selector: 'task-div',
-  templateUrl: 'task-div.svg',
-  styleUrls: []
-})
-export class Task {}
+export type ViewType = 'text' | 'visual';
 
 @Component({
   selector: 'app-edit',
   templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.css']
+  styleUrls: ['./edit.component.css'],
 })
 export class EditComponent implements OnInit {
   edit_id: string;
   graph: Graph = new Graph(0,"Sed vel ultrices","Mauris elit metus, posuere quis nisi a, sodales ornare odio.");
+  selectedViewType: ViewType = 'visual';
 
+  
   constructor(private router: Router) {
     this.graph.nodes = [
       new Node(0,"Collect documents",0,null).setNextForMockUp(1),
@@ -66,9 +63,17 @@ export class EditComponent implements OnInit {
 
   }
 
+  handleOnChangeView(vt: ViewType) {
+    this.selectedViewType = vt;
+  }
 
+  renderTextView(): boolean {
+    return this.selectedViewType === 'text';
+  }
 
-
-}
+  renderVisualView(): boolean {
+      return this.selectedViewType === 'visual';
+  }
+  }
 
 

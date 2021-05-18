@@ -25,12 +25,12 @@
   </mat-menu>
 
   <span class="spacer"></span>
-  <button mat-button [matMenuTriggerFor]="viewType">Selected view: {{ getSelectedViewType }}</button>
+  <button mat-button [matMenuTriggerFor]="viewType">Selected view: {{ selectedView }}</button>
   <mat-menu #viewType="matMenu">
     <button
       mat-menu-item
       *ngFor="let vt of viewTypes"
-      (click)="handleOnViewType(vt)"
+      (click)="changeView(vt)"
     >
       {{ vt.charAt(0).toUpperCase() + vt.slice(1) }}
     </button>
