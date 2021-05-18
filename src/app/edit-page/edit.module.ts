@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { EditComponent } from './edit/edit.component';
 import { EditHeaderComponent } from './edit-header/edit-header.component';
 import { TextViewComponent } from './text-view/text-view.component';
-import { Task, VisualViewComponent } from './visual-view/visual-view.component';
+import { VisualViewComponent } from './visual-view/visual-view.component';
 
 
 
@@ -14,7 +14,6 @@ import { Task, VisualViewComponent } from './visual-view/visual-view.component';
   declarations: [
     EditComponent,
     EditHeaderComponent,
-    Task,
     TextViewComponent,
     VisualViewComponent
   ],

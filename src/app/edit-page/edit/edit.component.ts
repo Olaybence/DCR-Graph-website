@@ -10,7 +10,7 @@ export type ViewType = 'text' | 'visual';
   styleUrls: ['./edit.component.css'],
 })
 export class EditComponent implements OnInit {
-  selectedViewType: ViewType = 'text';
+  selectedViewType: ViewType = 'visual';
   graph: Graph = new Graph(0,"Sed vel ultrices","Mauris elit metus, posuere quis nisi a, sodales ornare odio.");
 
   ngOnInit(): void {}

@@ -50,6 +50,8 @@ export class Graph {
 export class Role {
     public id: number; // Primary key
     public name: string; // Role name
+    public x: number;
+    public y: number;
 
     /**
      * @param id Primary key
