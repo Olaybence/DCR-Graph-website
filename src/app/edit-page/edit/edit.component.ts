@@ -35,7 +35,7 @@ export class EditComponent implements OnInit {
       new Role(0,"Client"),
       new Role(0,"Intern"),
     ];
-    console.log(this.graph);
+    //console.log(this.graph);
 
 
     router.events.subscribe((evt) => {

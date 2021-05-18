@@ -25,8 +25,24 @@ const routes: Routes = [
     path: 'edit', // Edit the selected graph
     component: EditComponent, children: [
       {
-        path: ':id',
+        path: ':local',
         component: EditComponent,
+        children: [
+          {
+            path: ':id',
+            component: EditComponent,
+          }
+        ]
+      },
+      {
+        path: ':shared',
+        component: EditComponent,
+        children: [
+          {
+            path: ':id',
+            component: EditComponent,
+          }
+        ]
       }
     ]
   }
