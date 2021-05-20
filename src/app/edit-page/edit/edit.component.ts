@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { ResolveStart } from '@angular/router';
+import { GraphService } from 'src/app/services/graph.service';
 import { Graph, Node, Role } from 'src/app/utils/graph.model';
 
 export type ViewType = 'text' | 'visual';
@@ -11,12 +11,13 @@ export type ViewType = 'text' | 'visual';
   styleUrls: ['./edit.component.css'],
 })
 export class EditComponent implements OnInit {
-  edit_id: string;
+  edit_id: number;
   graph: Graph = new Graph(0,"Sed vel ultrices","Mauris elit metus, posuere quis nisi a, sodales ornare odio.");
   selectedViewType: ViewType = 'visual';
 
   
-  constructor(private router: Router) {
+  constructor(private router: Router,
+    public graphService: GraphService) {
     this.graph.nodes = [
       new Node(0,"Collect documents",0,null).setNextForMockUp(1),
       new Node(1,"Unusual property",0,1).setNextForMockUp(2),
@@ -37,30 +38,26 @@ export class EditComponent implements OnInit {
 
     router.events.subscribe((evt) => {
       if (evt instanceof NavigationEnd) {
-        this.edit_id = evt.url.split('/').pop();
+        let id = evt.url.split('/').pop();
+        this.edit_id = Number(id);
        console.log("I got it in .ts!!! " + this.edit_id);
       }
     })
-    }
-
-
-
-
-  taskDiv() {
-    return `
-    <svg viewBox="0 0 120 80" x="0" y="80" width="120" height="80">
-      <text transform="rotate(270 80,20)"
-          font-size="11px" font-weight="bold" x="60" y="40" font-family="Arial, Helvetica, sans-serif"
-          text-anchor="middle">
-          <tspan dy="0">IT B</tspan>
-          <tspan dy="15" x="60"></tspan>
-      </text>"
-    </svg>`;
   }
 
 
   ngOnInit(): void {
-
+    
+    this.graphService.getGraph(this.edit_id).subscribe(
+      graph => {
+        console.log("localGraphService - getGraph ",this.edit_id,":",graph);
+        this.graph = graph;
+      },
+      error => {
+        console.log("localGraphService - getGraph Error:",error);
+      }
+    );
+    // this.graph = this.graphService.getGraphMockUp();
   }
 
   handleOnChangeView(vt: ViewType) {

@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { GraphService } from 'src/app/services/graph.service';
+
 import { Graph } from 'src/app/utils/graph.model';
 
 @Component({
@@ -9,25 +11,23 @@ import { Graph } from 'src/app/utils/graph.model';
 export class VisualViewComponent implements OnInit {
 
   @Input() graph: Graph;
-  canvasWidth: number = 600;
-  roleWidth: number = 200;
-  // fullWidth: number
-
+  // x: Array<Number>;
+  roleWidth: number = 150;
   rowSize: number = 80;
+  canvasWidth: number = 600 + this.roleWidth;
 
-  constructor() { }
+  constructor(public graphService: GraphService) { }
 
   ngOnInit(): void {
     console.log("VisualViewComponent",this.graph);
     this.graph.roles.map((role,i) => {
       role.x = this.roleWidth/2;
       role.y = i*80+40;
-    });
+    })
+  }
 
-    this.graph.nodes.map((node,i) => {
-      node.x = this.rowSize/2;
-      node.y = i*80+40;
-    });
+  editTask(taskID: number) {
+    alert(`editTask(${taskID})`);
   }
 
 }
