@@ -50,8 +50,10 @@ export class Graph {
 export class Role {
     public id: number; // Primary key
     public name: string; // Role name
-    public x: number;
-    public y: number;
+    
+    // Visual placement attributes
+    public x: number; // Position on the canvas (horizontal distance from the right side)
+    public y: number; // Position on the canvas (vertical distance from the top side)
 
     /**
      * @param id Primary key
@@ -77,6 +79,11 @@ export class Node {
     public name: string; // Description of the task
     public prevID: number; // Previous task (might be null if it's the start)
     public nextID: number; // Next task (TODO: make it an array, so conjunctions can be made - After the base solution is working)
+
+    // Visual placement attributes
+    // (CALCULATED IN VISUAL-VIEW-COMPONENT)
+    public x: number; // Position on the canvas (horizontal distance from the right side)
+    public y: number; // Position on the canvas (vertical distance from the top side)
 
     /**
      * The constructor

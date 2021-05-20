@@ -9,8 +9,10 @@ import { Graph } from 'src/app/utils/graph.model';
 export class VisualViewComponent implements OnInit {
 
   @Input() graph: Graph;
-  // x: Array<Number>;
+  canvasWidth: number = 600;
   roleWidth: number = 200;
+  // fullWidth: number
+
   rowSize: number = 80;
 
   constructor() { }
@@ -20,7 +22,12 @@ export class VisualViewComponent implements OnInit {
     this.graph.roles.map((role,i) => {
       role.x = this.roleWidth/2;
       role.y = i*80+40;
-    })
+    });
+
+    this.graph.nodes.map((node,i) => {
+      node.x = this.rowSize/2;
+      node.y = i*80+40;
+    });
   }
 
 }

@@ -1,3 +1,8 @@
+/**
+ * MIGHT NOT NEEDED
+ * DON'T WORK WITH THIS YET
+ * (As the back-end can provide the graph itself)
+ */
 export class ShareInfo {
     public graphID: number;
     public ipAddress: string;
