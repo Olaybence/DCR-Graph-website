@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Graph, Node, Role } from '../utils/graph.model';
 
 // Provider of the local graphs
@@ -68,10 +69,15 @@ export class GraphService {
     return this.sharedGraphs;
   }
 
-  getGraph(id: number) {
+  getGraph(id: number) : Observable<Graph> {
     console.log("getGraph",id);
     
-    // return this.http.get<Graph>(`http://localhost:8080/local/${id}`);
+    return this.http.get<Graph>(`http://localhost:8080/local/${id}`);
+  }
+
+  getGraphMockUp(id: number) : Graph {
+    console.log("getGraphMockUp",id);
+    
     return this.graph;
   }
   

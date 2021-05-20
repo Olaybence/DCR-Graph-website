@@ -19,7 +19,7 @@ export class EditComponent implements OnInit {
   
   constructor(
     private router: Router,
-    private graphService: GraphService
+    public graphService: GraphService
               ) {
     //console.log(this.graph);
 
@@ -34,16 +34,16 @@ export class EditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.graphService.getGraph(this.edit_id).subscribe(
-    //   graph => {
-    //     console.log("localGraphService - getGraph ",this.edit_id,":",graph);
-    //     this.graph = graph;
-    //   },
-    //   error => {
-    //     console.log("localGraphService - getGraph Error:",error);
-    //   }
-    // );
-    this.graph = this.graphService.getGraph(this.edit_id);
+    this.graphService.getGraph(this.edit_id).subscribe(
+      graph => {
+        console.log("localGraphService - getGraph ",this.edit_id,":",graph);
+        this.graph = graph;
+      },
+      error => {
+        console.log("localGraphService - getGraph Error:",error);
+      }
+    );
+    // this.graph = this.graphService.getGraph(this.edit_id);
   }
 
   handleOnChangeView(vt: ViewType) {
@@ -57,6 +57,6 @@ export class EditComponent implements OnInit {
   renderVisualView(): boolean {
       return this.selectedViewType === 'visual';
   }
-  }
+}
 
 
