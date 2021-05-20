@@ -71,22 +71,14 @@ export class GraphService {
   getGraph(id: number) {
     console.log("getGraph",id);
     
-    // return this.http.get<Graph>('http://localhost:8080/local/1').subscribe(
-    //   response => {
-    //     console.log(response);
-    //     return response;
-    //   },
-    //   error => {
-    //     console.log(error.error.message);
-    //   }
-    // );
-
+    // return this.http.get<Graph>(`http://localhost:8080/local/${id}`);
     return this.graph;
   }
   
-  saveGraph(graph: Graph) {
+  createGraph(graph: Graph) {
     // MIGHT NEED TO BE CHANGED
-    this.http.put('http://localhost:8080/local/1',graph).subscribe(
+    // The URL can be changed as idk what is the convenient calling.
+    this.http.put('http://localhost:8080/local',graph).subscribe(
       response => {
         console.log(response);
       },
