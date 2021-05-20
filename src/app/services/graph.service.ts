@@ -9,7 +9,17 @@ import { Graph, Node, Role } from '../utils/graph.model';
 export class GraphService {
 
   graph: Graph = new Graph(0,"Sed vel ultrices","Mauris elit metus, posuere quis nisi a, sodales ornare odio.");
-  
+  localGraphs: Array<Graph>= [
+    new Graph(0,"Lorem ipsum dolor sit amet","Vestibulum iaculis enim, consectetur adipiscing elit. Aenean porttitor."),
+    new Graph(1,"Praesent a velit","Sed volutpat venenatis sollicitudin. Sed bibendum, massa non ultrices pharetra."),
+    new Graph(2,"Cras ultricies sem","Nunc faucibus nunc et est placerat vestibulum. Donec tempus bibendum."),
+  ];
+  sharedGraphs: Array<Graph> = [
+    new Graph(0,"Sed vel ultrices","Mauris elit metus, posuere quis nisi a, sodales ornare odio."),
+    new Graph(1,"Etiam turpis nibh, pellentesque","Nunc faucibus nunc et est placerat vestibulum. Donec tempus bibendum."),
+    new Graph(2,"Maecenas et pellentesque nunc","Etiam aliquet, sem non finibus imperdiet, sapien elit suscipit urna."),
+  ];
+
   constructor(
     private http: HttpClient
   ) {
@@ -28,29 +38,34 @@ export class GraphService {
       new Role(0,"Client"),
       new Role(0,"Intern"),
     ];
+
+    this.localGraphs.push(this.graph);
+    this.sharedGraphs.push(this.graph);
   }
 
   getAllLocalGraphs() {
-    // TODO: Return an array of the local graphs
-    return this.http.get<Graph[]>('http://localhost:8080/local').subscribe(
-      response => {
-        console.log(response);
-        return response;
-      }
-    );
+    // return this.http.get<Graph[]>('http://localhost:8080/local').subscribe(
+    //   response => {
+    //     console.log(response);
+    //     return response;
+    //   }
+    // );
+
+    return this.localGraphs;
   }
 
   getAllSharedGraphs() {
-    // TODO: Return an array of the shared graphs
-    return this.http.get<Graph[]>('http://localhost:8080/shared').subscribe(
-      response => {
-        console.log(response);
-        return response;
-      },
-      error => {
-        console.log(error.error.message);
-      }
-    );
+    // return this.http.get<Graph[]>('http://localhost:8080/shared').subscribe(
+    //   response => {
+    //     console.log(response);
+    //     return response;
+    //   },
+    //   error => {
+    //     console.log(error.error.message);
+    //   }
+    // );
+
+    return this.sharedGraphs;
   }
 
   getGraph(id: number) {

@@ -12,7 +12,7 @@ export type ViewType = 'text' | 'visual';
   providers: [ GraphService ]
 })
 export class EditComponent implements OnInit {
-  edit_id: string;
+  edit_id: number;
   graph: Graph;
   selectedViewType: ViewType = 'visual';
 
@@ -21,14 +21,15 @@ export class EditComponent implements OnInit {
     private router: Router,
     private localGraphService: GraphService
               ) {
-    this.graph = this.localGraphService.getGraph(1);
     //console.log(this.graph);
 
 
     router.events.subscribe((evt) => {
       if (evt instanceof NavigationEnd) {
-        this.edit_id = evt.url.split('/').pop();
-       console.log("I got it in .ts!!! " + this.edit_id);
+        let idString = evt.url.split('/').pop();
+        this.edit_id = Number(idString);
+        console.log("I got it in .ts!!! " + this.edit_id);
+        this.graph = this.localGraphService.getGraph(this.edit_id);
       }
     })
   }
