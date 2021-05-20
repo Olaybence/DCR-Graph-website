@@ -7,7 +7,12 @@
   <ng-container 
     *ngTemplateOutlet="graph ? Graph : Loading"></ng-container>
   <ng-template #Loading>
-    <div (click)="graph = graphService.getGraphMockUp(1)">Loading...</div>
+    <div style="text-align: center;" (click)="graph = graphService.getGraphMockUp(1)">
+      <div class="loading">
+        <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+      </div>
+      <div>Loading</div>
+    </div>
   </ng-template>
   <ng-template #Graph>
     <app-text-view *ngIf="renderTextView()"></app-text-view>

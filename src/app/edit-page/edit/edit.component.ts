@@ -15,15 +15,12 @@ export class EditComponent implements OnInit {
   edit_id: number;
   graph: Graph;
   selectedViewType: ViewType = 'visual';
-
+  loading: string = "Loading";
   
   constructor(
     private router: Router,
     public graphService: GraphService
               ) {
-    //console.log(this.graph);
-
-
     router.events.subscribe((evt) => {
       if (evt instanceof NavigationEnd) {
         let idString = evt.url.split('/').pop();
@@ -34,6 +31,7 @@ export class EditComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
     this.graphService.getGraph(this.edit_id).subscribe(
       graph => {
         console.log("localGraphService - getGraph ",this.edit_id,":",graph);
