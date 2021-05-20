@@ -15,7 +15,6 @@ export class EditComponent implements OnInit {
   edit_id: number;
   graph: Graph;
   selectedViewType: ViewType = 'visual';
-  loading: string = "Loading";
   
   constructor(
     private router: Router,
