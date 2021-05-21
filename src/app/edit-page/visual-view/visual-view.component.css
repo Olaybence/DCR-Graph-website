@@ -48,3 +48,260 @@
     width: 24px;
     height: 24px;
   }
+
+  /* Data Tiles with Detail View (jQuery) */
+
+  /* layout mock */
+
+body {
+    border-top:solid 5px #6a4;
+    color:#333;
+    font-family:Arial;
+    font-size:12px;
+    margin:0;
+    padding:0;
+  }
+  
+  #main {
+    padding:2em;
+  }
+  
+  .overlay {
+    background-color:#000;
+    bottom:0;
+    cursor:pointer;
+    display:none;
+    left:0;
+    opacity:.5;
+    position:fixed;
+    right:0;
+    top:0;
+    z-index:1;
+  }
+  
+  h2 {
+    font-size:2em;
+    font-weight:normal;
+  }
+  
+  /* new design */
+  
+  .tiles {
+    list-style:none;
+    margin:0;
+    padding:0;
+  }
+  
+  .tile {
+    background-color:#eee;
+    border:solid 2px #999;
+    /* box-shadow:0 1em 1em -1em #000; */
+    box-sizing:border-box;
+    float:left;
+    height:12em;
+    list-style:none;
+    margin:0 12px 12px 0;
+    overflow:hidden;
+    transition:all 600ms ease;
+    width:16em;
+  }
+  
+  .tile header {
+    background:#999;
+    color:#fff;
+    font-size:1.333333em;
+    height:2em;
+    margin-top:-2px; /* to balance tile border-top */
+  }
+  
+  .tile header label {
+    display:inline-block;
+    margin:.25em;
+    padding:.25em .25em .15em .25em;
+  }
+  
+  .tile header input[type=checkbox] {
+    font-size:inherit;
+    height:1em;
+    margin:0;
+    padding:0;
+    width:1em;
+  }
+  
+  .tile header span {
+    font-weight:bold;
+  }
+  
+  .tile header .fa {
+    float:right;
+    margin:.25em .125em;
+    padding:.25em;
+  }
+  
+  .tile header label:hover,
+  .tile header .fa:hover {
+    background-color:#333;
+    border-radius:4px;
+    cursor:pointer;
+  }
+  
+  .tile .body {
+    /* box-shadow:0 .25em .5em #000 inset; */
+    background-color:#eee;
+    box-sizing:border-box;
+    cursor:pointer;
+    cursor:-webkit-zoom-in;
+    padding:.5em;
+  }
+  
+  .tile .body:hover {
+    background-color:#ddd;
+    color:#000;
+  }
+  
+  .tile .body h3 {
+    margin:0;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    width:100%;
+  }
+  
+  .tile .body p {
+    margin:.5em 0;
+  }
+  
+  .tile .body .incomplete {
+    display:none;
+  }
+  
+  .tile .body .details {
+    display:table;
+    margin-left:-1em;
+    table-layout:fixed;
+  }
+  
+  .tile .body dl {
+    display:table-cell;
+    margin:0;
+    padding:0 1em;
+  }
+  
+  .tile .body dt {
+    border-top:solid 1px #ccc;
+    font-size:.833333em; /* 10px */
+    font-weight:bold;
+    margin:2px 0;
+    overflow:hidden;
+    padding-top:1px;
+    position:relative;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    width:17.5em;
+  }
+  
+  .tile .body dt:after {
+    content:":";
+  }
+  
+  .tile .body dd {
+    margin-left:1em;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    width:14em; /* 16em - padding & indent */
+  }
+  
+  /* tile states */
+  
+  .tile.selected {
+    border-color:#333;
+  }
+  
+  .tile.selected .body {
+    /*background-color:inherit;
+    color:#fff;*/
+  }
+  
+  .tile.selected header label {
+    background-color:#333;
+    border-radius:5px;
+  }
+  
+  .tile.no-rag {
+    background-color:#999;
+    border-color:#999;
+  }
+  
+  .tile.no-rag header {
+    background-color:#999;
+  }
+  
+  .tile.red {
+    background-color:#c00;
+    border-color:#c00;
+  }
+  
+  .tile.red header {
+    background-color:#c00;
+  }
+  
+  .tile.amber {
+    background-color:#f83;
+    border-color:#f83;
+  }
+  
+  .tile.amber header {
+    background-color:#f83;
+  }
+  
+  .tile.green {
+    background-color:#6a4;
+    border-color:#6a4;
+  }
+  
+  .tile.green header {
+    background-color:#6a4;
+  }
+  
+  .tile.incomplete .complete {
+    display:none;
+  }
+  
+  .tile.incomplete .incomplete {
+    color:#c00;
+    display:block;
+  }
+  
+  .tile.invisible {
+    opacity:0;
+    transition:all 1ms;
+  }
+  
+  .tile.copy {
+    position:fixed;
+    z-index:2;
+  }
+  
+  .tile.zoom {
+    box-shadow:1em 1em 1em -1em #000;
+    height:auto; /*32em;*/
+    left:50%!important;
+    margin-left:-25em;
+    margin-top:-16em;
+    top:50%!important;
+    /* transform:rotate(360deg); */
+    width:50em;
+  }
+  
+  .tile.zoom .body {
+    cursor:auto;
+  }
+  
+  .tile.zoom .body:hover {
+    background-color:#eee;
+  }
+  
+  .no-scroll {
+    overflow:hidden;
+  }
