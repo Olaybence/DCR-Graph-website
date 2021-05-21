@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Graph, Node, Role } from '../utils/graph.model';
+import { Graph, Task, Role } from '../utils/graph.model';
 
 // Provider of the local graphs
 @Injectable({
@@ -24,20 +24,20 @@ export class GraphService {
   constructor(
     private http: HttpClient
   ) {
-    this.graph.nodes = [
-      new Node(0,"Collect documents",0,null).setNextForMockUp(1),
-      new Node(1,"Unusual property",0,1).setNextForMockUp(2),
-      new Node(2,"Make appointment",1,1).setNextForMockUp(3),
-      new Node(3,"On-site appraisal",1,2).setNextForMockUp(4),
-      new Node(4,"Submit budget",2,3).setNextForMockUp(5),
-      new Node(5,"Approve budget",3,4).setNextForMockUp(6),
-      new Node(6,"Assess application",0,5).setNextForMockUp(null),
+    this.graph.tasks = [
+      new Task(0,"Collect documents",0,null).setNextForMockUp(1),
+      new Task(1,"Unusual property",0,1).setNextForMockUp(2),
+      new Task(2,"Make appointment",1,1).setNextForMockUp(3),
+      new Task(3,"On-site appraisal",1,2).setNextForMockUp(4),
+      new Task(4,"Submit budget",2,3).setNextForMockUp(5),
+      new Task(5,"Approve budget",3,4).setNextForMockUp(6),
+      new Task(6,"Assess application",0,5).setNextForMockUp(null),
     ];
     this.graph.roles = [
       new Role(0,"IT A"),
-      new Role(0,"IT B"),
-      new Role(0,"Client"),
-      new Role(0,"Intern"),
+      new Role(1,"IT B"),
+      new Role(2,"Client"),
+      new Role(3,"Intern"),
     ];
 
     this.localGraphs.push(this.graph);
@@ -47,8 +47,12 @@ export class GraphService {
   getAllLocalGraphs() {
     // return this.http.get<Graph[]>('http://localhost:8080/local').subscribe(
     //   response => {
-    //     console.log(response);
+    //     console.log("Successful request", response);
     //     return response;
+    //   },
+    //   error => {
+    //     alert("getAllSharedGraphs(): " + error.error.message);
+    //     console.log("error",error);
     //   }
     // );
 
@@ -62,7 +66,8 @@ export class GraphService {
     //     return response;
     //   },
     //   error => {
-    //     console.log(error.error.message);
+    //     alert("getAllSharedGraphs(): " + error.error.message);
+    //     console.log("error",error);
     //   }
     // );
 
@@ -84,7 +89,7 @@ export class GraphService {
   createGraph(graph: Graph) {
     // MIGHT NEED TO BE CHANGED
     // The URL can be changed as idk what is the convenient calling.
-    this.http.put('http://localhost:8080/local',graph).subscribe(
+    this.http.put<Graph>('http://localhost:8080/local',graph).subscribe(
       response => {
         console.log(response);
       },

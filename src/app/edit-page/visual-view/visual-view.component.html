@@ -1,7 +1,5 @@
-
-
 <!-- BOX OF ROLES -->
-<svg [attr.height]="graph.roles.length*rowSize" [attr.width]="roleWidth">
+<svg [attr.height]="graph.roles.length * rowHeight" [attr.width]="roleWidth">
   <rect id="role-background" width="100%" height="100%" stroke="rgb(212,202,202)" stroke-width="1" fill="rgb(240,240,241)"></rect>
 
   <!-- ROLES -->
@@ -16,34 +14,22 @@
 </svg>
 
 <!-- MAIN DRAWING CANVAS -->
-<svg id="canvas" x="roleWidth" [attr.width]="canvasWidth" [attr.height]="graph.roles.length * rowSize" viewBox="0, 0, 600, 320">
+<svg id="canvas" [attr.width]="canvasWidth" [attr.height]="graph.roles.length * rowHeight" viewBox="0, 0, 600, 320">
   
   <!-- BOX OF A TASK -->
+  <ng-container *ngFor="let task of graph.tasks">
+    <g [attr.x]="task.x" [attr.y]="task.y">
+      <rect width="120" height="80" [attr.x]="task.y" [attr.y]="task.x" (click)="editTask(10)" class="task clickable">{{task.name}}</rect>
+
+    </g>
+  </ng-container>
   
-  <g>
-    <rect width="100%" rx="6" ry="6" height="100%" (click)="editTask(10)" class="task clickable"></rect>
-    
-    <text dominant-baseline="middle"
-      font-family="Arial, Helvetica, sans-serif" x="60" text-anchor="middle" y="13.076923076923077"
-      font-size="14px">
-      
-      <ng-container *ngTemplateOutlet=" graph.nodes[0].name.length < 10 ? singleLine : multiLine">
-      </ng-container>
-      
-      <ng-template #singleLine>
-        <tspan dy="0">{{graph.nodes[0].name}}</tspan>
-      </ng-template>
-      <ng-template #multiLine>
-        <tspan dy="0">{{graph.nodes[0].name}}</tspan>
-        <!-- <tspan *ngFor="let word; let i = index of graph.nodes[0].name.split(' ')" [attr.dy]="i*15" [attr.x]="i*60">{{word}}</tspan> -->
-      </ng-template>
-    </text>
-  </g>
+  <!-- START CIRCLE -->
+  <circle class="clickable" (click)="editTask(420)" [attr.cx]="spaceBetweenRows/2" [attr.cy]="rowHeight * graph.startRole" [attr.r]="circleR" stroke="black" stroke-width="3" fill="transparent" />
   
-  <!-- CIRCLE -->
-  <g>
-    <circle class="clickable" (click)="editTask(420)" cx="5" cy="8.5" r="20" stroke="black" stroke-width="3" fill="transparent" />
-  </g>
+  <!-- END CIRCLE -->
+  <circle class="clickable" (click)="editTask(420)" [attr.cx]="spaceBetweenRows/2" [attr.cy]="rowHeight * graph.startRole" [attr.r]="circleR" stroke="black" stroke-width="3" fill="transparent" />
+  
 
 
   <defs>
@@ -61,7 +47,7 @@
 </svg>
 
 <!-- ARROWS -->
-<svg height="100%" width="100%" id="connections" viewBox="0, 0, 600, 320">
+<!-- <svg height="100%" width="100%" id="connections" viewBox="0, 0, 600, 320">
   <defs>
     <marker viewBox="0 0 10 10" id="arrow" markerWidth="6" markerHeight="6" refX="8" refY="5" orient="auto"
       markerUnits="strokeWidth">
@@ -71,7 +57,7 @@
   <polyline marker-end="url(#arrow)" fill="none" stroke="rgb(138, 138, 138)" stroke-width="1" points="48,40 65,40"></polyline>
   <polyline marker-end="url(#arrow)" fill="none" stroke="rgb(138, 138, 138)" stroke-width="1" points="236.5,71.5 236.5,88.5"></polyline>
   <polyline marker-end="url(#arrow)" fill="none" stroke="rgb(138, 138, 138)" stroke-width="1" points="408,280 416.5,280 416.5,40 425,40"></polyline> 
-</svg>
+</svg> -->
 
 
   <!-- 

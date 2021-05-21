@@ -10,8 +10,9 @@ import { User } from "./user.model";
  * @public comments : Array(string)
  * @public collaborators : Array(User)
  * @public roles  : Array(Role)
- * @public startRoles : number
- * @public nodes : Array(Node)
+ * @public startRole : number
+ * @public endRole : number
+ * @public tasks : Array(Task)
  */
 export class Graph {
     public id: number; // Primary key
@@ -22,8 +23,9 @@ export class Graph {
     public collaborators: Array<User>;
 
     public roles: Array<Role>;
-    public startRoles: number;
-    public nodes: Array<Node>; // Graph edges
+    public startRole: number;
+    public endRole: number;
+    public tasks: Array<Task>; // Graph edges
 
     constructor(id: number,name: string, description: string) {
         // Basic data
@@ -35,9 +37,14 @@ export class Graph {
         this.collaborators = [];
 
         // Graph inner data
-        this.startRoles = 0;
+        this.startRole = 0;
+        this.endRole = 0;
         this.roles = [];
-        this.nodes = [];
+        this.tasks = [];
+    }
+
+    addTask(task: Task) {
+        this.tasks.push()
     }
 }
 
@@ -73,7 +80,7 @@ export class Role {
  * @public prevID: number
  * @public nextID: number
  */
-export class Node {
+export class Task {
     public id: number; // Primary key
     public roleID: number; // Role it's binded to
     public name: string; // Description of the task
@@ -104,7 +111,7 @@ export class Node {
      * Set the next task
      * @param id: number
      */
-    setNextForMockUp(id: number) : Node {
+    setNextForMockUp(id: number) : Task {
         this.nextID = id;
         return this;
     }
