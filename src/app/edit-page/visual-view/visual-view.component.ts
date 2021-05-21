@@ -103,6 +103,7 @@ export class VisualViewComponent implements OnInit {
 
     // COPIED //////////////////////////////////////
 
+    let self = this;
     // toggle 'selected' state on a tile
     $(document).on('change', ':checkbox', function() {
       $(this).closest('.tile').toggleClass('selected');
@@ -117,9 +118,9 @@ export class VisualViewComponent implements OnInit {
       if (tile.hasClass('copy')) {
         // do nothing
       } else {
-        this.growTile(tile);
+        self.growTile(tile);
       }
-    }.bind(this));
+    });
     
     // click anywhere off tile to close
     $(document).on('click', '.overlay', this.shrinkTile);
