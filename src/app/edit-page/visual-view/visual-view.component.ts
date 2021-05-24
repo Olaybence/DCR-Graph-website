@@ -2,6 +2,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, Input, OnInit } from '@angular/core';
 
 import * as $ from 'jquery';
+import * as go from "gojs";
 
 import { Graph } from 'src/app/utils/graph.model';
 
@@ -14,6 +15,9 @@ export class VisualViewComponent implements OnInit {
 
   @Input() graph: Graph;
   
+  diagram = new go.Diagram("myDiagramDiv");
+  test = "teszt";
+
   // CSS: ITEM SIZES (in pixels)
   roleWidth: number = 150;
 
@@ -63,11 +67,21 @@ export class VisualViewComponent implements OnInit {
     {
       label: 'Label 5',
       value: 'Value Five'
+    },
+    {
+      label: 'Label 6',
+      value: 'Value Sex'
     }
   ];
   //moreData = moreData.slice(0,6);
 
-  constructor() { }
+  constructor() {
+    this.diagram.model = new go.GraphLinksModel(
+      [{ key: "Hello" },   // two node data, in an Array
+       { key: "World!" }],
+      [{ from: "Hello", to: "World!"}]  // one link data, in an Array
+    );
+  }
 
   ngOnInit(): void {
     
@@ -123,17 +137,17 @@ export class VisualViewComponent implements OnInit {
     });
     
     // click anywhere off tile to close
-    $(document).on('click', '.overlay', this.shrinkTile);
+    // $(document).on('click', '.overlay', this.shrinkTile);
     
     // view attachments
-    $(document).on('click', '.fa.fa-paperclip', this.viewAttachments);
+    // $(document).on('click', '.fa.fa-paperclip', this.viewAttachments);
     
     // view report
-    $(document).on('click', '.fa.fa-file-text', this.viewReport);
+    // $(document).on('click', '.fa.fa-file-text', this.viewReport);
     
     // on load
-    this.addTiles(100);
-    this.addInitialDetailsHTML();
+    // this.addTiles(100);
+    // this.addInitialDetailsHTML();
   }
 
   editTask(taskID: number) {

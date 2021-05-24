@@ -7,8 +7,7 @@ import { EditComponent } from './edit/edit.component';
 import { EditHeaderComponent } from './edit-header/edit-header.component';
 import { TextViewComponent } from './text-view/text-view.component';
 import { VisualViewComponent } from './visual-view/visual-view.component';
-
-
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -21,7 +20,8 @@ import { VisualViewComponent } from './visual-view/visual-view.component';
     CommonModule,
     MatToolbarModule,
     MatMenuModule,
-    MatButtonModule
+    MatButtonModule,
+    MatCheckboxModule
   ], exports: [
     EditComponent
   ]

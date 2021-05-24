@@ -86,7 +86,8 @@ export class Task {
     public name: string; // Description of the task
     public prevID: number; // Previous task (might be null if it's the start)
     public nextID: number; // Next task (TODO: make it an array, so conjunctions can be made - After the base solution is working)
-
+    public parameters: Map<string,number>;
+    
     // Visual placement attributes
     // (CALCULATED IN VISUAL-VIEW-COMPONENT)
     public x: number; // Position on the canvas (horizontal distance from the right side)

@@ -1,0 +1,44 @@
+<div id="main">
+  <h2>Title</h2>
+  <div class="tiles">
+    <ng-container *ngFor="let task; let i = index of graph.tasks">
+      
+      <div class="tile">
+        <header>
+          <i class="fa fa-file-text" (click)="viewReport()" title="View PDF Report">F</i>
+          <i class="fa fa-paperclip" (click)="viewAttachments()" title="View attachments">A</i>
+          <label>
+            <mat-checkbox class="example-margin">#{{i}}.Task</mat-checkbox>
+          </label>
+        </header>
+        <section class="body">
+          <h3>{{task.name}}</h3>
+          <p class="complete">
+            <i class="fa fa-check-circle"></i> Com #plieted 18/11/2015 10:46</p>
+          <p class="incomplete">
+            <i class="fa fa-question-circle"></i> Incomplete</p>
+          <div class="details">
+            <dl>
+              
+                <dt>{{task.name}}</dt>
+                <dd>{{task.roleID}}</dd>
+            </dl>
+            <dl></dl>
+            <dl></dl>
+          </div>
+        </section>
+      </div>
+
+    </ng-container>
+  </div>
+</div>
+<div class="overlay" (click)="shrinkTile()"></div>
+
+
+<ng-template #SmallSize>
+  
+</ng-template>
+
+<ng-template #BigSize>
+
+</ng-template>

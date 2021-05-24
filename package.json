@@ -21,6 +21,7 @@
     "@angular/platform-browser": "^11.2.14",
     "@angular/platform-browser-dynamic": "^11.2.14",
     "@angular/router": "^11.2.14",
+    "gojs": "^2.1.40",
     "jquery": "^3.6.0",
     "rxjs": "~6.6.0",
     "save": "^2.4.0",
