@@ -32,16 +32,10 @@ Install script: `ng add @angular/material`
 
 Website:  https://material.angular.io/
 
+## GoJS
+Install script: `npm install gojs-angular gojs`
 
-## jQuery
-Install script: `npm install jquery`
-
-Website:  https://www.npmjs.com/package/jquery
-
-## jQuery
-Install script: `npm install gojs-angular`
-
-Website:  https://www.npmjs.com/package/gojs-angular
+Website:  https://gojs.net/latest/intro/angular.html
 
 # Task based workflow
 
