@@ -9,13 +9,16 @@ import { TextViewComponent } from './text-view/text-view.component';
 import { VisualViewComponent } from './visual-view/visual-view.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { GojsAngularModule } from 'gojs-angular';
+import { InspectorComponent } from './visual-view/inspector/inspector.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     EditComponent,
     EditHeaderComponent,
     TextViewComponent,
-    VisualViewComponent
+    VisualViewComponent,
+    InspectorComponent
   ],
   imports: [
     CommonModule,
@@ -23,7 +26,9 @@ import { GojsAngularModule } from 'gojs-angular';
     MatMenuModule,
     MatButtonModule,
     MatCheckboxModule,
-    GojsAngularModule
+    FormsModule,
+    
+    GojsAngularModule,
   ], exports: [
     EditComponent
   ]
