@@ -36,6 +36,7 @@ Website:  https://material.angular.io/
 Install script: `npm install gojs-angular gojs`
 
 Website:  https://gojs.net/latest/intro/angular.html
+Samples: https://gojs.net/latest/samples/index.html
 
 # Task based workflow
 
