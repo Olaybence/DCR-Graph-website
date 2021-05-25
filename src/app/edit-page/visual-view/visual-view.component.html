@@ -1,44 +1,62 @@
-<div id="main">
-  <h2>Title</h2>
-  <div class="tiles">
-    <ng-container *ngFor="let task; let i = index of graph.tasks">
-      
-      <div class="tile">
-        <header>
-          <i class="fa fa-file-text" (click)="viewReport()" title="View PDF Report">F</i>
-          <i class="fa fa-paperclip" (click)="viewAttachments()" title="View attachments">A</i>
-          <label>
-            <mat-checkbox class="example-margin">#{{i}}.Task</mat-checkbox>
-          </label>
-        </header>
-        <section class="body">
-          <h3>{{task.name}}</h3>
-          <p class="complete">
-            <i class="fa fa-check-circle"></i> Com #plieted 18/11/2015 10:46</p>
-          <p class="incomplete">
-            <i class="fa fa-question-circle"></i> Incomplete</p>
-          <div class="details">
-            <dl>
-              
-                <dt>{{task.name}}</dt>
-                <dd>{{task.roleID}}</dd>
-            </dl>
-            <dl></dl>
-            <dl></dl>
-          </div>
-        </section>
-      </div>
+<h1>GoJS / Angular - Components Sample</h1>
 
-    </ng-container>
-  </div>
+<div class="left">
+  Palette
+  <gojs-palette #myPalette [initPalette]='initPalette' [divClassName]='paletteDivClassName' [nodeDataArray]='paletteNodeData'
+    [linkDataArray]='paletteLinkData' [modelData]='paletteModelData' (modelChange)='paletteModelChange($event)' [skipsPaletteUpdate]='skipsPaletteUpdate'></gojs-palette>
 </div>
-<div class="overlay" (click)="shrinkTile()"></div>
 
 
-<ng-template #SmallSize>
-  
-</ng-template>
 
-<ng-template #BigSize>
+<div class="left">
+  Diagram
+  <gojs-diagram #myDiagram [initDiagram]='initDiagram' [nodeDataArray]='diagramNodeData' [linkDataArray]='diagramLinkData'
+    [divClassName]='diagramDivClassName' [modelData]='diagramModelData' [skipsDiagramUpdate]='skipsDiagramUpdate'
+    (modelChange)='diagramModelChange($event)'>
+  </gojs-diagram>
+</div>
 
-</ng-template>
+<div class="left">
+  Overview
+  <gojs-overview #myOverview [initOverview]='initOverview' [divClassName]='oDivClassName' [observedDiagram]='observedDiagram'></gojs-overview>
+</div>
+
+
+<!-- <div class="left">
+  <app-inspector [selectedNode]='selectedNode' (onFormChange)='handleInspectorChange($event)'></app-inspector>
+</div> -->
+
+
+<div class="clear left box">
+  <h3>Links in app data</h3>
+  <ul>
+    <li *ngFor="let ld of diagramLinkData">
+      Link Key: {{ld.key}}, To: {{ld.to}}, From: {{ ld.from }}
+    </li>
+  </ul>
+</div>
+
+<div class="left box">
+  <h3>Nodes in app data</h3>
+  <ul>
+    <li *ngFor="let nd of diagramNodeData">
+      Node Key: {{nd.key}}, Text: {{nd.text}}, Color: {{nd.color}}
+    </li>
+  </ul>
+</div>
+
+<div class="clear left">
+  <p>
+    This <code>gojs-angular</code> sample demonstrates how to use the Diagram, Palette, and Overview <a href="https://www.npmjs.com/package/gojs-angular">gojs-angular</a> components, made
+    and
+    maintained by <a href="http://www.nwoods.com/">Northwoods Software</a>.
+  </p>
+  <p>
+    Notice how when a Node or Link is removed or added to the Diagram, the Nodes and Links the top-level App Component
+    has update accordingly.
+  </p>
+  <p>
+    For more information on how to use Angular with GoJS, see the <a href="#">GoJS with Angular intro page</a>.
+  </p>
+
+</div>

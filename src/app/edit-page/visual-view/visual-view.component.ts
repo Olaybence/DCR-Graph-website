@@ -1,254 +1,220 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, Input, OnInit } from '@angular/core';
 
-import * as $ from 'jquery';
-import * as go from "gojs";
+import { ChangeDetectorRef, Component, Input, ViewChild, ViewEncapsulation } from '@angular/core';
+import * as go from 'gojs';
+import { DataSyncService, DiagramComponent, PaletteComponent } from 'gojs-angular';
+import * as _ from 'lodash';
 
 import { Graph } from 'src/app/utils/graph.model';
 
 @Component({
   selector: 'app-visual-view',
   templateUrl: './visual-view.component.html',
-  styleUrls: ['./visual-view.component.css']
+  styleUrls: ['./visual-view.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
-export class VisualViewComponent implements OnInit {
+export class VisualViewComponent {
 
   @Input() graph: Graph;
-  
-  // diagram = new go.Diagram("myDiagramDiv");
-  test = "teszt";
 
-  // CSS: ITEM SIZES (in pixels)
-  roleWidth: number = 150;
+  @ViewChild('myDiagram', { static: true }) public myDiagramComponent: DiagramComponent;
+  @ViewChild('myPalette', { static: true }) public myPaletteComponent: PaletteComponent;
 
-  spaceBetweenRows: number = 20;
-  rowWidth: number = 120;
-  rowHeight: number = 80;
+  // initialize diagram / templates
+  public initDiagram(): go.Diagram {
 
-  circleR: number = 20; // start and end circle
-  firstRowWidth: number = 2 * this.circleR + 2* this.spaceBetweenRows; // where the circle is (an empty row)
+    const $ = go.GraphObject.make;
+    const dia = $(go.Diagram, {
+      'undoManager.isEnabled': true,
+      model: $(go.GraphLinksModel,
+        {
+          linkToPortIdProperty: 'toPort',
+          linkFromPortIdProperty: 'fromPort',
+          linkKeyProperty: 'key' // IMPORTANT! must be defined for merges and data sync when using GraphLinksModel
+        }
+      )
+    });
 
-  canvasWidth: number;
-  numberOfRows: number; // counter
+    dia.commandHandler.archetypeGroupData = { key: 'Group', isGroup: true };
 
-
-  movies = [
-    'Episode I - The Phantom Menace',
-    'Episode II - Attack of the Clones',
-    'Episode III - Revenge of the Sith',
-    'Episode IV - A New Hope',
-    'Episode V - The Empire Strikes Back',
-    'Episode VI - Return of the Jedi',
-    'Episode VII - The Force Awakens',
-    'Episode VIII - The Last Jedi',
-    'Episode IX – The Rise of Skywalker'
-  ];
-
-  data = [
-    {
-      label: 'Label 1',
-      value: 'Value One'
-    },
-    {
-      label: 'Label 2',
-      value: 'Value Two'
+    const makePort = function(id: string, spot: go.Spot) {
+      return $(go.Shape, 'Circle',
+        {
+          opacity: .5,
+          fill: 'gray', strokeWidth: 0, desiredSize: new go.Size(8, 8),
+          portId: id, alignment: spot,
+          fromLinkable: true, toLinkable: true
+        }
+      );
     }
-  ];
-  
-  moreData = [
-    {
-      label: 'Label 3',
-      value: 'Value Three'
-    },
-    {
-      label: 'Label 4',
-      value: 'Value Four'
-    },
-    {
-      label: 'Label 5',
-      value: 'Value Five'
-    },
-    {
-      label: 'Label 6',
-      value: 'Value Sex'
-    }
-  ];
-  //moreData = moreData.slice(0,6);
 
-  constructor() {
-    // this.diagram.model = new go.GraphLinksModel(
-    //   [{ key: "Hello" },   // two node data, in an Array
-    //    { key: "World!" }],
-    //   [{ from: "Hello", to: "World!"}]  // one link data, in an Array
-    // );
+    // define the Node template
+    dia.nodeTemplate =
+      $(go.Node, 'Spot',
+        {
+          contextMenu:
+            $('ContextMenu',
+              $('ContextMenuButton',
+                $(go.TextBlock, 'Group'),
+                { click: function(e, obj) { e.diagram.commandHandler.groupSelection(); } },
+                new go.Binding('visible', '', function(o) {
+                  return o.diagram.selection.count > 1;
+                }).ofObject())
+            )
+        },
+        $(go.Panel, 'Auto',
+          $(go.Shape, 'RoundedRectangle', { stroke: null },
+            new go.Binding('fill', 'color')
+          ),
+          $(go.TextBlock, { margin: 8 },
+            new go.Binding('text'))
+        ),
+        // Ports
+        makePort('t', go.Spot.TopCenter),
+        makePort('l', go.Spot.Left),
+        makePort('r', go.Spot.Right),
+        makePort('b', go.Spot.BottomCenter)
+      );
+
+    return dia;
   }
 
-  ngOnInit(): void {
-    
-    console.log("VisualViewComponent - ngOnInit, jQuery: $(document)",$(document)[0]);
+  public diagramNodeData: Array<go.ObjectData> = [
+    { key: 'Alpha', text: "Node Alpha", color: 'lightblue' },
+    { key: 'Beta', text: "Node Beta", color: 'orange' },
+    { key: 'Gamma', text: "Node Gamma", color: 'lightgreen' },
+    { key: 'Delta', text: "Node Delta", color: 'pink' }
+  ];
+  public diagramLinkData: Array<go.ObjectData> = [
+    { key: -1, from: 'Alpha', to: 'Beta', fromPort: 'r', toPort: 'l' },
+    { key: -2, from: 'Alpha', to: 'Gamma', fromPort: 'b', toPort: 't' },
+    { key: -3, from: 'Beta', to: 'Beta' },
+    { key: -4, from: 'Gamma', to: 'Delta', fromPort: 'r', toPort: 'l' },
+    { key: -5, from: 'Delta', to: 'Alpha', fromPort: 't', toPort: 'r' }
+  ];
+  public diagramDivClassName: string = 'myDiagramDiv';
+  public diagramModelData = { prop: 'value' };
+  public skipsDiagramUpdate = false;
 
-    // Role parameters set
-    this.graph.roles.map((role,i) => {
-      role.x = this.roleWidth/2;
-      role.y = i*80+40;
-    });
-    
-    
-    // RowCounter
-    this.numberOfRows = 0;
-    
-    // Calculate Task positions
-    this.graph.tasks.map((task,i) => {
-      if(i == 0 || this.graph.tasks[i-1].roleID == task.roleID) { // If first or put into the next row with the same role
-        task.x = this.graph.startRole * this.rowHeight; // Vertical
-        task.y = this.roleWidth + this.rowWidth * this.numberOfRows; // Horizontal
-        
-        this.numberOfRows++;
+  // When the diagram model changes, update app data to reflect those changes
+  public diagramModelChange = function(changes: go.IncrementalData) {
+    // when setting state here, be sure to set skipsDiagramUpdate: true since GoJS already has this update
+    // (since this is a GoJS model changed listener event function)
+    // this way, we don't log an unneeded transaction in the Diagram's undoManager history
+    this.skipsDiagramUpdate = true;
+
+    this.diagramNodeData = DataSyncService.syncNodeData(changes, this.diagramNodeData);
+    this.diagramLinkData = DataSyncService.syncLinkData(changes, this.diagramLinkData);
+    this.diagramModelData = DataSyncService.syncModelData(changes, this.diagramModelData);
+  };
+
+
+
+  public initPalette(): go.Palette {
+    const $ = go.GraphObject.make;
+    const palette = $(go.Palette);
+
+    // define the Node template
+    palette.nodeTemplate =
+      $(go.Node, 'Auto',
+        $(go.Shape, 'RoundedRectangle',
+          {
+            stroke: null
+          },
+          new go.Binding('fill', 'color')
+        ),
+        $(go.TextBlock, { margin: 8 },
+          new go.Binding('text'))
+      );
+
+    palette.model = $(go.GraphLinksModel,
+      {
+        linkKeyProperty: 'key'  // IMPORTANT! must be defined for merges and data sync when using GraphLinksModel
+      });
+
+    return palette;
+  }
+  public paletteNodeData: Array<go.ObjectData> = [
+    { key: 'PaletteNode1', text: "PaletteNode1", color: 'red' },
+    { key: 'PaletteNode2', text: "PaletteNode2", color: 'yellow' }
+  ];
+  public paletteLinkData: Array<go.ObjectData> = [
+    {  }
+  ];
+  public paletteModelData = { prop: 'val' };
+  public paletteDivClassName = 'myPaletteDiv';
+  public skipsPaletteUpdate = false;
+  public paletteModelChange = function(changes: go.IncrementalData) {
+    // when setting state here, be sure to set skipsPaletteUpdate: true since GoJS already has this update
+    // (since this is a GoJS model changed listener event function)
+    // this way, we don't log an unneeded transaction in the Palette's undoManager history
+    this.skipsPaletteUpdate = true;
+
+    this.paletteNodeData = DataSyncService.syncNodeData(changes, this.paletteNodeData);
+    this.paletteLinkData = DataSyncService.syncLinkData(changes, this.paletteLinkData);
+    this.paletteModelData = DataSyncService.syncModelData(changes, this.paletteModelData);
+  };
+
+  constructor(private cdr: ChangeDetectorRef) { }
+
+  // Overview Component testing
+  public oDivClassName = 'myOverviewDiv';
+  public initOverview(): go.Overview {
+    const $ = go.GraphObject.make;
+    const overview = $(go.Overview);
+    return overview;
+  }
+  public observedDiagram = null;
+
+  // currently selected node; for inspector
+  public selectedNode: go.Node | null = null;
+
+  public ngAfterViewInit() {
+
+    if (this.observedDiagram) return;
+    this.observedDiagram = this.myDiagramComponent.diagram;
+    this.cdr.detectChanges(); // IMPORTANT: without this, Angular will throw ExpressionChangedAfterItHasBeenCheckedError (dev mode only)
+
+    const appComp: VisualViewComponent = this;
+    // listener for inspector
+    this.myDiagramComponent.diagram.addDiagramListener('ChangedSelection', function(e) {
+      if (e.diagram.selection.count === 0) {
+        appComp.selectedNode = null;
       }
-      else { // If not inline with the previous
-        task.x = task.roleID * this.rowHeight; // Vertical
-        task.y = this.roleWidth + this.rowWidth * this.numberOfRows; // Horizontal
-      }
-      console.log('i',i,'x',task.x,'y',task.y);
-    });
-
-    // main-canvas size: 600 px
-    this.canvasWidth = 600 + this.roleWidth;
-
-    // COPIED //////////////////////////////////////
-
-    let self = this;
-    // toggle 'selected' state on a tile
-    $(document).on('change', ':checkbox', function() {
-      $(this).closest('.tile').toggleClass('selected');
-      if ($(this).closest('.tile').hasClass('copy')) {
-        $('.invisible').find(':checkbox').click();
-      }
-    });
-    
-    // toggle details view
-    $(document).on('click', '.tile .body', function() {
-      let tile = $(this).closest('.tile');
-      if (tile.hasClass('copy')) {
-        // do nothing
+      const node = e.diagram.selection.first();
+      if (node instanceof go.Node) {
+        appComp.selectedNode = node;
       } else {
-        self.growTile(tile);
+        appComp.selectedNode = null;
       }
     });
-    
-    // click anywhere off tile to close
-    // $(document).on('click', '.overlay', this.shrinkTile);
-    
-    // view attachments
-    // $(document).on('click', '.fa.fa-paperclip', this.viewAttachments);
-    
-    // view report
-    // $(document).on('click', '.fa.fa-file-text', this.viewReport);
-    
-    // on load
-    // this.addTiles(100);
-    // this.addInitialDetailsHTML();
-  }
 
-  editTask(taskID: number) {
-    alert(`editTask(${taskID})`);
-  }
+  } // end ngAfterViewInit
 
-  drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.movies, event.previousIndex, event.currentIndex);
-  }
-  
 
-  ////////////////////////////////////////////////
-  // COPIED //////////////////////////////////////
-  ////////////////////////////////////////////////
-  
-  // generate tiles with random RAG status and completion status
-  addTiles(num) {
-    let tile = $('.tile'),
-        ragStates = ['red', 'amber', 'green', 'green', 'no-rag'],
-        completionStates = ['complete', 'complete', 'complete', 'incomplete'];
-    for (let i = 0; i < num; i++) {
-      let rag = ragStates[Math.floor(Math.random() * ragStates.length)];
-      let com = completionStates[Math.floor(Math.random() * completionStates.length)];
-      $('.tiles').append(tile.clone().addClass(rag).addClass(com));
-    }
-    tile.remove();
-  }
-  
-  // add the initial 2 labels and values to all tiles
-  addInitialDetailsHTML() : void {
-    let frag = '';
-    for (let i = 0; i < 2; i++) {
-      let def = this.generateDefHTML(this.data[i].label, this.data[i].value);
-      frag += def;
-    }
-    $('.tile dl:first-child').html(frag);
-  }
-  
-  growTile(tile) : void {
-      let scrollTop = $(window).scrollTop();
-      let osTop = tile.offset().top;
-      let osLeft = tile.offset().left;
-      // make copy
-      let copy = tile.clone().addClass('copy');
-      // make original invisible to keep tile space
-     tile.addClass('invisible');
-      copy.css({
-        left: osLeft,
-        top: osTop - scrollTop
-      });
-      this.addDetailsWithLayout(copy);
-      copy.appendTo('.tiles');
-      $('body').addClass('no-scroll');
-      $('.overlay').fadeIn(200, function() {
-        copy.addClass('zoom');
-      });
-  }
-  
-  shrinkTile() {
-      $('body').removeClass('no-scroll');
-      $('.copy').removeClass('zoom');
-      setTimeout(function() {
-        $('.invisible').removeClass('invisible');
-        $('.copy').remove();
-        $('.overlay').fadeOut(600);
-      }, 600);
-  }
-  
-  generateDefHTML(label, value) {
-    return '<dt>' + label + '</dt><dd>' + value + '</dd>';
-  }
-  
-  addDetailsWithLayout(copy) {
-    let initialDataCount = 2,
-        moreDataCount = this.moreData.length,
-        totalDataCount = initialDataCount + moreDataCount,
-        columnCount = Math.ceil(totalDataCount * 1/3);
-    for (let i = 0; i < this.moreData.length; i++) {
-      let def = this.generateDefHTML(this.moreData[i].label, this.moreData[i].value);
-      // determine column (columns read down then across)
-      if (i + 3 <= columnCount) {
-        copy.find('dl:first-child').append(def);
-      }
-      if (i + 3 > columnCount && i + 3 <= (columnCount * 2)) {
-        copy.find('dl:nth-child(2)').append(def);
-      }
-      if (i + 3 > (columnCount * 2) && i + 3 <= (columnCount * 3)) {
-        copy.find('dl:nth-child(3)').append(def);
+  public handleInspectorChange(newNodeData) {
+    const key = newNodeData.key;
+    // find the entry in nodeDataArray with this key, replace it with newNodeData
+    let index = null;
+    for (let i = 0; i < this.diagramNodeData.length; i++) {
+      const entry = this.diagramNodeData[i];
+      if (entry.key && entry.key === key) {
+        index = i;
       }
     }
-  }
-  
-  viewAttachments() {
-    alert('View attachments function');
-  }
-  
-  viewReport() {
-    alert('View report function');
+
+    if (index >= 0) {
+      // here, we set skipsDiagramUpdate to false, since GoJS does not yet have this update
+      this.skipsDiagramUpdate = false;
+      this.diagramNodeData[index] = _.cloneDeep(newNodeData);
+      // this.diagramNodeData[index] = _.cloneDeep(newNodeData);
+    }
+
+    // var nd = this.observedDiagram.model.findNodeDataForKey(newNodeData.key);
+    // console.log(nd);
+
   }
 
-  /////////////////////////////////////////////////
-  // GOjs /////////////////////////////////////////
-  /////////////////////////////////////////////////
+
 }
+

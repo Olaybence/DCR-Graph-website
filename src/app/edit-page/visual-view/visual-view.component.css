@@ -84,8 +84,21 @@ body {
     font-size:2em;
     font-weight:normal;
   }
+
+  /*************************/
+  /******** GoJS **********/
+  /*************************/
   
-  /* new design */
+  .myDiagramDiv {
+    background: whitesmoke;
+    width: 800px;
+    height: 300px;
+    border: 1px solid black;
+  }
+  
+  /*************************/
+  /******** TILES **********/
+  /*************************/
   
   .tiles {
     list-style:none;
