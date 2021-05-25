@@ -32,6 +32,17 @@ Install script: `ng add @angular/material`
 
 Website:  https://material.angular.io/
 
+
+## jQuery
+Install script: `npm install jquery`
+
+Website:  https://www.npmjs.com/package/jquery
+
+## jQuery
+Install script: `npm install gojs-angular`
+
+Website:  https://www.npmjs.com/package/gojs-angular
+
 # Task based workflow
 
 We manages our work by the issues, where we create issues that focuses on a given feature.
