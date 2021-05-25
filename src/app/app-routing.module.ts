@@ -8,8 +8,6 @@ import { FrontPageModule } from './front-page/front-page.module';
 import { EditComponent } from './edit-page/edit/edit.component';
 import { SelectGraphComponent } from './front-page/select-graph/select-graph.component';
 
-import { LocalGraphService } from './services/local-graph.service';
-
 const routes: Routes = [
   { path: "", redirectTo: "/select", pathMatch: "full" },
   {

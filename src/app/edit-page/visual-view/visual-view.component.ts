@@ -15,7 +15,7 @@ export class VisualViewComponent implements OnInit {
 
   @Input() graph: Graph;
   
-  diagram = new go.Diagram("myDiagramDiv");
+  // diagram = new go.Diagram("myDiagramDiv");
   test = "teszt";
 
   // CSS: ITEM SIZES (in pixels)
@@ -76,11 +76,11 @@ export class VisualViewComponent implements OnInit {
   //moreData = moreData.slice(0,6);
 
   constructor() {
-    this.diagram.model = new go.GraphLinksModel(
-      [{ key: "Hello" },   // two node data, in an Array
-       { key: "World!" }],
-      [{ from: "Hello", to: "World!"}]  // one link data, in an Array
-    );
+    // this.diagram.model = new go.GraphLinksModel(
+    //   [{ key: "Hello" },   // two node data, in an Array
+    //    { key: "World!" }],
+    //   [{ from: "Hello", to: "World!"}]  // one link data, in an Array
+    // );
   }
 
   ngOnInit(): void {
@@ -248,4 +248,7 @@ export class VisualViewComponent implements OnInit {
     alert('View report function');
   }
 
+  /////////////////////////////////////////////////
+  // GOjs /////////////////////////////////////////
+  /////////////////////////////////////////////////
 }
