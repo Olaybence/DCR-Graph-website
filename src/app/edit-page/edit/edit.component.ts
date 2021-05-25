@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { GraphService } from 'src/app/services/graph.service';
-import { Graph } from 'src/app/utils/graph.model';
+import { Graph, Task, Role } from 'src/app/utils/graph.model';
 
 export type ViewType = 'text' | 'visual';
 
@@ -15,20 +15,19 @@ export class EditComponent implements OnInit {
   edit_id: number;
   graph: Graph;
   selectedViewType: ViewType = 'visual';
-
   
-  constructor(private router: Router,
-    public graphService: GraphService) {
-    
+  constructor(
+    private router: Router,
+    public graphService: GraphService
+              ) {
     router.events.subscribe((evt) => {
       if (evt instanceof NavigationEnd) {
-        let id = evt.url.split('/').pop();
-        this.edit_id = Number(id);
-       console.log("I got it in .ts!!! " + this.edit_id);
+        let idString = evt.url.split('/').pop();
+        this.edit_id = Number(idString);
+        console.log("I got it in .ts!!! " + this.edit_id);
       }
     })
   }
-
 
   ngOnInit(): void {
     
@@ -41,8 +40,7 @@ export class EditComponent implements OnInit {
     //     console.log("localGraphService - getGraph Error:",error);
     //   }
     // );
-    
-    this.graph = this.graphService.getGraphMockUp();
+    this.graph = this.graphService.getGraphMockUp(this.edit_id);
   }
 
   handleOnChangeView(vt: ViewType) {
@@ -56,6 +54,6 @@ export class EditComponent implements OnInit {
   renderVisualView(): boolean {
       return this.selectedViewType === 'visual';
   }
-  }
+}
 
 

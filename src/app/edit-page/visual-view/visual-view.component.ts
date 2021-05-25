@@ -1,10 +1,11 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
-import { ChangeDetectorRef, Component, Input, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import * as go from 'gojs';
 import { DataSyncService, DiagramComponent, PaletteComponent } from 'gojs-angular';
 import * as _ from 'lodash';
 
+import { GraphService } from 'src/app/services/graph.service';
 import { Graph } from 'src/app/utils/graph.model';
 
 @Component({
@@ -13,12 +14,18 @@ import { Graph } from 'src/app/utils/graph.model';
   styleUrls: ['./visual-view.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class VisualViewComponent {
+export class VisualViewComponent implements OnInit {
 
   @Input() graph: Graph;
 
   @ViewChild('myDiagram', { static: true }) public myDiagramComponent: DiagramComponent;
   @ViewChild('myPalette', { static: true }) public myPaletteComponent: PaletteComponent;
+
+  constructor(private cdr: ChangeDetectorRef) { }
+
+  ngOnInit(): void {
+
+  }
 
   // initialize diagram / templates
   public initDiagram(): go.Diagram {
@@ -155,8 +162,6 @@ export class VisualViewComponent {
     this.paletteModelData = DataSyncService.syncModelData(changes, this.paletteModelData);
   };
 
-  constructor(private cdr: ChangeDetectorRef) { }
-
   // Overview Component testing
   public oDivClassName = 'myOverviewDiv';
   public initOverview(): go.Overview {
@@ -214,7 +219,5 @@ export class VisualViewComponent {
     // console.log(nd);
 
   }
-
-
 }
 

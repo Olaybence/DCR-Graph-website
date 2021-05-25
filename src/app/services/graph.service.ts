@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Graph, Task, Role } from '../utils/graph.model';
-
 // Provider of the local graphs
 @Injectable({
   providedIn: 'root'
@@ -68,6 +67,7 @@ export class GraphService {
     //   error => {
     //     alert("getAllSharedGraphs(): " + error.error.message);
     //     console.log("error",error);
+    //     console.log(error.error.message);
     //   }
     // );
 
@@ -80,9 +80,8 @@ export class GraphService {
     return this.http.get<Graph>(`http://localhost:8080/local/${id}`);
   }
 
-  getGraphMockUp() : Graph {
-    console.log("getGraphMockUp");
-    
+  getGraphMockUp(id: number) : Graph {
+    console.log("getGraphMockUp",id);    
     return this.graph;
   }
   
