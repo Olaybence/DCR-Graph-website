@@ -1,3 +1,23 @@
-.spacer {
+
+spacer {
   flex: 1 1 auto;
+}
+a {
+  color: white;
+  font-size: xx-large;
+  padding-inline-end: 3cm;
+}
+
+button {
+  font-size: small;
+  padding-inline-start: 1cm;
+  padding-inline-end:  1cm;
+  border: 0.5px solid black;
+  color: white;
+}
+button:hover {
+  background-color: rgb(35, 30, 110);
+}
+::ng-deep .customize{
+  background-color: rgb(63, 81, 181);
 }

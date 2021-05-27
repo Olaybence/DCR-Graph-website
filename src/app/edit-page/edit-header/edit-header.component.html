@@ -1,8 +1,8 @@
 <mat-toolbar color="primary">
-  <span>DCR graph</span>
+  <a href="http://localhost:4200/select">DCR graph</a>
 
   <button mat-button [matMenuTriggerFor]="edit">Edit</button>
-  <mat-menu #edit="matMenu">
+  <mat-menu #edit="matMenu" class="customize">
     <button mat-menu-item (click)="handleOnAddObject()">Add object</button>
     <button mat-menu-item (click)="handleOnRemoveObject()">Remove object</button>
     <button mat-menu-item (click)="handleOnConnectObject()">Connect object</button>
@@ -11,14 +11,14 @@
   </mat-menu>
 
   <button mat-button [matMenuTriggerFor]="simulate">Simulate</button>
-  <mat-menu #simulate="matMenu">
+  <mat-menu #simulate="matMenu" class="customize">
     <button mat-menu-item (click)="handleOnSimulateGraph()">Run Simulate on graph</button>
     <button mat-menu-item (click)="handleOnEditParameters()">Edit parameters</button>
     <button mat-menu-item (click)="handleOnViewExecutionLog()">View execution log</button>
   </mat-menu>
 
   <button mat-button [matMenuTriggerFor]="analyze">Analyze</button>
-  <mat-menu #analyze="matMenu">
+  <mat-menu #analyze="matMenu" class="customize">
     <button mat-menu-item (click)="handleOnAnalyzeGraph()">Run analyse on graph</button>
     <button mat-menu-item (click)="handleOnViewMetrics()">View metrics</button>
     <button mat-menu-item (click)="handleOnViewLogs()">View logs</button>
@@ -26,7 +26,7 @@
 
   <span class="spacer"></span>
   <button mat-button [matMenuTriggerFor]="viewType">Selected view: {{ selectedView }}</button>
-  <mat-menu #viewType="matMenu">
+  <mat-menu #viewType="matMenu" class="customize">
     <button
       mat-menu-item
       *ngFor="let vt of viewTypes"
