@@ -9,7 +9,6 @@ import { TextViewComponent } from './text-view/text-view.component';
 import { VisualViewComponent } from './visual-view/visual-view.component';
 
 
-
 @NgModule({
   declarations: [
     EditComponent,
@@ -21,7 +20,7 @@ import { VisualViewComponent } from './visual-view/visual-view.component';
     CommonModule,
     MatToolbarModule,
     MatMenuModule,
-    MatButtonModule
+    MatButtonModule,
   ], exports: [
     EditComponent
   ]

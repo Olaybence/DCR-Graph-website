@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { GraphService } from 'src/app/services/graph.service';
 import { Graph } from 'src/app/utils/graph.model';
 
 @Component({
@@ -13,7 +14,7 @@ export class VisualViewComponent implements OnInit {
   roleWidth: number = 200;
   rowSize: number = 80;
 
-  constructor() { }
+  constructor(public graphService: GraphService) { }
 
   ngOnInit(): void {
     console.log("VisualViewComponent",this.graph);
@@ -21,6 +22,10 @@ export class VisualViewComponent implements OnInit {
       role.x = this.roleWidth/2;
       role.y = i*80+40;
     })
+  }
+
+  editTask() {
+    alert("editTask()");
   }
 
 }
