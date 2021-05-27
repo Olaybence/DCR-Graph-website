@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ViewType } from '../edit/edit.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-edit-header',
@@ -12,10 +13,14 @@ export class EditHeaderComponent implements OnInit {
 
   viewTypes: ViewType[] = ['text', 'visual'];
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {}
 
+  handleOnHomePage() {
+    console.log('clicked on HomePage');
+    this.router.navigate(['./select']);
+  }
   handleOnAddObject() {
     console.log('clicked on AddObject');
   }
