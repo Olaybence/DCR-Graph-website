@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { GraphService } from 'src/app/services/graph.service';
-import { Graph, Node, Role } from 'src/app/utils/graph.model';
+import { Graph, Task, Role } from 'src/app/utils/graph.model';
 
 export type ViewType = 'text' | 'visual';
 
@@ -31,16 +31,16 @@ export class EditComponent implements OnInit {
 
   ngOnInit(): void {
     
-    this.graphService.getGraph(this.edit_id).subscribe(
-      graph => {
-        console.log("localGraphService - getGraph ",this.edit_id,":",graph);
-        this.graph = graph;
-      },
-      error => {
-        console.log("localGraphService - getGraph Error:",error);
-      }
-    );
-    // this.graph = this.graphService.getGraph(this.edit_id);
+    // this.graphService.getGraph(this.edit_id).subscribe(
+    //   graph => {
+    //     console.log("localGraphService - getGraph ",this.edit_id,":",graph);
+    //     this.graph = graph;
+    //   },
+    //   error => {
+    //     console.log("localGraphService - getGraph Error:",error);
+    //   }
+    // );
+    this.graph = this.graphService.getGraphMockUp(this.edit_id);
   }
 
   handleOnChangeView(vt: ViewType) {

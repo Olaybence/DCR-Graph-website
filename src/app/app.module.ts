@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -17,7 +18,9 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
     BrowserModule,
     NoopAnimationsModule,
     HttpClientModule,
-    
+    DragDropModule,
+
+    AppRoutingModule,    
     // Rooting
     AppRoutingModule,
 

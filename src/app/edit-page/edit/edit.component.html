@@ -4,17 +4,21 @@
     (onChangeView)="handleOnChangeView($event)"
   ></app-edit-header>
 
-  <ng-container 
-    *ngTemplateOutlet="graph ? Graph : Loading"></ng-container>
-  <ng-template #Loading>
-    <div style="text-align: center;" (click)="graph = graphService.getGraphMockUp(1)">
-      <div class="loading">
-        <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
-      </div>
+  <ng-container *ngTemplateOutlet="graph ? Graph : Loading"></ng-container>
+</div>
+    
+    
+<ng-template #Loading>
+  <div style="text-align: center;" (click)="graph = graphService.getGraphMockUp(1)">
+    <div class="loading">
+      <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
     </div>
-  </ng-template>
-  <ng-template #Graph>
+  </div>
+</ng-template>
+
+<ng-template #Graph>
+  <div style="text-align: center; margin-top: 10px;">
     <app-text-view *ngIf="renderTextView()"></app-text-view>
     <app-visual-view *ngIf="renderVisualView()" [graph]="graph"></app-visual-view>
-  </ng-template>
-</div>
+  </div>
+</ng-template>
