@@ -32,6 +32,12 @@ Install script: `ng add @angular/material`
 
 Website:  https://material.angular.io/
 
+## GoJS
+Install script: `npm install gojs-angular gojs`
+
+Website:  https://gojs.net/latest/intro/angular.html
+Samples: https://gojs.net/latest/samples/index.html
+
 # Task based workflow
 
 We manages our work by the issues, where we create issues that focuses on a given feature.
