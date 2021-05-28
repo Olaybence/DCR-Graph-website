@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation} from '@angular/core';
 import { Router } from '@angular/router';
 import { GraphService } from 'src/app/services/graph.service';
 import { Graph } from 'src/app/utils/graph.model';
 @Component({
   selector: 'app-select-graph',
   templateUrl: './select-graph.component.html',
-  styleUrls: ['./select-graph.component.css']
+  styleUrls: ['./select-graph.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class SelectGraphComponent implements OnInit {
   public localGraphs;

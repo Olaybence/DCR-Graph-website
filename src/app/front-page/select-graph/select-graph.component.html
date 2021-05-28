@@ -5,17 +5,17 @@
         <mat-tab label="Local Projects">
             <mat-list>
                 <mat-list-item (click)="selectGraph(graph)" class="items" *ngFor="let graph of localGraphs">
-                    <div mat-line>#{{graph.id}} - {{graph.name}}</div>
-                    <div mat-line>{{graph.shortDescription}}</div>
+                    <div mat-line class= "line1">#{{graph.id}} - {{graph.name}}</div>
+                    <div mat-line class="line2">{{graph.shortDescription}}</div>
                 </mat-list-item>
             </mat-list>
         </mat-tab>
-
+s
         <mat-tab label="Shared Projects">
-            <mat-list>
+            <mat-list class="items-items">
                 <mat-list-item (click)="selectGraph(graph)" class="items" *ngFor="let graph of sharedGraphs">
-                    <div mat-line>#{{graph.id}} - {{graph.name}}</div>
-                    <div mat-line>{{graph.shortDescription}}</div>
+                    <div mat-line class= "line1">  #{{graph.id}} - {{graph.name}} </div>
+                    <div mat-line class="line2">  {{graph.shortDescription}} </div>
                 </mat-list-item>
             </mat-list>
         </mat-tab>
