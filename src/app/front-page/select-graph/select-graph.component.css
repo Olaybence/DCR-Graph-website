@@ -8,6 +8,7 @@
 }
 
 .items:hover {
-    background-color: grey;
+    background-color: white;
     cursor: pointer;
 }
+

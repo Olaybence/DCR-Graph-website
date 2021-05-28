@@ -4,5 +4,5 @@ html, body { height: 100%; }
 body { 
     margin: 0; 
     font-family: Roboto, "Helvetica Neue", sans-serif; 
-    background-color: rgb(252, 249, 224); /* make some cool stuff happening */
+    background-color: white; /* make some cool stuff happening */
 }

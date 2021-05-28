@@ -1,24 +1,30 @@
-<div class="header">
-    <div class="logo">
-        <h2>DCR Graph Manager</h2>
-    </div>
-    <div class="middle">
-        Welcome, to our wonderful world
-    </div>
-    <div class="create-graph">
-        <button mat-stroked-button color="primary" (click)="createProject()">
-        New Project
-    </button>
-    </div>
-</div>
+<header class="header sticky sticky--top js-header">
 
-<!-- <mat-toolbar color="primary">
-    <span>GCR graph</span>
-    
-    <span class="spacer"></span>
-    
-    <button mat-stroked-button class="new-project" (click)="createProject()">
-        New Project
-    </button>
-  </mat-toolbar>
-   -->
+    <div class="grid">
+  
+      <nav class="navigation">
+        <ul class="navigation__list navigation__list--inline">
+          <li class="navigation__item"><a href="http://localhost:4200" class="navigation__link navigation__link--is-active">Home</a></li>
+          <li class="navigation__item"><a href="#" class="navigation__link">About Us</a></li>
+          <li class="navigation__item"><a href="#" class="navigation__link">Contact</a></li>
+        </ul>
+      </nav>
+  
+    </div>
+  
+    <button mat-stroked-button (click)="createProject()">
+      New Project
+   </button>
+
+  </header>
+  
+  <main class="main">
+  
+    <div class="grid">
+  
+      <h1>DCR Graph Manager</h1>
+  
+      <p>A Dynamic Condition Response Graphs Tool</p>
+      
+    </div>
+  </main>

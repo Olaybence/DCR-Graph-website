@@ -1,3 +1,25 @@
 .spacer {
   flex: 1 1 auto;
 }
+
+.link {
+  color: white;
+  font-size: xx-large;
+  margin-right: 3cm;
+}
+
+.menu-button {
+  font-size: small;
+  padding-inline-start: 1cm;
+  padding-inline-end:  1cm;
+  border: 0.5px solid black;
+  color: white;
+}
+
+.menu-button:hover {
+  background-color: rgb(35, 30, 110);
+}
+
+::ng-deep .customize {
+  background-color: rgb(63, 81, 181);
+}
