@@ -8,7 +8,8 @@ import { FrontPageModule } from './front-page/front-page.module';
 import { EditComponent } from './edit-page/edit/edit.component';
 import { SelectGraphComponent } from './front-page/select-graph/select-graph.component';
 
-//import { AboutComponent } from './about-page/about/about.component';
+import { AboutPageComponent } from './about-page/about-page.component';
+import { AboutPageModule } from './about-page/about-page.module';
 
 const routes: Routes = [
   { path: "", redirectTo: "/select", pathMatch: "full" },
@@ -22,7 +23,7 @@ const routes: Routes = [
     ]
   },
   // About routing
-  //{ path: 'about', component: AboutComponent },
+  { path: 'about', component: AboutPageComponent },
 
 
   { path: 'edit', // Edit the selected graph
@@ -55,6 +56,7 @@ const routes: Routes = [
   imports: [
     RouterModule.forRoot(routes),
     FrontPageModule,
+    AboutPageModule,
     EditModule
   ],
   exports: [RouterModule]

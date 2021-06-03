@@ -1,10 +1,8 @@
 
 .site-footer
 {
-  margin-bottom: 0px;
-  clear: both; 
-  bottom: 0cm;
-  left: 0;
+  bottom: 0;
+  left: 0px;
   width: 100%;
   text-align: center;
   background-color: grey;
@@ -13,6 +11,7 @@
   color:rgba(255, 255, 255, 0.493);
   clear: both;
 }
+
 .site-footer hr
 {
   border-top-color:White;
