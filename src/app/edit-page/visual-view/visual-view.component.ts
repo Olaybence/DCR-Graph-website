@@ -1,12 +1,14 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 import { ChangeDetectorRef, Component, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import * as go from 'gojs';
+import { MatDialog } from '@angular/material/dialog';
+
 import { DataSyncService, DiagramComponent, PaletteComponent } from 'gojs-angular';
+import * as go from 'gojs';
 import * as _ from 'lodash';
 
-import { GraphService } from 'src/app/services/graph.service';
 import { Graph } from 'src/app/utils/graph.model';
+import { ErrorDialog } from 'src/app/utils/error-dialog/error-dialog';
 
 @Component({
   selector: 'app-visual-view',
@@ -21,10 +23,20 @@ export class VisualViewComponent implements OnInit {
   @ViewChild('myDiagram', { static: true }) public myDiagramComponent: DiagramComponent;
   @ViewChild('myPalette', { static: true }) public myPaletteComponent: PaletteComponent;
 
-  constructor(private cdr: ChangeDetectorRef) { }
+  constructor( // Dependency Injections
+    private cdr: ChangeDetectorRef,
+    private dialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
+    // if(true) { // For testing the error message
+    if(this.graph == null) {
+      const dialogRef = this.dialog.open(ErrorDialog);
 
+      dialogRef.afterClosed().subscribe(result => {
+        console.log(`Dialog result: ${result}`);
+      });
+    }
   }
 
   // initialize diagram / templates
@@ -82,8 +94,54 @@ export class VisualViewComponent implements OnInit {
         makePort('r', go.Spot.Right),
         makePort('b', go.Spot.BottomCenter)
       );
+      
+      // dia.linkTemplate =
+      //   $(go.Link,  // the whole link panel
+      //     { routing: go.Link.Normal },
+      //     $(go.Shape,  // the link shape
+      //       // the first element is assumed to be main element: as if isPanelMain were true
+      //       { stroke: 'gray', strokeWidth: 0.2 }),
+      //     $(go.Shape,  // the "from" arrowhead
+      //       new go.Binding('fromArrow', 'fromArrow'),
+      //       { scale: 0.5, fill: '#D4B52C' }),
+      //     $(go.Shape,  // the "to" arrowhead
+      //       new go.Binding('toArrow', 'toArrow'),
+      //       { scale: 0.2, fill: '#D4B52C' }),
+      //     {
+      //       click: this.showArrowInfo,
+      //       toolTip:  // define a tooltip for each link that displays its information
+      //         $<go.Adornment>('ToolTip',
+      //           $(go.TextBlock, { margin: 1 },
+      //             new go.Binding('text', '', this.infoString).ofObject())
+      //         )
+      //     }
+      //   );
 
     return dia;
+  }
+
+  showArrowInfo(e: go.InputEvent, obj: go.GraphObject) {
+    console.log("clicked: ", e, " obj: ", obj);
+    const msg = this.infoString(obj);
+    if (msg) {
+      const status = document.getElementById('myArrowheadInfo');
+      if (status) status.textContent = msg;
+    }
+  }
+
+  infoString(obj: go.GraphObject) {
+    let part = obj.part;
+    if (part instanceof go.Adornment) part = part.adornedPart;
+    let msg = '';
+    if (part instanceof go.Link) {
+      const link = part;
+      msg = 'toArrow: ' + link.data.toArrow + ';\nfromArrow: ' + link.data.fromArrow;
+    } else if (part instanceof go.Node) {
+      const node = part;
+      const link = node.linksConnected.first();
+      if (link) msg = 'toArrow: ' + link.data.toArrow + ';\nfromArrow: ' + link.data.fromArrow;
+    }
+    return msg;
   }
 
   public diagramNodeData: Array<go.ObjectData> = [

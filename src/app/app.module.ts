@@ -8,10 +8,11 @@ import { AppComponent } from './app.component';
 import { EditModule } from './edit-page/edit.module';
 import { FrontPageModule } from './front-page/front-page.module';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     // Used Angular module
@@ -20,13 +21,17 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
     HttpClientModule,
     DragDropModule,
 
-    AppRoutingModule,    
+    AppRoutingModule,
+    
     // Rooting
     AppRoutingModule,
 
     // Page modules
     FrontPageModule,
     EditModule,
+
+    // Icons
+    MatIconModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
