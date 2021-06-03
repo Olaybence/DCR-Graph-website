@@ -1,1 +1,22 @@
-<p>DO IT</p>
+<h1>Create new Graph</h1>
+<div class="container">
+<!--<div class="alert alert-warning" *ngIf="todoForm.invalid">Enter valid values</div>
+<div class="alert alert-warning" *ngIf="targetDate.invalid">Enter valid target date</div>
+<div class="alert alert-warning" *ngIf="description.invalid">Enter valid description</div>-->
+
+    <form ngFrom #f (ngSubmit)="onCreate()">
+        <fieldset class="form-group">
+            <label>Name</label>
+            <!--#name="ngModel"             [(ngModel)]="newgraph.name"-->
+            <input type="text" name="name" placeholder="The newest graph"  required>
+        </fieldset>
+        <div></div>
+        <fieldset class="form-group">
+            <label>Description</label>
+            <!--#description="ngModel"      [(ngModel)]="newgraph.description"-->
+            <input type="text" name="description" placeholder="The newest description" required>
+        </fieldset>
+
+    <button type="submit" class="btn btn-success" (click)="onCreate()">Create</button>
+    </form>
+</div>
