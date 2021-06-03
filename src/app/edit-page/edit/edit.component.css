@@ -81,6 +81,13 @@
   top: 56px;
   left: 12px;
 }
+
+.center{
+  display: grid;
+  justify-content: center;
+  align-items: center;
+}
+
 @keyframes loading {
   0% {
     transform: rotate(0deg);

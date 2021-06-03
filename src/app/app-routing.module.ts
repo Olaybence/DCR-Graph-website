@@ -8,6 +8,8 @@ import { FrontPageModule } from './front-page/front-page.module';
 import { EditComponent } from './edit-page/edit/edit.component';
 import { SelectGraphComponent } from './front-page/select-graph/select-graph.component';
 
+//import { AboutComponent } from './about-page/about/about.component';
+
 const routes: Routes = [
   { path: "", redirectTo: "/select", pathMatch: "full" },
   {
@@ -19,8 +21,11 @@ const routes: Routes = [
       }
     ]
   },
-  {
-    path: 'edit', // Edit the selected graph
+  // About routing
+  //{ path: 'about', component: AboutComponent },
+
+
+  { path: 'edit', // Edit the selected graph
     component: EditComponent, children: [
       {
         path: ':local',
