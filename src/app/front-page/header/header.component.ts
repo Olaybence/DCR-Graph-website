@@ -46,11 +46,6 @@ export class CreateProjectDialog {
   public des: string;
   public name: string;
 
-  public newgraph= {
-    name:'',
-    description:''
-  }
-
   public form: HTMLFormElement = document.querySelector('#myform');
 
 
@@ -72,9 +67,10 @@ export class CreateProjectDialog {
 
   // Need to properly send to the backend and create a new field for the diagram
   public onCreate() {
-    console.log("the data is here", this.newgraph);
+    // console.log("the data is here", this.newgraph);
     //this.newgraph.name = data.name;
     //console.log(this.newgraph.name);
+    console.log(this.localGraphs);
     this.newId = this.localGraphs.length;
     //console.log("My name", data.name);
     console.log("my des", this.des);
