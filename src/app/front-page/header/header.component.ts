@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { GraphService } from 'src/app/services/graph.service';
 import { NgForm } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
-import { Graph, Task, Role } from '../../utils/graph.model';
+import { Graph, Task, Role, Location } from '../../utils/graph.model';
 import { VisualViewComponent } from 'src/app/edit-page/visual-view/visual-view.component';
 
 @Component({
@@ -76,7 +76,7 @@ export class CreateProjectDialog {
     console.log("my des", this.des);
     //console.log("my description", data.description);
     
-    this.graph = new Graph(this.newId,this.name,this.des);
+    this.graph = new Graph(this.newId,this.name,this.des,Location.local);
     console.log("this is the new id", this.newId);
     console.log("this is my new graph", this.graph);
     this.graphService.createGraph(this.graph);
