@@ -17,39 +17,38 @@ export class SelectGraphComponent implements OnInit {
     private graphService: GraphService
     ) {
       // GET LOCAL GRAPHS
-      this.localGraphs = this.graphService.getAllLocalGraphs();
-      
+      // this.localGraphs = this.graphService.getAllLocalGraphs();
       // WITH HTTP REQUEST
-      // this.graphService.getAllLocalGraphs().subscribe(
-      //   graphs => {
-      //     console.log("graphService - getAllLocalGraphs:",graphs);
-      //     this.localGraphs = graphs;
-      //   },
-      //   error => {
-      //     console.log("graphService - getAllLocalGraphs Error:",error);
-      //   }
-      // );
+      this.graphService.getAllLocalGraphs().subscribe(
+        graphs => {
+          console.log("graphService - getAllLocalGraphs:",graphs);
+          this.localGraphs = graphs;
+        },
+        error => {
+          console.log("graphService - getAllLocalGraphs Error:",error);
+        }
+      );
 
       // GET SHARED GRAPHS
-      this.sharedGraphs = this.graphService.getAllSharedGraphs();
+      // this.sharedGraphs = this.graphService.getAllSharedGraphs();
 
       // WITH HTTP REQUEST
-      // this.graphService.getAllSharedGraphs().subscribe(
-      //   graphs => {
-      //     console.log("graphService - getAllSharedGraphs:",graphs);
-      //     this.sharedGraphs = graphs;
-      //   },
-      //   error => {
-      //     console.log("graphService - getAllSharedGraphs Error:",error);
-      //   }
-      // );
+      this.graphService.getAllSharedGraphs().subscribe(
+        graphs => {
+          console.log("graphService - getAllSharedGraphs:",graphs);
+          this.sharedGraphs = graphs;
+        },
+        error => {
+          console.log("graphService - getAllSharedGraphs Error:",error);
+        }
+      );
     }
 
   ngOnInit(): void {
   }
   
   selectGraph(graph: Graph) {
-    console.log(graph.id, graph);
+    console.log("selecting", graph.id, graph);
 
     if (this.sharedGraphs.includes(graph)) {
       this.router.navigate(['./edit/shared/' + graph.id]);

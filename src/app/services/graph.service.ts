@@ -43,35 +43,12 @@ export class GraphService {
     this.sharedGraphs.push(this.graph);
   }
 
-  getAllLocalGraphs() {
-    // return this.http.get<Graph[]>('http://localhost:8080/local').subscribe(
-    //   response => {
-    //     console.log("Successful request", response);
-    //     return response;
-    //   },
-    //   error => {
-    //     alert("getAllSharedGraphs(): " + error.error.message);
-    //     console.log("error",error);
-    //   }
-    // );
-
-    return this.localGraphs;
+  getAllLocalGraphs() : Observable<Graph[]> {
+    return this.http.get<Graph[]>('http://localhost:8080/local');
   }
 
   getAllSharedGraphs() {
-    // return this.http.get<Graph[]>('http://localhost:8080/shared').subscribe(
-    //   response => {
-    //     console.log(response);
-    //     return response;
-    //   },
-    //   error => {
-    //     alert("getAllSharedGraphs(): " + error.error.message);
-    //     console.log("error",error);
-    //     console.log(error.error.message);
-    //   }
-    // );
-
-    return this.sharedGraphs;
+    return this.http.get<Graph[]>('http://localhost:8080/shared');
   }
 
   getGraph(id: number) : Observable<Graph> {
