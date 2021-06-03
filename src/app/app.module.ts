@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { EditModule } from './edit-page/edit.module';
 import { FrontPageModule } from './front-page/front-page.module';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,11 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
     // Page modules
     FrontPageModule,
     EditModule,
+
+    // Additional modules
+    FormsModule,
+
+
   ],
   providers: [],
   bootstrap: [AppComponent]
