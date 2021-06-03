@@ -11,11 +11,11 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {MatIconModule} from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { AboutPageModule } from './about-page/about-page.module';
-
+import { ContactPageModule } from './contact-page/contact-page.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     // Used Angular module
@@ -32,6 +32,7 @@ import { AboutPageModule } from './about-page/about-page.module';
     // Page modules
     FrontPageModule,
     AboutPageModule,
+    ContactPageModule,
     EditModule,
 
 

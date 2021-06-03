@@ -9,11 +9,11 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import {MatCardModule} from '@angular/material/card';
 import {MatDialogModule} from '@angular/material/dialog';
 import { SharedModule } from '../shared/shared.module';
-import { AboutPageComponent } from './about-page.component';
+import { ContactPageComponent } from './contact-page.component';
 
 @NgModule({
   declarations: [
-    AboutPageComponent
+    ContactPageComponent
   ],
   imports: [
     SharedModule,
@@ -26,7 +26,7 @@ import { AboutPageComponent } from './about-page.component';
     MatCardModule,
     MatDialogModule,
   ], exports: [
-    AboutPageComponent
+    ContactPageComponent
   ]
 })
-export class AboutPageModule { }
+export class ContactPageModule { }
