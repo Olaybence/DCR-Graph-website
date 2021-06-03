@@ -42,6 +42,38 @@ class DCRGraph {
     }
     return true;
   }
+
+  execute(marking: DCRMarking, event: string): DCRMarking {
+    // Check if the event exists
+    if (!this.events.has(event)) {
+      return marking;
+    }
+
+    // Check if the event is enabled
+    if (!this.enabled(marking, event)) {
+      return marking;
+    }
+
+    // Create a new marking
+    const result: DCRMarking = marking.clone();
+
+    // Add the event to the set of executed events.
+    result.executed.add(event);
+
+    // Remove the event from the set of pending events.
+    result.pending.delete(event);
+
+    // Add all new responses.
+    result.pending = new Set([...result.pending, ...this.responsesTo[event]])
+
+    // result.pending.addAll(this.responsesTo[event]);
+    // Remove all excluded events
+    result.included.removeAll(this.excludesTo[event]);
+    // Add all included events
+    result.included.addAll(this.includesTo[event]);
+
+    return result;
+  }
 }
 
 class DCRMarking {

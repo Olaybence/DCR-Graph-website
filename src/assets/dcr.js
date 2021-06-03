@@ -6,7 +6,7 @@
  - Guarded relations (BEWARE: guard expressions are evaluated with eval(), use at own risk.)
 */
 class Marking {
-  constructor(executed, pending, included) {
+  constructor(executed, included, pending) {
     this.executed = executed;
     this.included = included;
     this.pending = pending;
