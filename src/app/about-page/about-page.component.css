@@ -1,0 +1,21 @@
+
+
+.box {
+    background: #fff;
+    border-radius: 2px;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
+    margin: 0px 5%;
+    padding: 5%;
+    width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .spacer {
+    margin-bottom: 6cm;
+  }
+
+ul
+{
+list-style-type: none;
+}
