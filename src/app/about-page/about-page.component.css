@@ -15,6 +15,21 @@
     margin-bottom: 6cm;
   }
 
+.cell{
+  padding-right: 40px;
+  padding-left: 20px;
+}
+
+.column{
+  padding-left: 19px;
+  text-align: left;
+}
+
+.line{
+  border: 1.5px solid #3f51b5;
+  margin-bottom: 13px;
+}
+
 ul
 {
 list-style-type: none;
