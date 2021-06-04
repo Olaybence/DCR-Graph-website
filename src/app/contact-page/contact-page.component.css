@@ -32,9 +32,18 @@
     resize: vertical;
   }
 
+  .line{
+    border: 1.5px solid #3f51b5;
+    margin-bottom: 13px;
+  }
+
   .spacer {
     margin-bottom: 3cm;
   }
+
+  .title{
+    text-align: center;
+  }  
   
   /* Clear floats after the columns */
   .row:after {

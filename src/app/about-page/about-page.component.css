@@ -20,6 +20,10 @@
   padding-left: 20px;
 }
 
+.title{
+  text-align: center;
+}  
+
 .column{
   padding-left: 19px;
   text-align: left;
