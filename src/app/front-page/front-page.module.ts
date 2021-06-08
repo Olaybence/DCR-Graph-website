@@ -11,11 +11,21 @@ import { FooterComponent } from './footer/footer.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import {MatCardModule} from '@angular/material/card';
 import {MatDialogModule} from '@angular/material/dialog';
+import { FormsModule } from '@angular/forms';
+
+import { SortPipe } from 'src/sort';
+import { FilterPipe } from 'src/filter';
+import { SortParamsDirective } from 'src/sortParams';
+
+
 @NgModule({
   declarations: [
     SelectGraphComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    SortPipe,
+    FilterPipe,
+    SortParamsDirective
   ],
   imports: [
     CommonModule,
@@ -26,8 +36,12 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatToolbarModule,
     MatCardModule,
     MatDialogModule,
+    FormsModule
   ], exports: [
-    SelectGraphComponent
+    SelectGraphComponent,
+    SortPipe,
+    FilterPipe,
+    SortParamsDirective
   ]
 })
 export class FrontPageModule { }

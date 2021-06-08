@@ -8,12 +8,14 @@ import { AppComponent } from './app.component';
 import { EditModule } from './edit-page/edit.module';
 import { FrontPageModule } from './front-page/front-page.module';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
+
+
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     // Used Angular module
@@ -35,7 +37,7 @@ import { FormsModule } from '@angular/forms';
     MatIconModule,
 
     // Additional modules
-    FormsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
