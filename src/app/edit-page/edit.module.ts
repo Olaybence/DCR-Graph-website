@@ -14,8 +14,11 @@ import { FormsModule } from '@angular/forms';
 
 
 import { MatDialogModule } from '@angular/material/dialog';
-import { FooterComponent } from './footer/footer.component';
 import { ErrorDialog } from '../utils/error-dialog/error-dialog';
+import { SharedModule } from '../shared/shared.module';
+import { SimulateComponent } from './simulate/simulate.component';
+import { AnalyzeComponent } from './analyze/analyze.component';
+
 @NgModule({
   declarations: [
     EditComponent,
@@ -24,9 +27,11 @@ import { ErrorDialog } from '../utils/error-dialog/error-dialog';
     VisualViewComponent,
     InspectorComponent,
     ErrorDialog,
-    FooterComponent
+    SimulateComponent,
+    AnalyzeComponent,
   ],
   imports: [
+    SharedModule,
     CommonModule,
     MatToolbarModule,
     MatMenuModule,

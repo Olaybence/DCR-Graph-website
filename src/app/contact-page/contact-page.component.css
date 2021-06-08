@@ -1,0 +1,61 @@
+* {
+    box-sizing: border-box;
+  }
+
+  
+
+.box {
+    background: #fff;
+    border-radius: 2px;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
+    margin: 0px 5%;
+    padding: 5%;
+    width: 530px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .send-b{
+    color: white;
+    margin-left: 2px;
+    background-color: #3f51b5;
+    border-color:  #3f51b5;
+  }
+  
+  /* Style inputs */
+  input[type=text], select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: vertical;
+  }
+
+  .line{
+    border: 1.5px solid #3f51b5;
+    margin-bottom: 13px;
+  }
+
+  .spacer {
+    margin-bottom: 3cm;
+  }
+
+  .title{
+    text-align: center;
+  }  
+  
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
+  /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+  @media screen and (max-width: 600px) {
+    .column, input[type=submit] {
+      width: 100%;
+      margin-top: 0;
+    }
+  }

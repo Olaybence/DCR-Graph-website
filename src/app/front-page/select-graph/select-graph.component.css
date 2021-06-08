@@ -52,13 +52,9 @@ line1 is the title, line2 is the undertext */
 }
 */
 .space  {
-    padding-bottom: 2cm;
+    padding-bottom: 6cm;
 }
 
 table {
     width: 100%;
-}
-
-th.mat-sort-header-sorted {
-    color: black;
 }

@@ -3,7 +3,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { GraphService } from 'src/app/services/graph.service';
 import { Graph, Task, Role, Location } from 'src/app/utils/graph.model';
 
-export type ViewType = 'text' | 'visual';
+export type ViewType = 'text' | 'visual' | 'simulate' | 'analyze';
 
 @Component({
   selector: 'app-edit',
@@ -57,6 +57,14 @@ export class EditComponent implements OnInit {
 
   renderVisualView(): boolean {
       return this.selectedViewType === 'visual';
+  }
+
+  renderSimulate(): boolean {
+    return this.selectedViewType === 'simulate';
+  }
+
+  renderAnalyze(): boolean {
+    return this.selectedViewType === 'analyze';
   }
 }
 
