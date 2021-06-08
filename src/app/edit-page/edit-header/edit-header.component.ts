@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ViewType } from '../edit/edit.component';
 import { Router } from '@angular/router';
+import { GraphService } from 'src/app/services/graph.service';
+import { Graph } from 'src/app/utils/graph.model';
 
 @Component({
   selector: 'app-edit-header',
@@ -9,11 +11,13 @@ import { Router } from '@angular/router';
 })
 export class EditHeaderComponent implements OnInit {
   @Input() selectedViewType: ViewType;
+  @Input() graph: Graph;
   @Output() onChangeView = new EventEmitter<ViewType>();
 
   viewTypes: ViewType[] = ['text', 'visual'];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router,
+    private graphService: GraphService) {}
 
   ngOnInit(): void {}
 
@@ -31,7 +35,8 @@ export class EditHeaderComponent implements OnInit {
     console.log('clicked on ConnectObject');
   }
   handleOnSaveAs() {
-    console.log('clicked on SaveAs');
+    console.log("Save as",this.graph)
+    this.graphService.save(this.graph);
   }
   handleOnLoad() {
     console.log('clicked on Load');

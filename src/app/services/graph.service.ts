@@ -1,23 +1,23 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Graph, Task, Role } from '../utils/graph.model';
+import { Graph, Task, Role, Location } from '../utils/graph.model';
 // Provider of the local graphs
 @Injectable({
   providedIn: 'root'
 })
 export class GraphService {
 
-  graph: Graph = new Graph(0,"Sed vel ultrices","Mauris elit metus, posuere quis nisi a, sodales ornare odio.");
+  graph: Graph = new Graph(0,"Sed vel ultrices","Mauris elit metus, posuere quis nisi a, sodales ornare odio.",Location.local);
   localGraphs: Array<Graph>= [
-    new Graph(0,"Lorem ipsum dolor sit amet","Vestibulum iaculis enim, consectetur adipiscing elit. Aenean porttitor."),
-    new Graph(1,"Praesent a velit","Sed volutpat venenatis sollicitudin. Sed bibendum, massa non ultrices pharetra."),
-    new Graph(2,"Cras ultricies sem","Nunc faucibus nunc et est placerat vestibulum. Donec tempus bibendum."),
+    new Graph(0,"Lorem ipsum dolor sit amet","Vestibulum iaculis enim, consectetur adipiscing elit. Aenean porttitor.",Location.local),
+    new Graph(1,"Praesent a velit","Sed volutpat venenatis sollicitudin. Sed bibendum, massa non ultrices pharetra.",Location.local),
+    new Graph(2,"Cras ultricies sem","Nunc faucibus nunc et est placerat vestibulum. Donec tempus bibendum.",Location.local),
   ];
   sharedGraphs: Array<Graph> = [
-    new Graph(0,"Sed vel ultrices","Mauris elit metus, posuere quis nisi a, sodales ornare odio."),
-    new Graph(1,"Etiam turpis nibh, pellentesque","Nunc faucibus nunc et est placerat vestibulum. Donec tempus bibendum."),
-    new Graph(2,"Maecenas et pellentesque nunc","Etiam aliquet, sem non finibus imperdiet, sapien elit suscipit urna."),
+    new Graph(0,"Sed vel ultrices","Mauris elit metus, posuere quis nisi a, sodales ornare odio.",Location.shared),
+    new Graph(1,"Etiam turpis nibh, pellentesque","Nunc faucibus nunc et est placerat vestibulum. Donec tempus bibendum.",Location.shared),
+    new Graph(2,"Maecenas et pellentesque nunc","Etiam aliquet, sem non finibus imperdiet, sapien elit suscipit urna.",Location.shared),
   ];
 
   constructor(
@@ -51,10 +51,10 @@ export class GraphService {
     return this.http.get<Graph[]>('http://localhost:8080/shared');
   }
 
-  getGraph(id: number) : Observable<Graph> {
-    console.log("getGraph",id);
-    
-    return this.http.get<Graph>(`http://localhost:8080/local/${id}`);
+  getGraph(id: number, loc: Location) : Observable<Graph> {
+    console.log("getGraphLocal",id, "location", loc);
+    let location = loc == Location.local ? "local" : "shared";
+    return this.http.get<Graph>(`http://localhost:8080/${location}/${id}`);
   }
 
   getGraphMockUp(id: number) : Graph {
@@ -66,6 +66,21 @@ export class GraphService {
     // MIGHT NEED TO BE CHANGED
     // The URL can be changed as idk what is the convenient calling.
     this.http.put<Graph>('http://localhost:8080/local',graph).subscribe(
+      response => {
+        console.log(response);
+      },
+      error => {
+        console.log(error.error.message);
+      }
+    );
+    // TODO: write it as JSON into LocalGraph folder (check if exists already and so on)
+  }
+
+  save(graph: Graph) {
+    let location = graph.location == Location.local ? "local" : "shared";
+    // MIGHT NEED TO BE CHANGED
+    // The URL can be changed as idk what is the convenient calling.
+    this.http.post<Graph>(`http://localhost:8080/${location}/${graph.id}`,graph).subscribe(
       response => {
         console.log(response);
       },
