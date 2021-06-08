@@ -1,5 +1,6 @@
 <div>
   <app-edit-header
+    [graph]="graph"
     [selectedViewType]="selectedViewType"
     (onChangeView)="handleOnChangeView($event)"
   ></app-edit-header>
@@ -22,3 +23,5 @@
     <app-visual-view *ngIf="renderVisualView()" [graph]="graph"></app-visual-view>
   </div>
 </ng-template>
+
+<app-footer></app-footer>

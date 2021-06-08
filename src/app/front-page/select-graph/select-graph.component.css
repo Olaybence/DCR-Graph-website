@@ -7,8 +7,49 @@
     flex: 1 1 auto;
 }
 
+/* Styles for tab labels */
+.mat-tab-label {
+    min-width: 25px !important;
+    background-color: transparent;
+    color: black;
+    font-weight: 700;
+}
+
+/* Styles for the active tab label */
+.mat-tab-label.mat-tab-label-active {
+    min-width: 25px !important;
+    background-color: transparent;
+    color: black;
+    font-weight: 700;
+    background-color: rgb(240, 240, 240);
+}
+
+.items {
+    outline-style: double;
+    outline-width: 2px;
+    outline-color: rgb(240, 240, 240);
+}
+
+/* hover of items in tabs */
 .items:hover {
-    background-color: white;
+    background-color: rgb(240, 240, 240);
     cursor: pointer;
 }
 
+.mat-list {
+    padding: 0.1cm;
+    background-color: white;
+}
+
+/* Lines of the items,
+line1 is the title, line2 is the undertext */
+.line1{   
+}
+
+.line2{
+    color: rgb(138, 138, 138);
+}
+
+.space  {
+    padding-bottom: 2cm;
+}

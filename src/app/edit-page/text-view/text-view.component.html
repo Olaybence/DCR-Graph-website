@@ -25,12 +25,12 @@ A --><> (B, D)
 
   <tr *ngFor="let gs of graphStatus">
     <td>{{ gs.executed ? "V:" + gs.lastExecuted : "" }}</td>
-    <td>{{ gs.included ? "" : "%" }}</td>
+    <td>{{ gs.included ? "yes" : "no" }}</td>
     <td>
       {{
         gs.pending
-          ? "!" + (gs.deadline === undefined ? "" : ":" + gs.deadline)
-          : ""
+          ? "yes" + (gs.deadline === undefined ? "" : ":" + gs.deadline)
+          : "no"
       }}
     </td>
     <td>{{ gs.enabled }}</td>

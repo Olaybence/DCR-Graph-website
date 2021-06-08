@@ -1,5 +1,10 @@
 import { User } from "./user.model";
 
+export enum Location {
+    local = 0,
+    shared = 1
+}
+
 /**
  * DCR Graph
  * A DCR Graph representation
@@ -16,6 +21,7 @@ import { User } from "./user.model";
  */
 export class Graph {
     public id: number; // Primary key
+    public location: Location;
     public name: string;
     public description: string;
     public shortDescription: string;
@@ -27,9 +33,10 @@ export class Graph {
     public endRole: number;
     public tasks: Array<Task>; // Graph edges
 
-    constructor(id: number,name: string, description: string) {
+    constructor(id: number,name: string, description: string, location: Location) {
         // Basic data
         this.id = id;
+        this.location = location;
         this.name = name;
         this.description = description;
         this.shortDescription = description;

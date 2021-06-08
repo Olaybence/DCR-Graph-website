@@ -1,12 +1,15 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 import { ChangeDetectorRef, Component, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import * as go from 'gojs';
+import { MatDialog } from '@angular/material/dialog';
+
 import { DataSyncService, DiagramComponent, PaletteComponent } from 'gojs-angular';
+import * as go from 'gojs';
 import * as _ from 'lodash';
 
-import { GraphService } from 'src/app/services/graph.service';
 import { Graph } from 'src/app/utils/graph.model';
+import { ErrorDialog } from 'src/app/utils/error-dialog/error-dialog';
+import { LoggingService } from 'src/app/services/logging.service';
 
 @Component({
   selector: 'app-visual-view',
@@ -21,14 +24,83 @@ export class VisualViewComponent implements OnInit {
   @ViewChild('myDiagram', { static: true }) public myDiagramComponent: DiagramComponent;
   @ViewChild('myPalette', { static: true }) public myPaletteComponent: PaletteComponent;
 
-  constructor(private cdr: ChangeDetectorRef) { }
+  public diagramNodeData: Array<go.ObjectData> = [
+    { key: 'Alpha', text: "Node Alpha", color: 'lightblue' },
+    { key: 'Beta', text: "Node Beta", color: 'orange' },
+    { key: 'Gamma', text: "Node Gamma", color: 'lightgreen' },
+    { key: 'Delta', text: "Node Delta", color: 'pink' }
+  ];
+  public diagramLinkData: Array<go.ObjectData> = [
+    { key: -1, from: 'Alpha', to: 'Beta', fromPort: 'r', toPort: 'l' },
+    { key: -2, from: 'Alpha', to: 'Gamma', fromPort: 'b', toPort: 't' },
+    { key: -3, from: 'Beta', to: 'Beta' },
+    { key: -4, from: 'Gamma', to: 'Delta', fromPort: 'r', toPort: 'l' },
+    { key: -5, from: 'Delta', to: 'Alpha', fromPort: 't', toPort: 'r' }
+  ];
+  public diagramDivClassName: string = 'myDiagramDiv';
+  public diagramModelData = { prop: 'value' };
+  public skipsDiagramUpdate = false;
+
+  public paletteNodeData: Array<go.ObjectData> = [
+    { key: 'PaletteNode1', text: "PaletteNode1", color: 'red' },
+    { key: 'PaletteNode2', text: "PaletteNode2", color: 'yellow' }
+  ];
+  public paletteLinkData: Array<go.ObjectData> = [
+    {  }
+  ];
+  public paletteModelData = { prop: 'val' };
+  public paletteDivClassName = 'myPaletteDiv';
+  public skipsPaletteUpdate = false;
+
+  constructor( // Dependency Injections
+    private cdr: ChangeDetectorRef,
+    private dialog: MatDialog,
+    private logger: LoggingService,
+  ) { }
+
+  public oDivClassName = 'myOverviewDiv';
+
+  public observedDiagram = null;
+
+  // currently selected node; for inspector
+  public selectedNode: go.Node | null = null;
 
   ngOnInit(): void {
+    // if(true) { // For testing the error message
+    if(this.graph == null) {
+      const dialogRef = this.dialog.open(ErrorDialog);
 
+      dialogRef.afterClosed().subscribe(result => {
+        console.log(`Dialog result: ${result}`);
+      });
+    }
   }
 
+  ngAfterViewInit(): void {
+
+    if (this.observedDiagram) return;
+    this.observedDiagram = this.myDiagramComponent.diagram;
+    this.cdr.detectChanges(); // IMPORTANT: without this, Angular will throw ExpressionChangedAfterItHasBeenCheckedError (dev mode only)
+
+    const appComp: VisualViewComponent = this;
+    // listener for inspector
+    this.myDiagramComponent.diagram.addDiagramListener('ChangedSelection', function(e) {
+      if (e.diagram.selection.count === 0) {
+        appComp.selectedNode = null;
+      }
+      const node = e.diagram.selection.first();
+      if (node instanceof go.Node) {
+        appComp.selectedNode = node;
+      } else {
+        appComp.selectedNode = null;
+      }
+    });
+
+  } // end ngAfterViewInit
+
+
   // initialize diagram / templates
-  public initDiagram(): go.Diagram {
+  initDiagram() : go.Diagram {
 
     const $ = go.GraphObject.make;
     const dia = $(go.Diagram, {
@@ -82,29 +154,58 @@ export class VisualViewComponent implements OnInit {
         makePort('r', go.Spot.Right),
         makePort('b', go.Spot.BottomCenter)
       );
-
+      
+      // dia.linkTemplate =
+      //   $(go.Link,  // the whole link panel
+      //     { routing: go.Link.Normal },
+      //     $(go.Shape,  // the link shape
+      //       // the first element is assumed to be main element: as if isPanelMain were true
+      //       { stroke: 'gray', strokeWidth: 0.2 }),
+      //     $(go.Shape,  // the "from" arrowhead
+      //       new go.Binding('fromArrow', 'fromArrow'),
+      //       { scale: 0.5, fill: '#D4B52C' }),
+      //     $(go.Shape,  // the "to" arrowhead
+      //       new go.Binding('toArrow', 'toArrow'),
+      //       { scale: 0.2, fill: '#D4B52C' }),
+      //     {
+      //       click: this.showArrowInfo,
+      //       toolTip:  // define a tooltip for each link that displays its information
+      //         $<go.Adornment>('ToolTip',
+      //           $(go.TextBlock, { margin: 1 },
+      //             new go.Binding('text', '', this.infoString).ofObject())
+      //         )
+      //     }
+      //   );
+    console.log("dia",dia);
     return dia;
   }
 
-  public diagramNodeData: Array<go.ObjectData> = [
-    { key: 'Alpha', text: "Node Alpha", color: 'lightblue' },
-    { key: 'Beta', text: "Node Beta", color: 'orange' },
-    { key: 'Gamma', text: "Node Gamma", color: 'lightgreen' },
-    { key: 'Delta', text: "Node Delta", color: 'pink' }
-  ];
-  public diagramLinkData: Array<go.ObjectData> = [
-    { key: -1, from: 'Alpha', to: 'Beta', fromPort: 'r', toPort: 'l' },
-    { key: -2, from: 'Alpha', to: 'Gamma', fromPort: 'b', toPort: 't' },
-    { key: -3, from: 'Beta', to: 'Beta' },
-    { key: -4, from: 'Gamma', to: 'Delta', fromPort: 'r', toPort: 'l' },
-    { key: -5, from: 'Delta', to: 'Alpha', fromPort: 't', toPort: 'r' }
-  ];
-  public diagramDivClassName: string = 'myDiagramDiv';
-  public diagramModelData = { prop: 'value' };
-  public skipsDiagramUpdate = false;
+  showArrowInfo(e: go.InputEvent, obj: go.GraphObject) : void {
+    console.log("clicked: ", e, " obj: ", obj);
+    const msg = this.infoString(obj);
+    if (msg) {
+      const status = document.getElementById('myArrowheadInfo');
+      if (status) status.textContent = msg;
+    }
+  }
+
+  infoString(obj: go.GraphObject) : string {
+    let part = obj.part;
+    if (part instanceof go.Adornment) part = part.adornedPart;
+    let msg = '';
+    if (part instanceof go.Link) {
+      const link = part;
+      msg = 'toArrow: ' + link.data.toArrow + ';\nfromArrow: ' + link.data.fromArrow;
+    } else if (part instanceof go.Node) {
+      const node = part;
+      const link = node.linksConnected.first();
+      if (link) msg = 'toArrow: ' + link.data.toArrow + ';\nfromArrow: ' + link.data.fromArrow;
+    }
+    return msg;
+  }
 
   // When the diagram model changes, update app data to reflect those changes
-  public diagramModelChange = function(changes: go.IncrementalData) {
+  diagramModelChange = function(changes: go.IncrementalData) {
     // when setting state here, be sure to set skipsDiagramUpdate: true since GoJS already has this update
     // (since this is a GoJS model changed listener event function)
     // this way, we don't log an unneeded transaction in the Diagram's undoManager history
@@ -113,11 +214,13 @@ export class VisualViewComponent implements OnInit {
     this.diagramNodeData = DataSyncService.syncNodeData(changes, this.diagramNodeData);
     this.diagramLinkData = DataSyncService.syncLinkData(changes, this.diagramLinkData);
     this.diagramModelData = DataSyncService.syncModelData(changes, this.diagramModelData);
-  };
+    this.graph.nodes = this.diagramNodeData;
+    this.graph.links = this.diagramLinkData;
+    this.logger.log(this.graph);
 
+  }
 
-
-  public initPalette(): go.Palette {
+  initPalette(): go.Palette {
     const $ = go.GraphObject.make;
     const palette = $(go.Palette);
 
@@ -141,17 +244,8 @@ export class VisualViewComponent implements OnInit {
 
     return palette;
   }
-  public paletteNodeData: Array<go.ObjectData> = [
-    { key: 'PaletteNode1', text: "PaletteNode1", color: 'red' },
-    { key: 'PaletteNode2', text: "PaletteNode2", color: 'yellow' }
-  ];
-  public paletteLinkData: Array<go.ObjectData> = [
-    {  }
-  ];
-  public paletteModelData = { prop: 'val' };
-  public paletteDivClassName = 'myPaletteDiv';
-  public skipsPaletteUpdate = false;
-  public paletteModelChange = function(changes: go.IncrementalData) {
+  
+  paletteModelChange = function(changes: go.IncrementalData) {
     // when setting state here, be sure to set skipsPaletteUpdate: true since GoJS already has this update
     // (since this is a GoJS model changed listener event function)
     // this way, we don't log an unneeded transaction in the Palette's undoManager history
@@ -163,41 +257,14 @@ export class VisualViewComponent implements OnInit {
   };
 
   // Overview Component testing
-  public oDivClassName = 'myOverviewDiv';
-  public initOverview(): go.Overview {
+
+  initOverview(): go.Overview {
     const $ = go.GraphObject.make;
     const overview = $(go.Overview);
     return overview;
   }
-  public observedDiagram = null;
 
-  // currently selected node; for inspector
-  public selectedNode: go.Node | null = null;
-
-  public ngAfterViewInit() {
-
-    if (this.observedDiagram) return;
-    this.observedDiagram = this.myDiagramComponent.diagram;
-    this.cdr.detectChanges(); // IMPORTANT: without this, Angular will throw ExpressionChangedAfterItHasBeenCheckedError (dev mode only)
-
-    const appComp: VisualViewComponent = this;
-    // listener for inspector
-    this.myDiagramComponent.diagram.addDiagramListener('ChangedSelection', function(e) {
-      if (e.diagram.selection.count === 0) {
-        appComp.selectedNode = null;
-      }
-      const node = e.diagram.selection.first();
-      if (node instanceof go.Node) {
-        appComp.selectedNode = node;
-      } else {
-        appComp.selectedNode = null;
-      }
-    });
-
-  } // end ngAfterViewInit
-
-
-  public handleInspectorChange(newNodeData) {
+  handleInspectorChange(newNodeData) {
     const key = newNodeData.key;
     // find the entry in nodeDataArray with this key, replace it with newNodeData
     let index = null;

@@ -11,13 +11,20 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { GojsAngularModule } from 'gojs-angular';
 import { InspectorComponent } from './visual-view/inspector/inspector.component';
 import { FormsModule } from '@angular/forms';
+
+
+import { MatDialogModule } from '@angular/material/dialog';
+import { FooterComponent } from './footer/footer.component';
+import { ErrorDialog } from '../utils/error-dialog/error-dialog';
 @NgModule({
   declarations: [
     EditComponent,
     EditHeaderComponent,
     TextViewComponent,
     VisualViewComponent,
-    InspectorComponent
+    InspectorComponent,
+    ErrorDialog,
+    FooterComponent
   ],
   imports: [
     CommonModule,
@@ -26,6 +33,7 @@ import { FormsModule } from '@angular/forms';
     MatButtonModule,
     MatCheckboxModule,
     FormsModule,
+    MatDialogModule,
     
     GojsAngularModule,
   ], exports: [
