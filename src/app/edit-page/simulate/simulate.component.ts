@@ -1,15 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
-type Status = {
-  deadline: any;
-  enabled: boolean;
-  executed: boolean;
-  included: boolean;
-  label: string;
-  lastExecuted: any;
-  name: string;
-  pending: boolean;
-};
+import { MatDialog } from '@angular/material/dialog';
+import { ParametersDialog } from './parameters-dialog.component';
 
 @Component({
   selector: 'app-simulate',
@@ -17,35 +8,17 @@ type Status = {
   styleUrls: ['./simulate.component.css'],
 })
 export class SimulateComponent implements OnInit {
-  errorMsg: string;
-  graph: any;
-
-  constructor() {}
+  constructor(public dialog: MatDialog) {}
   ngOnInit(): void {}
 
-  parse(input: string) {
-    this.errorMsg = '';
+  openDialog(): void {
+    const dialogRef = this.dialog.open(ParametersDialog, {
+      width: '250px',
+      data: {}
+    });
 
-    try {
-      this.graph = window.parser.parse(input);
-    } catch (error) {
-      this.errorMsg = error.message + JSON.stringify(error.location);
-    }
-  }
-
-  get graphStatus(): Status[] {
-    if (!this.graph) {
-      return [];
-    }
-
-    return this.graph.status();
-  }
-
-  time() {
-    this.graph.timeStep(1);
-  }
-
-  execute(name: string) {
-    this.graph.execute(name);
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 }

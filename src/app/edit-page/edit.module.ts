@@ -39,7 +39,7 @@ import { AnalyzeComponent } from './analyze/analyze.component';
     MatCheckboxModule,
     FormsModule,
     MatDialogModule,
-    
+
     GojsAngularModule,
   ], exports: [
     EditComponent
