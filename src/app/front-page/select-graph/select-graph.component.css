@@ -43,13 +43,18 @@
 
 /* Lines of the items,
 line1 is the title, line2 is the undertext */
+/*
 .line1{   
 }
 
 .line2{
     color: rgb(138, 138, 138);
 }
-
+*/
 .space  {
     padding-bottom: 6cm;
+}
+
+table {
+    width: 100%;
 }
