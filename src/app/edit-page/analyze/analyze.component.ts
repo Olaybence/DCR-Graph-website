@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 type Status = {
   deadline: any;
@@ -17,6 +17,7 @@ type Status = {
   styleUrls: ['./analyze.component.css'],
 })
 export class AnalyzeComponent implements OnInit {
+  @Output() onBack: EventEmitter<any> = new EventEmitter();
   errorMsg: string;
   graph: any;
 
@@ -47,5 +48,37 @@ export class AnalyzeComponent implements OnInit {
 
   execute(name: string) {
     this.graph.execute(name);
+  }
+
+  handleOnBack() {
+    this.onBack.emit()
+  }
+
+  arrayOfData = ["LogsLogsLogsLogs LogsLogsLogsLogs LogsLogsLogsLogs LogsLogsLogsLogs LogsLogsLogsLogs LogsLogsLogsLogs LogsLogsLogsLogs LogsLogsLogsLogs LogsLogsLogsLogs LogsLogsLogsLogs LogsLogsLogsLogs LogsLogsLogsLogs LogsLogsLogsLogs LogsLogsLogsLogs LogsLogsLogsLogs LogsLogsLogsLogs", 
+          "MetricsMetrics MetricsMetrics MetricsMetrics MetricsMetrics MetricsMetrics MetricsMetrics MetricsMetrics MetricsMetrics MetricsMetrics MetricsMetrics MetricsMetrics MetricsMetrics MetricsMetrics MetricsMetrics MetricsMetrics MetricsMetrics MetricsMetrics MetricsMetrics MetricsMetrics MetricsMetrics"];
+
+  myFunctionLogs() {
+    var x = document.getElementById("myDIV");
+    if (x.innerHTML === " " || x.innerHTML === "Info here") {
+      x.innerHTML = this.arrayOfData[0];
+    }
+    else if (x.innerHTML === this.arrayOfData[1]) {
+      x.innerHTML = this.arrayOfData[0];
+    } else {
+      x.innerHTML = " ";
+    }
+  }
+
+  myFunctionMetrics() {
+    var x = document.getElementById("myDIV");
+    if (x.innerHTML === " " || x.innerHTML === "Info here") {
+      x.innerHTML = this.arrayOfData[1];
+    } 
+    else if (x.innerHTML === this.arrayOfData[0]) {
+      x.innerHTML = this.arrayOfData[1];
+    }
+    else {
+      x.innerHTML = " ";
+    }
   }
 }
