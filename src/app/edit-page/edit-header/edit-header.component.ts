@@ -37,7 +37,7 @@ export class EditHeaderComponent implements OnInit {
     console.log('clicked on Load');
   }
   handleOnSimulateGraph() {
-    console.log('clicked on SimulateGraph');
+    this.changeView('simulate')
   }
   handleOnEditParameters() {
     console.log('clicked on EditParameters');
@@ -46,7 +46,7 @@ export class EditHeaderComponent implements OnInit {
     console.log('clicked on ViewExecutionLog');
   }
   handleOnAnalyzeGraph() {
-    console.log('clicked on AnalyzeGraph');
+    this.changeView('analyze')
   }
   handleOnViewMetrics() {
     console.log('clicked on ViewMetrics');

@@ -16,6 +16,8 @@ import { FormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ErrorDialog } from '../utils/error-dialog/error-dialog';
 import { SharedModule } from '../shared/shared.module';
+import { SimulateComponent } from './simulate/simulate.component';
+import { AnalyzeComponent } from './analyze/analyze.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,8 @@ import { SharedModule } from '../shared/shared.module';
     VisualViewComponent,
     InspectorComponent,
     ErrorDialog,
+    SimulateComponent,
+    AnalyzeComponent,
   ],
   imports: [
     SharedModule,

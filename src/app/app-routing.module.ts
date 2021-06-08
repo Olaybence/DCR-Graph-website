@@ -23,7 +23,7 @@ const routes: Routes = [
       }
     ]
   },
-  // About routing
+  // About and contact routing
   { path: 'about', component: AboutPageComponent },
   { path: 'contact', component: ContactPageComponent },
 

@@ -18,6 +18,8 @@
   <ng-template #Graph>
     <div style="text-align: center; margin-top: 10px;">
       <app-text-view *ngIf="renderTextView()"></app-text-view>
+      <app-simulate *ngIf="renderSimulate()"></app-simulate>
+      <app-analyze *ngIf="renderAnalyze()"></app-analyze>
       <app-visual-view *ngIf="renderVisualView()" [graph]="graph"></app-visual-view>
     </div>
   </ng-template>
