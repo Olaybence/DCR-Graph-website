@@ -3,38 +3,90 @@
 
 
     <input type="text" [(ngModel)]="searchTerm" name="searchTerm" placeholder="Search">
-    <table class="table-bordered">
-        <tr>
-            <th>Id
-                <i appSortParams (param)="setSortParams($event)" class="fa fa-arrow-up" id="firstAsc"></i>
-                <i appSortParams (param)="setSortParams($event)" class="fa fa-arrow-down sorting" id="firstDesc"></i>
-            </th>
-            <th>Name
-                <i appSortParams (param)="setSortParams($event)" class="fa fa-arrow-up" id="firstAsc"></i>
-                <i appSortParams (param)="setSortParams($event)" class="fa fa-arrow-down sorting" id="firstDesc"></i>
-            </th>
-            <th>Description
-                <i appSortParams (param)="setSortParams($event)" class="fa fa-arrow-up" id="firstAsc"></i>
-                <i appSortParams (param)="setSortParams($event)" class="fa fa-arrow-down sorting" id="firstDesc"></i>
-            </th>
-        </tr>
 
-        <tr (click)="selectGraph(graph)" class="items" *ngFor="let graph of localGraphs|filter:searchTerm|sort:direction:column:type">
-            <td>{{graph.id}}</td>
-            <td>{{graph.name}}</td>
-            <td>{{graph.shortDescription}}</td>
-        </tr>
+    <mat-tab-group>
+        <mat-tab label="Local Projects">
+            <table class="table-bordered">
+                <tr>
+                    <th>Id
+                        <i appSortParams (param)="setSortParams($event)" class="fa fa-arrow-up" id="firstAsc"></i>
+                        <i appSortParams (param)="setSortParams($event)" class="fa fa-arrow-down sorting" id="firstDesc"></i>
+                    </th>
+                    <th>Name
+                        <i appSortParams (param)="setSortParams($event)" class="fa fa-arrow-up" id="firstAsc"></i>
+                        <i appSortParams (param)="setSortParams($event)" class="fa fa-arrow-down sorting" id="firstDesc"></i>
+                    </th>
+                    <th>Description
+                        <i appSortParams (param)="setSortParams($event)" class="fa fa-arrow-up" id="firstAsc"></i>
+                        <i appSortParams (param)="setSortParams($event)" class="fa fa-arrow-down sorting" id="firstDesc"></i>
+                    </th>
+                    <th>Creation Date
+                        <i appSortParams (param)="setSortParams($event)" class="fa fa-arrow-up" id="firstAsc"></i>
+                        <i appSortParams (param)="setSortParams($event)" class="fa fa-arrow-down sorting" id="firstDesc"></i>
+                    </th>
+                    <th>Last Opened
+                        <i appSortParams (param)="setSortParams($event)" class="fa fa-arrow-up" id="firstAsc"></i>
+                        <i appSortParams (param)="setSortParams($event)" class="fa fa-arrow-down sorting" id="firstDesc"></i>
+                    </th>
+                </tr>
 
-            <!--
-        <tbody>
-            <tr (click)="selectGraph(graph)" class="items" *ngFor="let graph of localGraphs">
-                <td>{{graph.id}}</td>
-                <td>{{graph.name}}</td>
-                <td>{{graph.shortDescription}}</td>
-            </tr>
-        </tbody>
-         -->
-    </table>
+                <tr (click)="selectGraph(graph)" class="items" *ngFor="let graph of localGraphs|filter:searchTerm">
+                    <td>{{graph.id}}</td>
+                    <td>{{graph.name}}</td>
+                    <td>{{graph.shortDescription}}</td>
+                    <td>{{graph.creationDate}}</td>
+                    <td>{{graph.lastOpened}}</td>
+                </tr>
+
+                    <!--
+                <tbody>
+                    <tr (click)="selectGraph(graph)" class="items" *ngFor="let graph of localGraphs">
+                        <td>{{graph.id}}</td>
+                        <td>{{graph.name}}</td>
+                        <td>{{graph.shortDescription}}</td>
+                    </tr>
+                </tbody>
+                -->
+            </table>
+        </mat-tab>
+
+
+
+        <mat-tab label="Shared Projects">
+            <table class="table-bordered">
+                <tr>
+                    <th>Id
+                        <i appSortParams (param)="setSortParams($event)" class="fa fa-arrow-up" id="firstAsc"></i>
+                        <i appSortParams (param)="setSortParams($event)" class="fa fa-arrow-down sorting" id="firstDesc"></i>
+                    </th>
+                    <th>Name
+                        <i appSortParams (param)="setSortParams($event)" class="fa fa-arrow-up" id="firstAsc"></i>
+                        <i appSortParams (param)="setSortParams($event)" class="fa fa-arrow-down sorting" id="firstDesc"></i>
+                    </th>
+                    <th>Description
+                        <i appSortParams (param)="setSortParams($event)" class="fa fa-arrow-up" id="firstAsc"></i>
+                        <i appSortParams (param)="setSortParams($event)" class="fa fa-arrow-down sorting" id="firstDesc"></i>
+                    </th>
+                    <th>Creation Date
+                        <i appSortParams (param)="setSortParams($event)" class="fa fa-arrow-up" id="firstAsc"></i>
+                        <i appSortParams (param)="setSortParams($event)" class="fa fa-arrow-down sorting" id="firstDesc"></i>
+                    </th>
+                    <th>Last Opened
+                        <i appSortParams (param)="setSortParams($event)" class="fa fa-arrow-up" id="firstAsc"></i>
+                        <i appSortParams (param)="setSortParams($event)" class="fa fa-arrow-down sorting" id="firstDesc"></i>
+                    </th>
+                </tr>
+
+                <tr (click)="selectGraph(graph)" class="items" *ngFor="let graph of sharedGraphs|filter:searchTerm">
+                    <td>{{graph.id}}</td>
+                    <td>{{graph.name}}</td>
+                    <td>{{graph.shortDescription}}</td>
+                    <td>{{graph.creationDate}}</td>
+                    <td>{{graph.lastOpened}}</td>
+                </tr>
+            </table>
+        </mat-tab>
+    </mat-tab-group>
 
 
 
