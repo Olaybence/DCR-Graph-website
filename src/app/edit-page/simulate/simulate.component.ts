@@ -36,7 +36,7 @@ export class SimulateComponent implements OnInit {
 
   myFunction() {
     var x = document.getElementById("myDIV");
-    if (x.innerHTML === " ") {
+    if (x.innerHTML === " " || x.innerHTML === "Display Logs Here!") {
       x.innerHTML = this.array[0];
     } else {
       x.innerHTML = " ";
