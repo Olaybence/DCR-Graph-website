@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogData, ParametersDialog } from './parameters-dialog.component';
 
@@ -8,6 +8,9 @@ import { DialogData, ParametersDialog } from './parameters-dialog.component';
   styleUrls: ['./simulate.component.css'],
 })
 export class SimulateComponent implements OnInit {
+  @Output() onBack: EventEmitter<any> = new EventEmitter();
+
+
   constructor(public dialog: MatDialog) {}
   ngOnInit(): void {}
 
@@ -23,5 +26,9 @@ export class SimulateComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });
+  }
+
+  handleOnBack() {
+    this.onBack.emit()
   }
 }
