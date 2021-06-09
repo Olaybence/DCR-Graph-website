@@ -89,6 +89,7 @@ export class VisualViewComponent {
     const dia = $(go.Diagram, {
       'undoManager.isEnabled': true,
       // THIS IS FOR THE REALTIME SELECTING THAT WORKS IN THE BASIC SAMPLE PROJECT
+      // TODO: MAKE IT TWERK
       // dragSelectingTool: $(RealtimeDragSelectingTool, { isPartialInclusion: true }),
       model: $(go.GraphLinksModel,
         {
