@@ -13,8 +13,8 @@ import { LoggingService } from 'src/app/services/logging.service';
 
 
 import * as go from 'gojs/release/go';
-import { Inspector } from 'GoJS-Samples/extensions/DataInspector';
-import { RealtimeDragSelectingTool } from 'GoJS-Samples/extensions/RealtimeDragSelectingTool';
+import { Inspector } from 'gojs/extensions/DataInspector';
+import { RealtimeDragSelectingTool } from 'gojs/extensions/RealtimeDragSelectingTool';
 
 /////////////////////
 ////// ARROWS ///////

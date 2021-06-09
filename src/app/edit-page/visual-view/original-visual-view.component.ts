@@ -5,7 +5,7 @@
 
 // import { DataSyncService, DiagramComponent, PaletteComponent } from 'gojs-angular';
 
-// import * as go from 'gojs';
+// // import * as go from 'gojs';
 // import * as go from 'gojs/release/go';
 // import * as _ from 'lodash';
 

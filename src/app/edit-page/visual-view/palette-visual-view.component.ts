@@ -11,9 +11,9 @@
 // import { ErrorDialog } from 'src/app/utils/error-dialog/error-dialog';
 // import { LoggingService } from 'src/app/services/logging.service';
 
-// import * as go from 'GoJS-Samples/release/go';
-// import { Inspector } from 'GoJS-Samples/extensions/DataInspector';
-// import { RealtimeDragSelectingTool } from 'GoJS-Samples/extensions/RealtimeDragSelectingTool';
+// import * as go from 'gojs/release/go';
+// import { Inspector } from 'gojs/extensions/DataInspector';
+// import { RealtimeDragSelectingTool } from 'gojs/extensions/RealtimeDragSelectingTool';
 
 //////////////////////
 ////// PALETTE ///////
