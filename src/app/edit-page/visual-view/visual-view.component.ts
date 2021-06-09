@@ -3,13 +3,21 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ChangeDetectorRef, Component, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import { DataSyncService, DiagramComponent, PaletteComponent } from 'gojs-angular';
-import * as go from 'gojs';
+// import { DataSyncService, DiagramComponent, PaletteComponent } from 'gojs-angular';
+// import * as go from 'gojs';
 import * as _ from 'lodash';
 
 import { Graph } from 'src/app/utils/graph.model';
 import { ErrorDialog } from 'src/app/utils/error-dialog/error-dialog';
 import { LoggingService } from 'src/app/services/logging.service';
+
+import * as go from 'GoJS-Samples/release/go';
+import { Inspector } from 'GoJS-Samples/extensions/DataInspector';
+import { RealtimeDragSelectingTool } from 'GoJS-Samples/extensions/RealtimeDragSelectingTool';
+
+/////////////////////
+////// ARROWS ///////
+/////////////////////
 
 @Component({
   selector: 'app-visual-view',
@@ -20,37 +28,10 @@ import { LoggingService } from 'src/app/services/logging.service';
 export class VisualViewComponent implements OnInit {
 
   @Input() graph: Graph;
-
-  @ViewChild('myDiagram', { static: true }) public myDiagramComponent: DiagramComponent;
-  @ViewChild('myPalette', { static: true }) public myPaletteComponent: PaletteComponent;
-
-  public diagramNodeData: Array<go.ObjectData> = [
-    { key: 'Alpha', text: "Node Alpha", color: 'lightblue' },
-    { key: 'Beta', text: "Node Beta", color: 'orange' },
-    { key: 'Gamma', text: "Node Gamma", color: 'lightgreen' },
-    { key: 'Delta', text: "Node Delta", color: 'pink' }
-  ];
-  public diagramLinkData: Array<go.ObjectData> = [
-    { key: -1, from: 'Alpha', to: 'Beta', fromPort: 'r', toPort: 'l' },
-    { key: -2, from: 'Alpha', to: 'Gamma', fromPort: 'b', toPort: 't' },
-    { key: -3, from: 'Beta', to: 'Beta' },
-    { key: -4, from: 'Gamma', to: 'Delta', fromPort: 'r', toPort: 'l' },
-    { key: -5, from: 'Delta', to: 'Alpha', fromPort: 't', toPort: 'r' }
-  ];
-  public diagramDivClassName: string = 'myDiagramDiv';
-  public diagramModelData = { prop: 'value' };
-  public skipsDiagramUpdate = false;
-
-  public paletteNodeData: Array<go.ObjectData> = [
-    { key: 'PaletteNode1', text: "PaletteNode1", color: 'red' },
-    { key: 'PaletteNode2', text: "PaletteNode2", color: 'yellow' }
-  ];
-  public paletteLinkData: Array<go.ObjectData> = [
-    {  }
-  ];
-  public paletteModelData = { prop: 'val' };
-  public paletteDivClassName = 'myPaletteDiv';
-  public skipsPaletteUpdate = false;
+  myDiagram: go.Diagram;
+  myPalette: go.Palette;
+  myOverview: go.Overview;
+  inspector: Inspector;
 
   constructor( // Dependency Injections
     private cdr: ChangeDetectorRef,
@@ -58,12 +39,6 @@ export class VisualViewComponent implements OnInit {
     private logger: LoggingService,
   ) { }
 
-  public oDivClassName = 'myOverviewDiv';
-
-  public observedDiagram = null;
-
-  // currently selected node; for inspector
-  public selectedNode: go.Node | null = null;
 
   ngOnInit(): void {
     // if(true) { // For testing the error message
@@ -77,119 +52,121 @@ export class VisualViewComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
-
-    if (this.observedDiagram) return;
-    this.observedDiagram = this.myDiagramComponent.diagram;
-    this.cdr.detectChanges(); // IMPORTANT: without this, Angular will throw ExpressionChangedAfterItHasBeenCheckedError (dev mode only)
-
-    const appComp: VisualViewComponent = this;
-    // listener for inspector
-    this.myDiagramComponent.diagram.addDiagramListener('ChangedSelection', function(e) {
-      if (e.diagram.selection.count === 0) {
-        appComp.selectedNode = null;
-      }
-      const node = e.diagram.selection.first();
-      if (node instanceof go.Node) {
-        appComp.selectedNode = node;
-      } else {
-        appComp.selectedNode = null;
-      }
-    });
-
+    this.init();
   } // end ngAfterViewInit
 
 
   // initialize diagram / templates
-  initDiagram() : go.Diagram {
+  init() {
+    if ((window as any).goSamples) (window as any).goSamples();  // init for these samples -- you don't need to call this
 
-    const $ = go.GraphObject.make;
-    const dia = $(go.Diagram, {
-      'undoManager.isEnabled': true,
-      model: $(go.GraphLinksModel,
+    const $ = go.GraphObject.make;  // for conciseness in defining templates
+  
+    const myDiagram =
+      $(go.Diagram, 'myDiagramDiv',  // create a Diagram for the DIV HTML element
         {
-          linkToPortIdProperty: 'toPort',
-          linkFromPortIdProperty: 'fromPort',
-          linkKeyProperty: 'key' // IMPORTANT! must be defined for merges and data sync when using GraphLinksModel
-        }
-      )
-    });
-
-    dia.commandHandler.archetypeGroupData = { key: 'Group', isGroup: true };
-
-    const makePort = function(id: string, spot: go.Spot) {
-      return $(go.Shape, 'Circle',
+          isReadOnly: true,  // don't allow move or delete
+          layout: $(go.CircularLayout,
+            {
+              radius: 100,  // minimum radius
+              spacing: 0,   // circular nodes will touch each other
+              nodeDiameterFormula: go.CircularLayout.Circular,  // assume nodes are circular
+              startAngle: 270  // first node will be at top
+            }),
+          // define a DiagramEvent listener
+          'LayoutCompleted': function(e: go.DiagramEvent) {
+            // now that the CircularLayout has finished, we know where its center is
+            const cntr = myDiagram.findNodeForKey('Center');
+            if (cntr !== null) cntr.location = (myDiagram.layout as go.CircularLayout).actualCenter;
+          }
+        });
+  
+    // construct a shared radial gradient brush
+    const radBrush = $(go.Brush, 'Radial', { 0: '#550266', 1: '#80418C' });
+  
+    // these are the nodes that are in a circle
+    myDiagram.nodeTemplate =
+      $(go.Node,
+        $(go.Shape, 'Circle',
+          {
+            desiredSize: new go.Size(28, 28),
+            fill: radBrush, strokeWidth: 0, stroke: null
+          }), // no outline
         {
-          opacity: .5,
-          fill: 'gray', strokeWidth: 0, desiredSize: new go.Size(8, 8),
-          portId: id, alignment: spot,
-          fromLinkable: true, toLinkable: true
+          locationSpot: go.Spot.Center,
+          click: showArrowInfo,  // defined below
+          toolTip:  // define a tooltip for each link that displays its information
+            $<go.Adornment>('ToolTip',
+              $(go.TextBlock, { margin: 4 },
+                new go.Binding('text', '', infoString).ofObject())
+            )
         }
       );
-    }
-
-    // define the Node template
-    dia.nodeTemplate =
+  
+    // use a special template for the center node
+    myDiagram.nodeTemplateMap.add('Center',
       $(go.Node, 'Spot',
         {
-          contextMenu:
-            $('ContextMenu',
-              $('ContextMenuButton',
-                $(go.TextBlock, 'Group'),
-                { click: function(e, obj) { e.diagram.commandHandler.groupSelection(); } },
-                new go.Binding('visible', '', function(o) {
-                  return o.diagram.selection.count > 1;
-                }).ofObject())
-            )
+          selectable: false,
+          isLayoutPositioned: false,  // the Diagram.layout will not position this node
+          locationSpot: go.Spot.Center
         },
-        $(go.Panel, 'Auto',
-          $(go.Shape, 'RoundedRectangle', { stroke: null },
-            new go.Binding('fill', 'color')
-          ),
-          $(go.TextBlock, { margin: 8 },
-            new go.Binding('text'))
-        ),
-        // Ports
-        makePort('t', go.Spot.TopCenter),
-        makePort('l', go.Spot.Left),
-        makePort('r', go.Spot.Right),
-        makePort('b', go.Spot.BottomCenter)
+        $(go.Shape, 'Circle',
+          { fill: radBrush, strokeWidth: 0, stroke: null, desiredSize: new go.Size(200, 200) }), // no outline
+        $(go.TextBlock, 'Arrowheads',
+          { margin: 1, stroke: 'white', font: 'bold 14px sans-serif' })
+      ));
+  
+    // all Links have both "toArrow" and "fromArrow" Shapes,
+    // where both arrow properties are data bound
+    myDiagram.linkTemplate =
+      $(go.Link,  // the whole link panel
+        { routing: go.Link.Normal },
+        $(go.Shape,  // the link shape
+          // the first element is assumed to be main element: as if isPanelMain were true
+          { stroke: 'gray', strokeWidth: 2 }),
+        $(go.Shape,  // the "from" arrowhead
+          new go.Binding('fromArrow', 'fromArrow'),
+          { scale: 2, fill: '#D4B52C' }),
+        $(go.Shape,  // the "to" arrowhead
+          new go.Binding('toArrow', 'toArrow'),
+          { scale: 2, fill: '#D4B52C' }),
+        {
+          click: showArrowInfo,
+          toolTip:  // define a tooltip for each link that displays its information
+            $<go.Adornment>('ToolTip',
+              $(go.TextBlock, { margin: 4 },
+                new go.Binding('text', '', infoString).ofObject())
+            )
+        }
       );
-      
-      // dia.linkTemplate =
-      //   $(go.Link,  // the whole link panel
-      //     { routing: go.Link.Normal },
-      //     $(go.Shape,  // the link shape
-      //       // the first element is assumed to be main element: as if isPanelMain were true
-      //       { stroke: 'gray', strokeWidth: 0.2 }),
-      //     $(go.Shape,  // the "from" arrowhead
-      //       new go.Binding('fromArrow', 'fromArrow'),
-      //       { scale: 0.5, fill: '#D4B52C' }),
-      //     $(go.Shape,  // the "to" arrowhead
-      //       new go.Binding('toArrow', 'toArrow'),
-      //       { scale: 0.2, fill: '#D4B52C' }),
-      //     {
-      //       click: this.showArrowInfo,
-      //       toolTip:  // define a tooltip for each link that displays its information
-      //         $<go.Adornment>('ToolTip',
-      //           $(go.TextBlock, { margin: 1 },
-      //             new go.Binding('text', '', this.infoString).ofObject())
-      //         )
-      //     }
-      //   );
-    console.log("dia",dia);
-    return dia;
-  }
-
-  showArrowInfo(e: go.InputEvent, obj: go.GraphObject) : void {
-    console.log("clicked: ", e, " obj: ", obj);
-    const msg = this.infoString(obj);
-    if (msg) {
-      const status = document.getElementById('myArrowheadInfo');
-      if (status) status.textContent = msg;
+  
+    // collect all of the predefined arrowhead names
+    const arrowheads = go.Shape.getArrowheadGeometries().toKeySet().toArray();
+    if (arrowheads.length % 2 === 1) arrowheads.push('');  // make sure there's an even number
+  
+    // create all of the link data, two arrowheads per link
+    const linkdata = [];
+    let i = 0;
+    for (let j = 0; j < arrowheads.length; j = j + 2) {
+      linkdata.push({ from: 'Center', to: i++, toArrow: arrowheads[j], fromArrow: arrowheads[j + 1] });
     }
-  }
+  
+    myDiagram.model =
+      $(go.GraphLinksModel,
+        { // this gets copied automatically when there's a link data reference to a new node key
+          // and is then added to the nodeDataArray
+          archetypeNodeData: {},
+          // the node array starts with just the special Center node
+          nodeDataArray: [{ category: 'Center', key: 'Center' }],
+          // the link array was created above
+          linkDataArray: linkdata
+        });
+    }
+}
 
-  infoString(obj: go.GraphObject) : string {
+// a conversion function used to get arrowhead information for a Part
+export function infoString(obj: go.GraphObject) {
     let part = obj.part;
     if (part instanceof go.Adornment) part = part.adornedPart;
     let msg = '';
@@ -203,88 +180,13 @@ export class VisualViewComponent implements OnInit {
     }
     return msg;
   }
-
-  // When the diagram model changes, update app data to reflect those changes
-  diagramModelChange = function(changes: go.IncrementalData) {
-    // when setting state here, be sure to set skipsDiagramUpdate: true since GoJS already has this update
-    // (since this is a GoJS model changed listener event function)
-    // this way, we don't log an unneeded transaction in the Diagram's undoManager history
-    this.skipsDiagramUpdate = true;
-
-    this.diagramNodeData = DataSyncService.syncNodeData(changes, this.diagramNodeData);
-    this.diagramLinkData = DataSyncService.syncLinkData(changes, this.diagramLinkData);
-    this.diagramModelData = DataSyncService.syncModelData(changes, this.diagramModelData);
-    this.graph.nodes = this.diagramNodeData;
-    this.graph.links = this.diagramLinkData;
-    this.logger.log(this.graph);
-
-  }
-
-  initPalette(): go.Palette {
-    const $ = go.GraphObject.make;
-    const palette = $(go.Palette);
-
-    // define the Node template
-    palette.nodeTemplate =
-      $(go.Node, 'Auto',
-        $(go.Shape, 'RoundedRectangle',
-          {
-            stroke: null
-          },
-          new go.Binding('fill', 'color')
-        ),
-        $(go.TextBlock, { margin: 8 },
-          new go.Binding('text'))
-      );
-
-    palette.model = $(go.GraphLinksModel,
-      {
-        linkKeyProperty: 'key'  // IMPORTANT! must be defined for merges and data sync when using GraphLinksModel
-      });
-
-    return palette;
+  
+  // a GraphObject.click event handler to show arrowhead information
+  export function showArrowInfo(e: go.InputEvent, obj: go.GraphObject) {
+    const msg = infoString(obj);
+    if (msg) {
+      const status = document.getElementById('myArrowheadInfo');
+      if (status) status.textContent = msg;
+    }
   }
   
-  paletteModelChange = function(changes: go.IncrementalData) {
-    // when setting state here, be sure to set skipsPaletteUpdate: true since GoJS already has this update
-    // (since this is a GoJS model changed listener event function)
-    // this way, we don't log an unneeded transaction in the Palette's undoManager history
-    this.skipsPaletteUpdate = true;
-
-    this.paletteNodeData = DataSyncService.syncNodeData(changes, this.paletteNodeData);
-    this.paletteLinkData = DataSyncService.syncLinkData(changes, this.paletteLinkData);
-    this.paletteModelData = DataSyncService.syncModelData(changes, this.paletteModelData);
-  };
-
-  // Overview Component testing
-
-  initOverview(): go.Overview {
-    const $ = go.GraphObject.make;
-    const overview = $(go.Overview);
-    return overview;
-  }
-
-  handleInspectorChange(newNodeData) {
-    const key = newNodeData.key;
-    // find the entry in nodeDataArray with this key, replace it with newNodeData
-    let index = null;
-    for (let i = 0; i < this.diagramNodeData.length; i++) {
-      const entry = this.diagramNodeData[i];
-      if (entry.key && entry.key === key) {
-        index = i;
-      }
-    }
-
-    if (index >= 0) {
-      // here, we set skipsDiagramUpdate to false, since GoJS does not yet have this update
-      this.skipsDiagramUpdate = false;
-      this.diagramNodeData[index] = _.cloneDeep(newNodeData);
-      // this.diagramNodeData[index] = _.cloneDeep(newNodeData);
-    }
-
-    // var nd = this.observedDiagram.model.findNodeDataForKey(newNodeData.key);
-    // console.log(nd);
-
-  }
-}
-
