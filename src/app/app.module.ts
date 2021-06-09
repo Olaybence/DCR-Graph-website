@@ -26,8 +26,6 @@ import { ContactPageModule } from './contact-page/contact-page.module';
     HttpClientModule,
     DragDropModule,
 
-    AppRoutingModule,
-    
     // Rooting
     AppRoutingModule,
 
@@ -36,7 +34,6 @@ import { ContactPageModule } from './contact-page/contact-page.module';
     AboutPageModule,
     ContactPageModule,
     EditModule,
-
 
     // Icons
     MatIconModule,
