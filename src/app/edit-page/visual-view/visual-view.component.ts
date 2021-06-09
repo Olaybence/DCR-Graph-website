@@ -11,7 +11,8 @@ import { Graph } from 'src/app/utils/graph.model';
 import { ErrorDialog } from 'src/app/utils/error-dialog/error-dialog';
 import { LoggingService } from 'src/app/services/logging.service';
 
-import * as go from 'GoJS-Samples/release/go';
+
+import * as go from 'gojs/release/go';
 import { Inspector } from 'GoJS-Samples/extensions/DataInspector';
 import { RealtimeDragSelectingTool } from 'GoJS-Samples/extensions/RealtimeDragSelectingTool';
 

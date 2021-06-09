@@ -4,14 +4,15 @@
 // import { MatDialog } from '@angular/material/dialog';
 
 // import { DataSyncService, DiagramComponent, PaletteComponent } from 'gojs-angular';
+
 // import * as go from 'gojs';
+// import * as go from 'gojs/release/go';
 // import * as _ from 'lodash';
 
 // import { Graph } from 'src/app/utils/graph.model';
 // import { ErrorDialog } from 'src/app/utils/error-dialog/error-dialog';
 // import { LoggingService } from 'src/app/services/logging.service';
 
-// import { RealtimeDragSelectingTool } from 'GoJS-Samples/extensionsJSM/RealtimeDragSelectingTool';
 
 // @Component({
 //   selector: 'app-visual-view',
