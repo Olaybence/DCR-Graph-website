@@ -8,7 +8,8 @@ import { DataSyncService, DiagramComponent, PaletteComponent, OverviewComponent 
 
 /// ACHIEVEMENT: REALTIME SELECTION FROM THE EXTENSION FOLDER
 /// WORKS
-import { RealtimeDragSelectingTool } from 'gojs/extensionsTS/RealtimeDragSelectingTool';
+import { RealtimeDragSelectingTool } from 'GoJS-Samples/extensionsTS/RealtimeDragSelectingTool';
+// import { RealtimeDragSelectingTool } from 'gojs/extensionsTS/RealtimeDragSelectingTool';
 
 /// OUR STUFF
 import { Graph } from 'src/app/utils/graph.model';
@@ -90,7 +91,7 @@ export class VisualViewComponent {
       'undoManager.isEnabled': true,
       // THIS IS FOR THE REALTIME SELECTING THAT WORKS IN THE BASIC SAMPLE PROJECT
       // TODO: MAKE IT TWERK
-      // dragSelectingTool: $(RealtimeDragSelectingTool, { isPartialInclusion: true }),
+      dragSelectingTool: $(RealtimeDragSelectingTool, { isPartialInclusion: true }),
       model: $(go.GraphLinksModel,
         {
           /// Basic link properties
