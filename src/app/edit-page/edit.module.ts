@@ -11,8 +11,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { InspectorComponent } from './visual-view/inspector/inspector.component';
 import { FormsModule } from '@angular/forms';
 
-// import { GojsAngularModule } from 'gojs-angular';
-
 import { MatDialogModule } from '@angular/material/dialog';
 import { ErrorDialog } from '../utils/error-dialog/error-dialog';
 import { SharedModule } from '../shared/shared.module';
@@ -20,16 +18,19 @@ import { SimulateComponent } from './simulate/simulate.component';
 import { AnalyzeComponent } from './analyze/analyze.component';
 import { VisualViewComponent } from './visual-view/visual-view.component';
 
+import { GojsAngularModule } from 'gojs-angular';
+
+
 @NgModule({
   declarations: [
     EditComponent,
     EditHeaderComponent,
     TextViewComponent,
-    VisualViewComponent,
     InspectorComponent,
     ErrorDialog,
     SimulateComponent,
     AnalyzeComponent,
+    VisualViewComponent,
   ],
   imports: [
     SharedModule,
@@ -41,7 +42,7 @@ import { VisualViewComponent } from './visual-view/visual-view.component';
     FormsModule,
     MatDialogModule,
 
-    // GojsAngularModule,
+    GojsAngularModule,
   ], exports: [
     EditComponent
   ]
