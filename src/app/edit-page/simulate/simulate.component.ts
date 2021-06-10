@@ -28,8 +28,8 @@ export class SimulateComponent implements OnInit {
       }
     );
 
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed', result);
+    dialogRef.afterClosed().subscribe(() => {
+      console.log('The dialog was closed');
     });
   }
 
