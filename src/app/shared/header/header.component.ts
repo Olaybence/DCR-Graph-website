@@ -1,10 +1,17 @@
+import { NgModule } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { GraphService } from 'src/app/services/graph.service';
 import { NgForm } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { Graph, Task, Role, Location } from '../../utils/graph.model';
+import { VisualViewComponent } from 'src/app/edit-page/visual-view/visual-view.component';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
+export interface DataThings {
+  name: String;
+  description: String;
+}
 
 @Component({
   selector: 'app-header',
@@ -14,7 +21,7 @@ import { Graph, Task, Role, Location } from '../../utils/graph.model';
 export class HeaderComponent implements OnInit {
 
   constructor(public dialog: MatDialog) { }
-  
+
   ngOnInit(): void {
   }
 
@@ -26,6 +33,8 @@ export class HeaderComponent implements OnInit {
     });
   }
 
+
+
 }
 
 
@@ -34,23 +43,21 @@ export class HeaderComponent implements OnInit {
   templateUrl: 'create-project-dialog.html',
 })
 export class CreateProjectDialog {
+  name: string;
+  description: string;
   public newId: number;
   public localGraphs: Graph[];
   public graph: Graph;
 
-  public sdescription: String;
-  public description: String;
-  public comments: String;
-
-  public des: string;
-  public name: string;
-
   public form: HTMLFormElement = document.querySelector('#myform');
-
 
   constructor (private router: Router,
     private graphService: GraphService) { this.getGraphs(); }
 
+  //Doesnt properly close the dialog
+  public onCancel() {
+    return;
+  }
 
   public getGraphs() {
     this.graphService.getAllLocalGraphs().subscribe(
@@ -64,22 +71,17 @@ export class CreateProjectDialog {
     );
   }
 
-  // Need to properly send to the backend and create a new field for the diagram
+
+  //Doesnt properly close the dialog
   public onCreate() {
-    // console.log("the data is here", this.newgraph);
-    //this.newgraph.name = data.name;
-    //console.log(this.newgraph.name);
-    console.log(this.localGraphs);
     this.newId = this.localGraphs.length;
-    //console.log("My name", data.name);
-    console.log("my des", this.des);
-    //console.log("my description", data.description);
-    
-    this.graph = new Graph(this.newId,this.name,this.des,Location.local);
-    console.log("this is the new id", this.newId);
-    console.log("this is my new graph", this.graph);
+
+    this.graph = new Graph(this.newId,this.name,this.description,Location.local);
+    //console.log("this is the new id", this.newId);
+    //console.log("this is my new graph", this.graph);
     this.graphService.createGraph(this.graph);
-    
+
     this.router.navigate(['./edit/local/' + this.newId]);
+    return ({ name: this.name, description: this.description })
   }
 }

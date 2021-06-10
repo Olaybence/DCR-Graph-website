@@ -81,7 +81,7 @@ export class VisualViewComponent {
       'commandHandler.archetypeGroupData': { text: 'Group', isGroup: true, color: 'blue' },
       // THIS IS FOR THE REALTIME SELECTING THAT WORKS IN THE BASIC SAMPLE PROJECT
       // TODO: MAKE IT TWERK
-      dragSelectingTool: $(RealtimeDragSelectingTool, { isPartialInclusion: true }),
+      // dragSelectingTool: $(RealtimeDragSelectingTool, { isPartialInclusion: true }),
       model: $(go.GraphLinksModel,
         {
           /// Basic link properties
