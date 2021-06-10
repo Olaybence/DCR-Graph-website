@@ -6,7 +6,13 @@
 </form>
 
 <form *ngIf='selectedLink' (ngSubmit)='onCommitLinkForm()'>
-  <p>Type: <input style="display: inline;" name='toArrow' [(ngModel)]='linkData.toArrow' /></p> <!-- Select dropdown -->
+  <p>Type: 
+    <select name="toArrow" [(ngModel)]="linkData.toArrow">
+      <option *ngFor="let relation of relations" [ngValue]="relation.value">
+        {{ relation.key }}
+      </option>
+    </select>
+  </p> <!-- Select dropdown -->
   <button type="submit">Commit</button>
 </form>
 

@@ -44,11 +44,11 @@ export function showArrowInfo(e: go.InputEvent, obj: go.GraphObject) {
   const msg = infoString(obj);
   if (msg) {
     const status = document.getElementById('myArrowheadInfo');
-    console.log(document);
-    console.log(document.getElementById);
-    console.log(document.getElementById('myArrowheadInfo'));
-    console.log('msg', msg);
-    console.log('e', e, 'obj', obj);
+    // console.log(document);
+    // console.log(document.getElementById);
+    // console.log(document.getElementById('myArrowheadInfo'));
+    // console.log('msg', msg);
+    // console.log('e', e, 'obj', obj);
     if (status) status.textContent = msg;
   }
 }
@@ -81,7 +81,7 @@ export class VisualViewComponent {
       'commandHandler.archetypeGroupData': { text: 'Group', isGroup: true, color: 'blue' },
       // THIS IS FOR THE REALTIME SELECTING THAT WORKS IN THE BASIC SAMPLE PROJECT
       // TODO: MAKE IT TWERK
-      // dragSelectingTool: $(RealtimeDragSelectingTool, { isPartialInclusion: true }),
+      dragSelectingTool: $(RealtimeDragSelectingTool, { isPartialInclusion: true }),
       model: $(go.GraphLinksModel,
         {
           /// Basic link properties
@@ -399,28 +399,28 @@ export class VisualViewComponent {
     // console.log(nd);
   }
 
-  status: string = "asd";
-  // a conversion function used to get arrowhead information for a Part
-  infoString(obj: go.GraphObject) {
-    let part = obj.part;
-    if (part instanceof go.Adornment) part = part.adornedPart;
-    let msg = '';
-    if (part instanceof go.Link) {
-      const link = part;
-      msg = 'toArrow: ' + link.data.toArrow + ';\nfromArrow: ' + link.data.fromArrow;
-    } else if (part instanceof go.Node) {
-      const node = part;
-      const link = node.linksConnected.first();
-      if (link) msg = 'toArrow: ' + link.data.toArrow + ';\nfromArrow: ' + link.data.fromArrow;
-    }
+  // status: string = "asd";
+  // // a conversion function used to get arrowhead information for a Part
+  // infoString(obj: go.GraphObject) {
+  //   let part = obj.part;
+  //   if (part instanceof go.Adornment) part = part.adornedPart;
+  //   let msg = '';
+  //   if (part instanceof go.Link) {
+  //     const link = part;
+  //     msg = 'toArrow: ' + link.data.toArrow + ';\nfromArrow: ' + link.data.fromArrow;
+  //   } else if (part instanceof go.Node) {
+  //     const node = part;
+  //     const link = node.linksConnected.first();
+  //     if (link) msg = 'toArrow: ' + link.data.toArrow + ';\nfromArrow: ' + link.data.fromArrow;
+  //   }
 
-    return msg;
-  }
-  // a GraphObject.click event handler to show arrowhead information
-  showArrowInfo(e: go.InputEvent, obj: go.GraphObject) {
-    const msg = this.infoString(obj);
-    if (msg) {
-      this.status = msg;
-    }
-  }
+  //   return msg;
+  // }
+  // // a GraphObject.click event handler to show arrowhead information
+  // showArrowInfo(e: go.InputEvent, obj: go.GraphObject) {
+  //   const msg = this.infoString(obj);
+  //   if (msg) {
+  //     this.status = msg;
+  //   }
+  // }
 }

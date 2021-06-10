@@ -110,6 +110,8 @@ export class InspectorComponent {
       this.nodeData.key = null;
       this.nodeData.color = null;
       this.nodeData.text = null;
+      console.log("linkData",this.linkData);
+      console.log("_selectedLink",this._selectedLink);
     }
   }
 
@@ -118,10 +120,12 @@ export class InspectorComponent {
   }
 
   public onCommitNodeForm() {
+    console.log(this.nodeData);
     this.onFormChangeNode.emit(this.nodeData);
   }
-
+  
   public onCommitLinkForm() {
+    console.log("onCommitLinkForm",this.linkData);
     this.onFormChangeLink.emit(this.linkData);
   }
 }
