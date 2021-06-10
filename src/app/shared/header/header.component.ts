@@ -5,7 +5,6 @@ import { GraphService } from 'src/app/services/graph.service';
 import { NgForm } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { Graph, Task, Role, Location } from '../../utils/graph.model';
-import { VisualViewComponent } from 'src/app/edit-page/visual-view/visual-view.component';
 
 @Component({
   selector: 'app-header',
@@ -15,7 +14,7 @@ import { VisualViewComponent } from 'src/app/edit-page/visual-view/visual-view.c
 export class HeaderComponent implements OnInit {
 
   constructor(public dialog: MatDialog) { }
-
+  
   ngOnInit(): void {
   }
 

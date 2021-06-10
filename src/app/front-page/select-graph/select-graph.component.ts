@@ -1,7 +1,10 @@
-import { Component, OnInit, ViewEncapsulation} from '@angular/core';
+import { Component, HostListener, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import { Router } from '@angular/router';
 import { GraphService } from 'src/app/services/graph.service';
 import { Graph } from 'src/app/utils/graph.model';
+
+import { SortPipe } from 'src/sort';
+
 @Component({
   selector: 'app-select-graph',
   templateUrl: './select-graph.component.html',
@@ -9,8 +12,17 @@ import { Graph } from 'src/app/utils/graph.model';
   encapsulation: ViewEncapsulation.None
 })
 export class SelectGraphComponent implements OnInit {
+  searchTerm:string="";
+  direction:string="asc";
+  column:string="first";
+  type:string="string";
+  
   public localGraphs;
   public sharedGraphs;
+
+  public dataSource = [];
+
+  public displayedColumns: string[] = ['name'];
 
   constructor(
     protected router: Router,
@@ -23,6 +35,7 @@ export class SelectGraphComponent implements OnInit {
         graphs => {
           console.log("graphService - getAllLocalGraphs:",graphs);
           this.localGraphs = graphs;
+          this.dataSource = graphs;
         },
         error => {
           console.log("graphService - getAllLocalGraphs Error:",error);
@@ -44,6 +57,7 @@ export class SelectGraphComponent implements OnInit {
       );
     }
 
+
   ngOnInit(): void {
   }
   
@@ -55,6 +69,12 @@ export class SelectGraphComponent implements OnInit {
     } else {
       this.router.navigate(['./edit/local/' + graph.id]);
     }
+  }
+
+  setSortParams(param){
+    this.direction=param.dir;
+    this.column=param.col;
+    this.type=param.typ;
   }
 
 }
