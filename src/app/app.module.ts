@@ -35,7 +35,6 @@ import { ContactPageModule } from './contact-page/contact-page.module';
     ContactPageModule,
     EditModule,
 
-
     // Icons
     MatIconModule,
 
