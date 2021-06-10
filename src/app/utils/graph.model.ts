@@ -1,5 +1,31 @@
 import { User } from "./user.model";
 
+// TODO: Here we need the types we wanna use
+// Relation types from here:
+// https://github.com/Olaybence/DCR-Graph-website/issues/36
+export enum RelationTypes {
+    Exclusion = "BackSlash",
+    Response = "OpenTriangle",
+    Condition = "BackwardCircleFork",
+    Inclusion = "PlusCircle",
+    Spawn = "Block",
+    Milestone = "Diamond"
+  }
+// export enum RelationTypes {
+//     ExclusionFrom = "", // nothing
+//     ExclusionTo = "BackSlash",
+//     ResponseFrom = "Circle",
+//     ResponseTo = "OpenTriangle",
+//     ConditionFrom = "", // nothing
+//     ConditionTo = "CircleFork",
+//     InclusionFrom = "", // nothing
+//     InclusionTo = "PlusCircle",
+//     SpawnFrom = "", // nothing
+//     SpawnTo = "Block",
+//     MilestoneFrom = "", // nothing
+//     MilestoneTo = "Diamond"
+//   }
+
 export enum Location {
     local = 0,
     shared = 1

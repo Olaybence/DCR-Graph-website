@@ -9,23 +9,12 @@ import { DataSyncService, DiagramComponent, PaletteComponent, OverviewComponent 
 /// ACHIEVEMENT: REALTIME SELECTION FROM THE EXTENSION FOLDER
 /// WORKS
 import { RealtimeDragSelectingTool } from 'GoJS-Samples/extensionsTS/RealtimeDragSelectingTool';
-// import { RealtimeDragSelectingTool } from 'gojs/extensionsTS/RealtimeDragSelectingTool';
 
 /// OUR STUFF
-import { Graph } from 'src/app/utils/graph.model';
+import { Graph, RelationTypes } from 'src/app/utils/graph.model';
 import { ErrorDialog } from 'src/app/utils/error-dialog/error-dialog';
 import { LoggingService } from 'src/app/services/logging.service';
 import { MatDialog } from '@angular/material/dialog';
-
-
-// TODO: Here we need the types we wanna use
-// Relation types from here:
-// https://github.com/Olaybence/DCR-Graph-website/issues/36
-export enum RelationTypes {
-  Exclusion = "",
-  Response = "",
-  Condition = ""
-}
 
 
 /// Here they are finally ran before we use them in the model
@@ -89,6 +78,7 @@ export class VisualViewComponent {
     const $ = go.GraphObject.make;
     const dia = $(go.Diagram, {
       'undoManager.isEnabled': true,
+      'commandHandler.archetypeGroupData': { text: 'Group', isGroup: true, color: 'blue' },
       // THIS IS FOR THE REALTIME SELECTING THAT WORKS IN THE BASIC SAMPLE PROJECT
       // TODO: MAKE IT TWERK
       dragSelectingTool: $(RealtimeDragSelectingTool, { isPartialInclusion: true }),
@@ -209,10 +199,19 @@ export class VisualViewComponent {
         {
           /// The click and show red text (Not shows rn, but called)
           click: showArrowInfo,
-          toolTip:  // define a tooltip for each link that displays its information
-            $<go.Adornment>('ToolTip',
-              $(go.TextBlock, { margin: 4 },
-                new go.Binding('text', '', infoString).ofObject())
+          // toolTip:  // define a tooltip for each link that displays its information
+          //   $<go.Adornment>('ToolTip',
+          //     $(go.TextBlock, { margin: 4 },
+          //       new go.Binding('text', '', infoString).ofObject())
+          //   )
+          contextMenu:
+            $('ContextMenu',
+              $('ContextMenuButton',
+                $(go.TextBlock, 'Group'),
+                { click: function (e, obj) { e.diagram.commandHandler.groupSelection(); } },
+                new go.Binding('visible', '', function (o) {
+                  return o.diagram.selection.count > 1;
+                }).ofObject())
             )
         }
       );
@@ -231,11 +230,10 @@ export class VisualViewComponent {
 
   /// The links we have (MISTAKE/MISSING CAN DO WIERD STUFF)
   public diagramLinkData: Array<go.ObjectData> = [
-    { key: -1, from: 'Alpha', to: 'Beta', fromPort: 'r', toPort: 'l', toArrow: 'PartialDoubleTriangle', fromArrow: 'OpposingDirectionDoubleArrow' },
-    { key: -2, from: 'Alpha', to: 'Gamma', fromPort: 'b', toPort: 't', toArrow: 'PartialDoubleTriangle', fromArrow: 'OpposingDirectionDoubleArrow' },
-    { key: -3, from: 'Beta', to: 'Beta', toArrow: 'PartialDoubleTriangle', fromArrow: 'OpposingDirectionDoubleArrow' },
-    { key: -4, from: 'Gamma', to: 'Delta', fromPort: 'r', toPort: 'l', toArrow: 'PartialDoubleTriangle', fromArrow: 'OpposingDirectionDoubleArrow' },
-    { key: -5, from: 'Delta', to: 'Alpha', fromPort: 't', toPort: 'r', toArrow: 'PartialDoubleTriangle', fromArrow: 'OpposingDirectionDoubleArrow' }
+    { key: -1, from: 'Alpha', to: 'Beta', fromPort: 'r', toPort: 'l', toArrow: RelationTypes.Exclusion, fromArrow: "" },
+    { key: -2, from: 'Alpha', to: 'Gamma', fromPort: 'b', toPort: 't', toArrow: RelationTypes.Inclusion, fromArrow: "" },
+    { key: -3, from: 'Gamma', to: 'Delta', fromPort: 'r', toPort: 'l', toArrow: RelationTypes.Condition, fromArrow: "" },
+    { key: -4, from: 'Delta', to: 'Alpha', fromPort: 't', toPort: 'r', toArrow: RelationTypes.Condition, fromArrow: "" }
   ];
 
 
@@ -254,6 +252,9 @@ export class VisualViewComponent {
     this.diagramNodeData = DataSyncService.syncNodeData(changes, this.diagramNodeData);
     this.diagramLinkData = DataSyncService.syncLinkData(changes, this.diagramLinkData);
     this.diagramModelData = DataSyncService.syncModelData(changes, this.diagramModelData);
+    this.graph.nodes = this.diagramNodeData;
+    this.graph.links = this.diagramLinkData;
+    this.logger.log(this.graph);
   };
 
 
@@ -289,8 +290,7 @@ export class VisualViewComponent {
     return palette;
   }
   public paletteNodeData: Array<go.ObjectData> = [
-    { key: 'PaletteNode1', text: "PaletteNode1", color: 'red' },
-    { key: 'PaletteNode2', text: "PaletteNode2", color: 'yellow' }
+    { key: '0', text: "PaletteNode1", color: 'red' }
   ];
   public paletteLinkData: Array<go.ObjectData> = [
     {}
@@ -324,6 +324,7 @@ export class VisualViewComponent {
 
   // currently selected node; for inspector
   public selectedNode: go.Node | null = null;
+  public selectedLink: go.Link | null = null;
 
   public ngAfterViewInit() {
 
@@ -337,9 +338,11 @@ export class VisualViewComponent {
       if (e.diagram.selection.count === 0) {
         appComp.selectedNode = null;
       }
-      const node = e.diagram.selection.first();
-      if (node instanceof go.Node) {
-        appComp.selectedNode = node;
+      const target = e.diagram.selection.first();
+      if (target instanceof go.Node) {
+        appComp.selectedNode = target;
+      } else if (target instanceof go.Link) {
+        appComp.selectedLink = target;
       } else {
         appComp.selectedNode = null;
       }
@@ -348,9 +351,35 @@ export class VisualViewComponent {
   } // end ngAfterViewInit
 
 
-  public handleInspectorChange(newNodeData) {
+  public handleInspectorChangeLink(newLinkData) {
+    console.log("handleInspectorChangeLink", newLinkData);
+    const key = newLinkData.key;
+
+    // find the entry in nodeDataArray with this key, replace it with newLinkData
+    let index = null;
+    for (let i = 0; i < this.diagramLinkData.length; i++) {
+      const entry = this.diagramLinkData[i];
+      if (entry.key && entry.key === key) {
+        index = i;
+      }
+    }
+
+    if (index >= 0) {
+      // here, we set skipsDiagramUpdate to false, since GoJS does not yet have this update
+      this.skipsDiagramUpdate = false;
+      this.diagramLinkData[index] = _.cloneDeep(newLinkData);
+      // this.diagramNodeData[index] = _.cloneDeep(newNodeData);
+    }
+
+    // var nd = this.observedDiagram.model.findNodeDataForKey(newNodeData.key);
+    // console.log(nd);
+
+  }
+  public handleInspectorChangeNode(newNodeData) {
+    console.log("handleInspectorChangeLink", newNodeData);
     const key = newNodeData.key;
-    // find the entry in nodeDataArray with this key, replace it with newNodeData
+
+    // Node
     let index = null;
     for (let i = 0; i < this.diagramNodeData.length; i++) {
       const entry = this.diagramNodeData[i];
@@ -368,9 +397,7 @@ export class VisualViewComponent {
 
     // var nd = this.observedDiagram.model.findNodeDataForKey(newNodeData.key);
     // console.log(nd);
-
   }
-
 
   status: string = "asd";
   // a conversion function used to get arrowhead information for a Part

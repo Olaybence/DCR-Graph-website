@@ -259,7 +259,6 @@ export class VisualViewComponent implements OnInit {
     this.graph.nodes = this.diagramNodeData;
     this.graph.links = this.diagramLinkData;
     this.logger.log(this.graph);
-
   }
 
   initPalette(): go.Palette {
