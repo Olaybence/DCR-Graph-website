@@ -2,6 +2,11 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogData, ParametersDialog } from './parameters-dialog.component';
 
+export type Parameter = {
+  name: string;
+  value: string;
+};
+
 @Component({
   selector: 'app-simulate',
   templateUrl: './simulate.component.html',
@@ -10,6 +15,8 @@ import { DialogData, ParametersDialog } from './parameters-dialog.component';
 export class SimulateComponent implements OnInit {
   @Output() onBack: EventEmitter<any> = new EventEmitter();
 
+  parameters: Parameter[] = [];
+
   constructor(public dialog: MatDialog) {}
   ngOnInit(): void {}
 
@@ -17,8 +24,7 @@ export class SimulateComponent implements OnInit {
     const dialogRef = this.dialog.open<ParametersDialog, DialogData>(
       ParametersDialog,
       {
-        width: '250px',
-        data: { parameters: 'dsf' },
+        data: { parameters: this.parameters },
       }
     );
 

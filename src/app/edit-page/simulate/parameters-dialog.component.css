@@ -1,0 +1,17 @@
+.input-group {
+  display: flex;
+  align-items: center;
+  padding-bottom: 1rem;
+}
+
+.value {
+  padding-left: 1rem;
+}
+
+:host ::ng-deep .mat-form-field-wrapper{
+  padding: 0;
+}
+
+.actions {
+  justify-content: end;
+}

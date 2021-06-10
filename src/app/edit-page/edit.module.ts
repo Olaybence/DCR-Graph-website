@@ -20,6 +20,7 @@ import { SharedModule } from '../shared/shared.module';
 import { SimulateComponent } from './simulate/simulate.component';
 import { AnalyzeComponent } from './analyze/analyze.component';
 import { ParametersDialog } from './simulate/parameters-dialog.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { ParametersDialog } from './simulate/parameters-dialog.component';
     MatMenuModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatIconModule,
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
