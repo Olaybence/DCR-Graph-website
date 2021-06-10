@@ -11,11 +11,17 @@ import { FooterComponent } from './footer/footer.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import {MatCardModule} from '@angular/material/card';
 import {MatDialogModule} from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { CreateProjectDialog } from './header/header.component';
+import { FormsModule } from '@angular/forms';
+
 @NgModule({
   declarations: [
     SelectGraphComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    CreateProjectDialog,
   ],
   imports: [
     CommonModule,
@@ -26,6 +32,9 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatToolbarModule,
     MatCardModule,
     MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule
   ], exports: [
     SelectGraphComponent
   ]
