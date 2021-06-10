@@ -24,8 +24,6 @@ import { ContactPageModule } from './contact-page/contact-page.module';
     HttpClientModule,
     DragDropModule,
 
-    AppRoutingModule,
-    
     // Rooting
     AppRoutingModule,
 

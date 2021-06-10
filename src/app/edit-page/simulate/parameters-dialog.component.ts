@@ -10,6 +10,9 @@ export type DialogData = {
   templateUrl: 'parameters-dialog.component.html',
 })
 export class ParametersDialog {
+  name: string;
+  value: string;
+
   constructor(
     public dialogRef: MatDialogRef<ParametersDialog>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData
@@ -17,5 +20,9 @@ export class ParametersDialog {
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  onAdd(): void {
+    this.dialogRef.close({ name: this.name, value: this.value });
   }
 }
