@@ -1,20 +1,19 @@
-<h1>Create new Graph</h1>
 <div class="container">
-<!--<div class="alert alert-warning" *ngIf="todoForm.invalid">Enter valid values</div>
-<div class="alert alert-warning" *ngIf="targetDate.invalid">Enter valid target date</div>
-<div class="alert alert-warning" *ngIf="description.invalid">Enter valid description</div>-->
-
-    <form ngFrom #f (ngSubmit)="onCreate()">
-        <fieldset class="form-group">
-            <label>Name</label>
-            <input type="text" name="name" placeholder="The newest graph"  required>
-        </fieldset>
-        <div></div>
-        <fieldset class="form-group">
-            <label>Description</label>
-            <input type="text" name="description" placeholder="The newest description" required>
-        </fieldset>
-
-    <button type="submit" class="btn btn-success" (click)="onCreate()">Create</button>
-    </form>
+  <h1 mat-dialog-title>Create new project</h1>
+  <div mat-dialog-content>
+    <p>Choose the name of the graph</p>
+    <mat-form-field appearance="outline">
+      <mat-label>A name</mat-label>
+      <input matInput [(ngModel)]="name" />
+    </mat-form-field>
+    <p>Write the description for the graph</p>
+    <mat-form-field appearance="outline">
+      <mat-label>A description</mat-label>
+      <input matInput [(ngModel)]="description" />
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button mat-button cdkFocusInitial (click)="onCreate()">Create</button>
+  </div>
 </div>

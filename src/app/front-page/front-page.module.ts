@@ -16,13 +16,15 @@ import { SortPipe } from 'src/sort';
 import { FilterPipe } from 'src/filter';
 import { SortParamsDirective } from 'src/sortParams';
 
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
     SelectGraphComponent,
     SortPipe,
     FilterPipe,
-    SortParamsDirective
+    SortParamsDirective,
   ],
   imports: [
     SharedModule,
@@ -34,6 +36,8 @@ import { SortParamsDirective } from 'src/sortParams';
     MatToolbarModule,
     MatCardModule,
     MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
     FormsModule
   ], exports: [
     SelectGraphComponent,
