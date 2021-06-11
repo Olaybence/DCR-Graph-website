@@ -1,0 +1,27 @@
+<h1 mat-dialog-title>Edit parameters</h1>
+
+<div mat-dialog-content>
+  <div class="input-group" *ngFor="let p of data.parameters; index as i" >
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput [(ngModel)]="p.name" />
+    </mat-form-field>
+
+    <mat-form-field class="value" appearance="outline">
+      <mat-label>Value</mat-label>
+      <input matInput [(ngModel)]="p.value" />
+    </mat-form-field>
+
+    <button mat-icon-button (click)="handleRemoveParameter(i)" >
+      <mat-icon>clear</mat-icon>
+    </button>
+  </div>
+
+</div>
+
+<div class="actions" mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Save</button>
+  <button mat-button cdkFocusInitial (click)="handleAddNewParameter()">
+    Add new parameter
+  </button>
+</div>

@@ -1,10 +1,21 @@
-<form *ngIf='selectedNode' (ngSubmit)='onCommitForm()'>
-  <p>Key: <input style="display: inline;" name='key' disabled [(ngModel)]='data.key' /></p>
-  <p>Color: <input style="display: inline;" name='color' [(ngModel)]='data.color' /></p>
-  <p>Text: <input style="display: inline;" name='text' [(ngModel)]='data.text' /></p>
+<form *ngIf='selectedNode' (ngSubmit)='onCommitNodeForm()'>
+  <p>Key: <input style="display: inline;" name='key' disabled [(ngModel)]='nodeData.key' /></p>
+  <p>Color: <input style="display: inline;" name='color' [(ngModel)]='nodeData.color' /></p>
+  <p>Text: <input style="display: inline;" name='text' [(ngModel)]='nodeData.text' /></p>
   <button type="submit">Commit</button>
 </form>
 
-<div *ngIf='!selectedNode'>
+<form *ngIf='selectedLink' (ngSubmit)='onCommitLinkForm()'>
+  <p>Type: 
+    <select name="toArrow" [(ngModel)]="linkData.toArrow">
+      <option *ngFor="let relation of relations" [ngValue]="relation.value">
+        {{ relation.key }}
+      </option>
+    </select>
+  </p> <!-- Select dropdown -->
+  <button type="submit">Commit</button>
+</form>
+
+<div *ngIf='!selectedNode && !selectedLink'>
   Select a Node to use Inspector
 </div>

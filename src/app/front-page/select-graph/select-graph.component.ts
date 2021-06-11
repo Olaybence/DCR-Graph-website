@@ -2,16 +2,25 @@ import { Component, OnInit, ViewEncapsulation} from '@angular/core';
 import { Router } from '@angular/router';
 import { GraphService } from 'src/app/services/graph.service';
 import { Graph } from 'src/app/utils/graph.model';
+
 @Component({
   selector: 'app-select-graph',
   templateUrl: './select-graph.component.html',
   styleUrls: ['./select-graph.component.css'],
   encapsulation: ViewEncapsulation.None
 })
+//Component for creating select-graph
 export class SelectGraphComponent implements OnInit {
+  searchTerm:string="";
+  direction:string="asc";
+  column:string="first";
+  type:string="string";
+
+  //variables used for local or shared graphs
   public localGraphs;
   public sharedGraphs;
 
+  //Constructor has implementation of getting local and shared graphs from database.
   constructor(
     protected router: Router,
     private graphService: GraphService
@@ -31,7 +40,6 @@ export class SelectGraphComponent implements OnInit {
 
       // GET SHARED GRAPHS
       // this.sharedGraphs = this.graphService.getAllSharedGraphs();
-
       // WITH HTTP REQUEST
       this.graphService.getAllSharedGraphs().subscribe(
         graphs => {
@@ -44,17 +52,25 @@ export class SelectGraphComponent implements OnInit {
       );
     }
 
+
   ngOnInit(): void {
   }
-  
+
+  //Routing the graphs to a unique path based on graph ID.
+  //For both local and shared.
   selectGraph(graph: Graph) {
     console.log("selecting", graph.id, graph);
-
     if (this.sharedGraphs.includes(graph)) {
       this.router.navigate(['./edit/shared/' + graph.id]);
     } else {
       this.router.navigate(['./edit/local/' + graph.id]);
     }
+  }
+
+  setSortParams(param){
+    this.direction=param.dir;
+    this.column=param.col;
+    this.type=param.typ;
   }
 
 }

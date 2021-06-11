@@ -12,6 +12,9 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "es2020",
+    // "module": "umd",
+    // "target": "es5",
+    // "strict": true
     "lib": [
       "es2018",
       "dom"

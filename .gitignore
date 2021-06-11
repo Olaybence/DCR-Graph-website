@@ -44,3 +44,7 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# GoJS-Samples
+GoJS-Samples/*
+GoJS-Samples/

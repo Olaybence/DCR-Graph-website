@@ -1,14 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogData, ParametersDialog } from './parameters-dialog.component';
 
-type Status = {
-  deadline: any;
-  enabled: boolean;
-  executed: boolean;
-  included: boolean;
-  label: string;
-  lastExecuted: any;
+export type Parameter = {
   name: string;
-  pending: boolean;
+  value: string;
 };
 
 @Component({
@@ -17,35 +13,40 @@ type Status = {
   styleUrls: ['./simulate.component.css'],
 })
 export class SimulateComponent implements OnInit {
-  errorMsg: string;
-  graph: any;
+  @Output() onBack: EventEmitter<any> = new EventEmitter();
 
-  constructor() {}
+  parameters: Parameter[] = [];
+
+  constructor(public dialog: MatDialog) {}
   ngOnInit(): void {}
 
-  parse(input: string) {
-    this.errorMsg = '';
+  openDialog(): void {
+    const dialogRef = this.dialog.open<ParametersDialog, DialogData>(
+      ParametersDialog,
+      {
+        data: { parameters: this.parameters },
+      }
+    );
 
-    try {
-      this.graph = window.parser.parse(input);
-    } catch (error) {
-      this.errorMsg = error.message + JSON.stringify(error.location);
+    dialogRef.afterClosed().subscribe(() => {
+      console.log('The dialog was closed');
+    });
+  }
+
+  handleOnBack() {
+    this.onBack.emit();
+  }
+
+  array = [
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+  ];
+
+  myFunction() {
+    var x = document.getElementById('myDIV');
+    if (x.innerHTML === ' ' || x.innerHTML === 'Display Logs Here!') {
+      x.innerHTML = this.array[0];
+    } else {
+      x.innerHTML = ' ';
     }
-  }
-
-  get graphStatus(): Status[] {
-    if (!this.graph) {
-      return [];
-    }
-
-    return this.graph.status();
-  }
-
-  time() {
-    this.graph.timeStep(1);
-  }
-
-  execute(name: string) {
-    this.graph.execute(name);
   }
 }
