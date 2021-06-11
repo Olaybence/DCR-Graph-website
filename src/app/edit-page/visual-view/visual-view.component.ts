@@ -11,7 +11,7 @@ import { DataSyncService, DiagramComponent, PaletteComponent, OverviewComponent 
 import { RealtimeDragSelectingTool } from 'GoJS-Samples/extensionsTS/RealtimeDragSelectingTool';
 
 /// OUR STUFF
-import { Graph, RelationTypes } from 'src/app/utils/graph.model';
+import { Graph, RelationTypesTo, RelationTypesFrom, getType } from 'src/app/utils/graph.model';
 import { ErrorDialog } from 'src/app/utils/error-dialog/error-dialog';
 import { LoggingService } from 'src/app/services/logging.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -30,25 +30,23 @@ export function infoString(obj: go.GraphObject) {
   let msg = '';
   if (part instanceof go.Link) {
     const link = part;
-    msg = 'toArrow: ' + link.data.toArrow + ';\nfromArrow: ' + link.data.fromArrow;
+    msg = getType(link.data.fromArrow,link.data.toArrow);
+    // msg = 'toArrow: ' + link.data.toArrow + ';\nfromArrow: ' + link.data.fromArrow;
   } else if (part instanceof go.Node) {
     const node = part;
     const link = node.linksConnected.first();
-    if (link) msg = 'toArrow: ' + link.data.toArrow + ';\nfromArrow: ' + link.data.fromArrow;
+    if (link) msg = 'TODO: show parameters';
   }
+
   return msg;
 }
 
 // a GraphObject.click event handler to show arrowhead information
-export function showArrowInfo(e: go.InputEvent, obj: go.GraphObject) {
+export function showInfo(e: go.InputEvent, obj: go.GraphObject) {
+  console.log("showinfo", obj);
   const msg = infoString(obj);
   if (msg) {
     const status = document.getElementById('myArrowheadInfo');
-    // console.log(document);
-    // console.log(document.getElementById);
-    // console.log(document.getElementById('myArrowheadInfo'));
-    // console.log('msg', msg);
-    // console.log('e', e, 'obj', obj);
     if (status) status.textContent = msg;
   }
 }
@@ -87,7 +85,7 @@ export class VisualViewComponent {
           /// Basic link properties
           linkToPortIdProperty: 'toPort',
           linkFromPortIdProperty: 'fromPort',
-          linkKeyProperty: 'key' // IMPORTANT! must be defined for merges and data sync when using GraphLinksModel
+          linkKeyProperty: 'key', // IMPORTANT! must be defined for merges and data sync when using GraphLinksModel
         }
       )
     });
@@ -170,6 +168,24 @@ export class VisualViewComponent {
         makePort('b', go.Spot.BottomCenter),
 
         // makePort('fuckYouHole', go.Spot.BottomLeft), /// hihi :)
+        {
+          /// The click and show red text (Not shows rn, but called)
+          click: showInfo,
+          toolTip:  // define a tooltip for each link that displays its information
+            $<go.Adornment>('ToolTip',
+              $(go.TextBlock, { margin: 4 },
+                new go.Binding('text', '', infoString).ofObject())
+            ),
+          contextMenu:
+            $('ContextMenu',
+              $('ContextMenuButton',
+                $(go.TextBlock, 'Group'),
+                { click: function (e, obj) { e.diagram.commandHandler.groupSelection(); } },
+                new go.Binding('visible', '', function (o) {
+                  return o.diagram.selection.count > 1;
+                }).ofObject())
+            )
+        }
       );
 
 
@@ -198,12 +214,12 @@ export class VisualViewComponent {
         /// General propoerties
         {
           /// The click and show red text (Not shows rn, but called)
-          click: showArrowInfo,
-          // toolTip:  // define a tooltip for each link that displays its information
-          //   $<go.Adornment>('ToolTip',
-          //     $(go.TextBlock, { margin: 4 },
-          //       new go.Binding('text', '', infoString).ofObject())
-          //   )
+          click: showInfo,
+          toolTip:  // define a tooltip for each link that displays its information
+            $<go.Adornment>('ToolTip',
+              $(go.TextBlock, { margin: 4 },
+                new go.Binding('text', '', infoString).ofObject())
+            ),
           contextMenu:
             $('ContextMenu',
               $('ContextMenuButton',
@@ -230,10 +246,10 @@ export class VisualViewComponent {
 
   /// The links we have (MISTAKE/MISSING CAN DO WIERD STUFF)
   public diagramLinkData: Array<go.ObjectData> = [
-    { key: -1, from: 'Alpha', to: 'Beta', fromPort: 'r', toPort: 'l', toArrow: RelationTypes.Exclusion, fromArrow: "" },
-    { key: -2, from: 'Alpha', to: 'Gamma', fromPort: 'b', toPort: 't', toArrow: RelationTypes.Inclusion, fromArrow: "" },
-    { key: -3, from: 'Gamma', to: 'Delta', fromPort: 'r', toPort: 'l', toArrow: RelationTypes.Condition, fromArrow: "" },
-    { key: -4, from: 'Delta', to: 'Alpha', fromPort: 't', toPort: 'r', toArrow: RelationTypes.Condition, fromArrow: "" }
+    { key: -1, from: 'Alpha', to: 'Beta', fromPort: 'r', toPort: 'l', toArrow: RelationTypesTo.Exclusion, fromArrow: RelationTypesFrom.Exclusion },
+    { key: -2, from: 'Alpha', to: 'Gamma', fromPort: 'b', toPort: 't', toArrow: RelationTypesTo.Inclusion, fromArrow: RelationTypesFrom.Inclusion },
+    { key: -3, from: 'Gamma', to: 'Delta', fromPort: 'r', toPort: 'l', toArrow: RelationTypesTo.Condition, fromArrow: RelationTypesFrom.Condition },
+    { key: -4, from: 'Delta', to: 'Alpha', fromPort: 't', toPort: 'r', toArrow: RelationTypesTo.Spawn, fromArrow: RelationTypesFrom.Spawn }
   ];
 
 
@@ -279,7 +295,8 @@ export class VisualViewComponent {
         ),
 
         $(go.TextBlock, { margin: 8 },
-          new go.Binding('text'))
+          new go.Binding('text')),
+
       );
 
     palette.model = $(go.GraphLinksModel,
@@ -367,16 +384,26 @@ export class VisualViewComponent {
     if (index >= 0) {
       // here, we set skipsDiagramUpdate to false, since GoJS does not yet have this update
       this.skipsDiagramUpdate = false;
-      this.diagramLinkData[index] = _.cloneDeep(newLinkData);
+      let modifications = _.cloneDeep(newLinkData);
+      this.diagramLinkData[index].toArrow = modifications.toArrow;
+      this.diagramLinkData[index].fromArrow = modifications.fromArrow;
+      this.diagramLinkData[index].type = modifications.type;
+      console.log('this.diagramLinkData[index].toArrow', this.diagramLinkData[index].toArrow);
+
+      console.log('newLinkData', newLinkData);
+      console.log('modifications', modifications);
+      console.log('modifications.fromArrow', modifications.fromArrow);
+      console.log('modifications.toArrow', modifications.toArrow);
+      console.log('modifications.type', modifications.type);
+      
+      console.log('this.diagramLinkData', this.diagramLinkData);
       // this.diagramNodeData[index] = _.cloneDeep(newNodeData);
     }
 
-    // var nd = this.observedDiagram.model.findNodeDataForKey(newNodeData.key);
-    // console.log(nd);
-
   }
+
   public handleInspectorChangeNode(newNodeData) {
-    console.log("handleInspectorChangeLink", newNodeData);
+    console.log("handleInspectorChangeNode", newNodeData);
     const key = newNodeData.key;
 
     // Node
@@ -394,33 +421,5 @@ export class VisualViewComponent {
       this.diagramNodeData[index] = _.cloneDeep(newNodeData);
       // this.diagramNodeData[index] = _.cloneDeep(newNodeData);
     }
-
-    // var nd = this.observedDiagram.model.findNodeDataForKey(newNodeData.key);
-    // console.log(nd);
   }
-
-  // status: string = "asd";
-  // // a conversion function used to get arrowhead information for a Part
-  // infoString(obj: go.GraphObject) {
-  //   let part = obj.part;
-  //   if (part instanceof go.Adornment) part = part.adornedPart;
-  //   let msg = '';
-  //   if (part instanceof go.Link) {
-  //     const link = part;
-  //     msg = 'toArrow: ' + link.data.toArrow + ';\nfromArrow: ' + link.data.fromArrow;
-  //   } else if (part instanceof go.Node) {
-  //     const node = part;
-  //     const link = node.linksConnected.first();
-  //     if (link) msg = 'toArrow: ' + link.data.toArrow + ';\nfromArrow: ' + link.data.fromArrow;
-  //   }
-
-  //   return msg;
-  // }
-  // // a GraphObject.click event handler to show arrowhead information
-  // showArrowInfo(e: go.InputEvent, obj: go.GraphObject) {
-  //   const msg = this.infoString(obj);
-  //   if (msg) {
-  //     this.status = msg;
-  //   }
-  // }
 }

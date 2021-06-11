@@ -1,7 +1,7 @@
 import { KeyValue } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import * as go from 'gojs';
-import { RelationTypes } from 'src/app/utils/graph.model';
+import { getType, RELATIONS, RelationTypesFrom, RelationTypesTo } from 'src/app/utils/graph.model';
 
 
 @Component({
@@ -13,42 +13,20 @@ export class InspectorComponent {
 
   public _selectedNode: go.Node;
   public _selectedLink: go.Link;
-  public relations: Array<KeyValue<string,RelationTypes>> = [
-    {
-      key: "Condition",
-      value:RelationTypes.Condition
-    },
-    {
-      key: "Exclusion",
-      value:RelationTypes.Exclusion
-    },
-    {
-      key: "Inclusion",
-      value:RelationTypes.Inclusion
-    },
-    {
-      key: "Milestone",
-      value:RelationTypes.Milestone
-    },
-    {
-      key: "Response",
-      value:RelationTypes.Response
-    },
-    {
-      key: "Spawn",
-      value:RelationTypes.Spawn
-    }
-  ];
+
+  public relations: Array<string> = RELATIONS;
 
   public nodeData = {
     key: null,
     color: null,
-    text: null
+    text: null,
+    pending: null
   };
   public linkData = {
     key: null,
+    type: null,
     toArrow: null,
-    // fromArrow: null
+    fromArrow: null
   }
 
   @Input()
@@ -60,72 +38,96 @@ export class InspectorComponent {
   public onFormChangeLink: EventEmitter<any> = new EventEmitter<any>();
 
   @Input()
-  get selectedNode() {
-    // console.log("get selectedNode");
-    return this._selectedNode; }
+  get selectedNode() { return this._selectedNode; }
   set selectedNode(node: go.Node) {
+    this._selectedLink = null;
+    this.linkData = {
+      key: null,
+      type: null,
+      toArrow: null,
+      fromArrow: null,
+    };
+
     if (node) {
-      // console.log("set SelectedNode",node);
+
       this._selectedNode = node;
-      this._selectedLink = null;
+      this.nodeData = {
+        key: this._selectedNode.data.key,
+        color: this._selectedNode.data.color,
+        text: this._selectedNode.data.text,
+        pending: this._selectedNode.data.pending
+      };
 
-      this.nodeData.key = this._selectedNode.data.key;
-      this.nodeData.color = this._selectedNode.data.color;
-      this.nodeData.text = this._selectedNode.data.text;
     } else {
-      // console.log("set SelectedNode - null");
+
       this._selectedNode = null;
-      this._selectedLink = null;
+      this.nodeData = {
+        key: null,
+        color: null,
+        text: null,
+        pending: null
+      };
 
-      this.nodeData.key = null;
-      this.nodeData.color = null;
-      this.nodeData.text = null;
-
-      this.linkData.toArrow = null;
     }
   }
 
   @Input()
-  get selectedLink() {
-    // console.log("get selectedLink");
-    return this._selectedLink;
-  }
+  get selectedLink() { return this._selectedLink; }
   set selectedLink(link: go.Link) {
+    console.log("set selectedLink", link);
+
+    // Remove selected node 
+    this._selectedNode = null;
+    this.nodeData = {
+      key: null,
+      color: null,
+      text: null,
+      pending: null
+    };
+
+    // If a link is selected
     if (link) {
-      console.log("set selectedLink", link);
+
       this._selectedLink = link;
-      this._selectedNode = null;
+      this.linkData = {
+        key: this._selectedLink.key,
+        type: getType(this._selectedLink.data.fromArrow, this._selectedLink.data.toArrow),
+        toArrow: this._selectedLink.data.toArrow,
+        fromArrow: this._selectedLink.data.fromArrow
+      }
 
-      this.linkData.key = this._selectedLink.key;
-      this.linkData.toArrow = this._selectedLink.data.toArrow;
-      console.log("linkData",this.linkData);
-      console.log("_selectedLink",this._selectedLink);
-    } else {
+      console.log("from,to", this._selectedLink.data.fromArrow, this._selectedLink.data.toArrow);
+      console.log("getType", getType(this._selectedLink.data.fromArrow, this._selectedLink.data.toArrow));
+
+    } else { // No link selected
+
       this._selectedLink = null;
-      this._selectedNode = null;
+      this.linkData = {
+        key: null,
+        type: null,
+        toArrow: null,
+        fromArrow: null
+      }
 
-      this.linkData.key = null;
-      this.linkData.toArrow = null;
-
-      this.nodeData.key = null;
-      this.nodeData.color = null;
-      this.nodeData.text = null;
-      console.log("linkData",this.linkData);
-      console.log("_selectedLink",this._selectedLink);
     }
+    console.log("linkData",this.linkData);
   }
 
   constructor() {
-    console.log("relations",this.relations);
+    // console.log('this.RELATIONS', this.RELATIONS);
+    // console.log('this.FROMARROWS', this.FROMARROWS);
+    // console.log('this.TOARROWS', this.TOARROWS);
   }
 
   public onCommitNodeForm() {
-    console.log(this.nodeData);
+    console.log("onCommitNodeForm", this.nodeData);
     this.onFormChangeNode.emit(this.nodeData);
   }
-  
+
   public onCommitLinkForm() {
-    console.log("onCommitLinkForm",this.linkData);
+    console.log("onCommitLinkForm", this.linkData);
+    this.linkData.fromArrow = RelationTypesFrom[this.linkData.type];
+    this.linkData.toArrow = RelationTypesTo[this.linkData.type];
     this.onFormChangeLink.emit(this.linkData);
   }
 }

@@ -3,28 +3,40 @@ import { User } from "./user.model";
 // TODO: Here we need the types we wanna use
 // Relation types from here:
 // https://github.com/Olaybence/DCR-Graph-website/issues/36
-export enum RelationTypes {
+export enum RelationTypesTo {
     Exclusion = "BackSlash",
     Response = "OpenTriangle",
     Condition = "BackwardCircleFork",
     Inclusion = "PlusCircle",
     Spawn = "Block",
     Milestone = "Diamond"
-  }
-// export enum RelationTypes {
-//     ExclusionFrom = "", // nothing
-//     ExclusionTo = "BackSlash",
-//     ResponseFrom = "Circle",
-//     ResponseTo = "OpenTriangle",
-//     ConditionFrom = "", // nothing
-//     ConditionTo = "CircleFork",
-//     InclusionFrom = "", // nothing
-//     InclusionTo = "PlusCircle",
-//     SpawnFrom = "", // nothing
-//     SpawnTo = "Block",
-//     MilestoneFrom = "", // nothing
-//     MilestoneTo = "Diamond"
-//   }
+}
+
+export enum RelationTypesFrom {
+    Exclusion = "",
+    Response = "Circle",
+    Condition = "",
+    Inclusion = "",
+    Spawn = "",
+    Milestone = ""
+}
+
+export const RELATIONS: Array<string> = Object.keys(RelationTypesFrom);
+export const FROMARROWS: Array<string> = Object.values(RelationTypesFrom);
+export const TOARROWS: Array<string> = Object.values(RelationTypesTo);
+export function getType(selectedFromA: string, selectedToA: string) {
+    // console.log("getType- ",selectedFromA,selectedToA);
+    let type = null;
+    FROMARROWS.forEach((fromA, index) => {
+        const toA = TOARROWS[index];
+        // console.log(selectedFromA == fromA && selectedToA == toA);
+        if (selectedFromA == fromA && selectedToA == toA) {
+            type = RELATIONS[index];
+            return type;
+        }
+    });
+    return type;
+}
 
 export enum Location {
     local = 0,
@@ -59,7 +71,7 @@ export class Graph {
     public endRole: number;
     public tasks: Array<Task>; // Graph edges
 
-    constructor(id: number,name: string, description: string, location: Location) {
+    constructor(id: number, name: string, description: string, location: Location) {
         // Basic data
         this.id = id;
         this.location = location;
@@ -90,7 +102,7 @@ export class Graph {
 export class Role {
     public id: number; // Primary key
     public name: string; // Role name
-    
+
     // Visual placement attributes
     public x: number; // Position on the canvas (horizontal distance from the right side)
     public y: number; // Position on the canvas (vertical distance from the top side)
@@ -119,8 +131,8 @@ export class Task {
     public name: string; // Description of the task
     public prevID: number; // Previous task (might be null if it's the start)
     public nextID: number; // Next task (TODO: make it an array, so conjunctions can be made - After the base solution is working)
-    public parameters: Map<string,number>;
-    
+    public parameters: Map<string, number>;
+
     // Visual placement attributes
     // (CALCULATED IN VISUAL-VIEW-COMPONENT)
     public x: number; // Position on the canvas (horizontal distance from the right side)
@@ -145,7 +157,7 @@ export class Task {
      * Set the next task
      * @param id: number
      */
-    setNextForMockUp(id: number) : Task {
+    setNextForMockUp(id: number): Task {
         this.nextID = id;
         return this;
     }
