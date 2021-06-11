@@ -1,5 +1,5 @@
 <form *ngIf='selectedNode' (ngSubmit)='onCommitNodeForm()'>
-  <!-- <p>Key: <input style="display: inline;" name='key' disabled [(ngModel)]='nodeData.key' /></p> -->
+  <p>Key: <input style="display: inline;" name='key' disabled [(ngModel)]='nodeData.key' /></p>
   <p>Pending: <input type="checkbox" style="display: inline;" name='pending' [(ngModel)]='nodeData.pending' /></p>
   <p>Color: <input style="display: inline;" name='color' [(ngModel)]='nodeData.color' /></p>
   <p>Text: <input style="display: inline;" name='text' [(ngModel)]='nodeData.text' /></p>
@@ -7,6 +7,7 @@
 </form>
 
 <form *ngIf='selectedLink' (ngSubmit)='onCommitLinkForm()'>
+  <p>Key: <input style="display: inline;" name='key' disabled [(ngModel)]='linkData.key' /></p>
   <p>Type: 
     <select name="type" [(ngModel)]="linkData.type">
       <option *ngFor="let relation of relations" [ngValue]="relation">

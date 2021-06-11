@@ -14,7 +14,7 @@ export class InspectorComponent {
   public _selectedNode: go.Node;
   public _selectedLink: go.Link;
 
-  public relations: Array<string> = RELATIONS;
+  public relations: Array<string> = RELATIONS; // just for HTML select
 
   public nodeData = {
     key: null,
@@ -114,9 +114,6 @@ export class InspectorComponent {
   }
 
   constructor() {
-    // console.log('this.RELATIONS', this.RELATIONS);
-    // console.log('this.FROMARROWS', this.FROMARROWS);
-    // console.log('this.TOARROWS', this.TOARROWS);
   }
 
   public onCommitNodeForm() {

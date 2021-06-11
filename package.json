@@ -24,6 +24,7 @@
     "gojs": "^2.1.40",
     "gojs-angular": "^1.0.17",
     "jquery": "^3.6.0",
+    "mat-color-picker": "^1.4.3",
     "rxjs": "~6.6.0",
     "save": "^2.4.0",
     "tslib": "^2.2.0",
