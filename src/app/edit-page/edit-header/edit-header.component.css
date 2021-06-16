@@ -4,8 +4,16 @@
 
 
 .header {
-  height: 2.2cm;
-  color: rgb(240, 240, 240);
+  min-height: 80px;
+  max-height: 160px;
+  height: auto;
+}
+
+.graph-title {
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  width: 300px;
+  max-width: 50%;
 }
 
 .underlink{
@@ -14,25 +22,12 @@
 }
 
 
-.link {
+.home {
   padding-top: 2cm;
   color: black;
   font-size: 170%;
   margin-right: 2cm;
   
-}
-
-.menu-button {
-  font-size: small;
-  padding-inline-start: 1cm;
-  padding-inline-end:  1cm;
-  color: black;
-}
-
-
-
-.menu-button:hover {
-  background-color:rgb(220, 220, 220);
 }
 
 ::ng-deep .customize {

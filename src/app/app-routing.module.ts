@@ -13,15 +13,15 @@ import { AboutPageModule } from './about-page/about-page.module';
 import { ContactPageComponent } from './contact-page/contact-page.component';
 
 const routes: Routes = [
-  { path: "", redirectTo: "/select", pathMatch: "full" },
   {
     path: 'select', // Component Selected (Select feature)
-    component: SelectGraphComponent, children: [
-      {
-        path: ':id',
-        component: SelectGraphComponent,
-      }
-    ]
+    component: SelectGraphComponent, 
+    // children: [
+    //   {
+    //     path: ':id',
+    //     component: SelectGraphComponent,
+    //   }
+    // ]
   },
   // About and contact routing
   { path: 'about', component: AboutPageComponent },
@@ -48,9 +48,14 @@ const routes: Routes = [
             component: EditComponent,
           }
         ]
+      },
+      {
+        path: '**',
+        redirectTo: "/select"
       }
     ]
-  }
+  },
+  { path: "**", redirectTo: "/select", pathMatch: "full" }
 ];
 
 @NgModule({

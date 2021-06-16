@@ -1,63 +1,63 @@
 <mat-toolbar class= "header">
 
   <div> 
-    <a class="link" href="/select">DCR Graphs</a>
-    <h3 class="underlink">Tool from OpenJS</h3>
+    <a class="home" href="/select">DCR Graphs</a>
+    <h3 class="graph-title">{{graph.name ? graph.name : ''}}</h3>
   </div>
 
-  <button class="menu-button" mat-button [matMenuTriggerFor]="edit">
+  <button mat-button [matMenuTriggerFor]="edit">
     Edit
   </button>
   <mat-menu #edit="matMenu" class="customize">
-    <button class="menu-button" mat-menu-item (click)="handleOnAddObject()">Add object</button>
-    <button class="menu-button" mat-menu-item (click)="handleOnRemoveObject()">
+    <button mat-menu-item (click)="handleOnAddObject()">Add object</button>
+    <button mat-menu-item (click)="handleOnRemoveObject()">
       Remove object
     </button>
-    <button class="menu-button" mat-menu-item (click)="handleOnConnectObject()">
+    <button mat-menu-item (click)="handleOnConnectObject()">
       Connect object
     </button>
-    <button class="menu-button" mat-menu-item (click)="handleOnSaveAs()">Save as</button>
-    <button class="menu-button" mat-menu-item (click)="handleOnLoad()">Load</button>
+    <button mat-menu-item (click)="handleOnSaveAs()">Save as</button>
+    <button mat-menu-item (click)="handleOnLoad()">Load</button>
   </mat-menu>
 
-  <button class="menu-button" mat-button [matMenuTriggerFor]="simulate">
+  <button mat-button [matMenuTriggerFor]="simulate">
     Simulate
   </button>
   <mat-menu #simulate="matMenu" class="customize">
-    <button class="menu-button" mat-menu-item (click)="handleOnSimulateGraph()">
+    <button mat-menu-item (click)="handleOnSimulateGraph()">
       Run Simulate on graph
     </button>
-    <button class="menu-button" mat-menu-item (click)="handleOnEditParameters()">
+    <button mat-menu-item (click)="handleOnEditParameters()">
       Edit parameters
     </button>
-    <button class="menu-button" mat-menu-item (click)="handleOnViewExecutionLog()">
+    <button mat-menu-item (click)="handleOnViewExecutionLog()">
       View execution log
     </button>
   </mat-menu>
 
-  <button class="menu-button" mat-button [matMenuTriggerFor]="analyze">
+  <button mat-button [matMenuTriggerFor]="analyze">
     Analyze
   </button>
   <mat-menu #analyze="matMenu" class="customize">
-    <button class="menu-button" mat-menu-item (click)="handleOnAnalyzeGraph()">
+    <button mat-menu-item (click)="handleOnAnalyzeGraph()">
       Run analyse on graph
     </button>
-    <button class="menu-button" mat-menu-item (click)="handleOnViewMetrics()">View metrics</button>
-    <button class="menu-button" mat-menu-item (click)="handleOnViewLogs()">View logs</button>
+    <button mat-menu-item (click)="handleOnViewMetrics()">View metrics</button>
+    <button mat-menu-item (click)="handleOnViewLogs()">View logs</button>
   </mat-menu>
 
   <span class="spacer"></span>
 
-  <button class="menu-button" mat-button [matMenuTriggerFor]="viewType">
+  <button mat-button [matMenuTriggerFor]="viewType">
     Selected view: {{ selectedView }}
   </button>
   <mat-menu #viewType="matMenu" class="customize">
-    <button class="menu-button" mat-menu-item *ngFor="let vt of viewTypes" (click)="changeView(vt)">
+    <button mat-menu-item *ngFor="let vt of viewTypes" (click)="changeView(vt)">
       {{ vt.charAt(0).toUpperCase() + vt.slice(1) }}
     </button>
   </mat-menu>
 
-  <button class="menu-button" mat-button (click)="handleOnShareGraph()">
+  <button mat-button (click)="handleOnShareGraph()">
     Share graph
   </button>
 </mat-toolbar>
