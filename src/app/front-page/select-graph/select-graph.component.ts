@@ -1,8 +1,10 @@
-import { Component, OnInit, ViewEncapsulation} from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import { Router } from '@angular/router';
 import { GraphService } from 'src/app/services/graph.service';
 import { Graph } from 'src/app/utils/graph.model';
 
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 @Component({
   selector: 'app-select-graph',
   templateUrl: './select-graph.component.html',
@@ -11,14 +13,21 @@ import { Graph } from 'src/app/utils/graph.model';
 })
 //Component for creating select-graph
 export class SelectGraphComponent implements OnInit {
-  searchTerm:string="";
-  direction:string="asc";
-  column:string="first";
-  type:string="string";
+  searchTerm:string = "";
+  direction:string = "asc";
+  column:string = "first";
+  type:string = "string";
 
+  
   //variables used for local or shared graphs
-  public localGraphs;
-  public sharedGraphs;
+  public localGraphs: Array<Graph> = new Array<Graph>();
+  public sharedGraphs: Array<Graph> = new Array<Graph>();
+  
+  displayedColumns: string[] = ['id', 'name', 'shortDescription', 'creationDate', 'lastOpened'];
+  dataSourceLocal = new MatTableDataSource<Graph>(this.localGraphs);
+  dataSourceShared = new MatTableDataSource<Graph>(this.sharedGraphs);
+
+  @ViewChild(MatSort) sort: MatSort;
 
   //Constructor has implementation of getting local and shared graphs from database.
   constructor(
@@ -32,6 +41,22 @@ export class SelectGraphComponent implements OnInit {
         graphs => {
           console.log("graphService - getAllLocalGraphs:",graphs);
           this.localGraphs = graphs;
+
+          // SET UP LOCAL GRAPH TABLE
+          this.dataSourceLocal = new MatTableDataSource<Graph>(this.localGraphs);
+          this.dataSourceLocal.sort = this.sort;
+          
+          // Set up filter for the table
+          this.dataSourceLocal.filterPredicate = (data: Graph, filter: string) => {
+            if(data.collaborators.map(user => user.name).includes(filter) ||
+              data.name.toLowerCase().includes(filter) ||
+              data.description.toLowerCase().includes(filter) ) {
+                return true;
+              } else {
+                return false;
+              }
+          };
+
         },
         error => {
           console.log("graphService - getAllLocalGraphs Error:",error);
@@ -45,6 +70,25 @@ export class SelectGraphComponent implements OnInit {
         graphs => {
           console.log("graphService - getAllSharedGraphs:",graphs);
           this.sharedGraphs = graphs;
+
+          // SET UP SHARED GRAPH TABLE
+          this.dataSourceShared = new MatTableDataSource<Graph>(this.sharedGraphs);
+          this.dataSourceShared.sort = this.sort;
+          
+          // Set up filter for the table
+          this.dataSourceShared.filterPredicate = (data: Graph, filter: string) => {
+            if(data.collaborators.map(user => user.name).includes(filter) ||
+              data.name.toLowerCase().includes(filter) ||
+              data.description.toLowerCase().includes(filter) ||
+              data.comments.map(comment => comment.toLowerCase().includes(filter))
+              // data.lastOpened.toString().includes(filter) ||
+              // data.creationDate.toString().includes(filter)
+               ) {
+                return true;
+              } else {
+                return false;
+              }
+          };
         },
         error => {
           console.log("graphService - getAllSharedGraphs Error:",error);
@@ -53,8 +97,7 @@ export class SelectGraphComponent implements OnInit {
     }
 
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   //Routing the graphs to a unique path based on graph ID.
   //For both local and shared.
@@ -67,10 +110,12 @@ export class SelectGraphComponent implements OnInit {
     }
   }
 
-  setSortParams(param){
-    this.direction=param.dir;
-    this.column=param.col;
-    this.type=param.typ;
+  applyFilter() {
+    console.log(this.searchTerm.trim().toLowerCase());
+    this.dataSourceLocal.filter = this.searchTerm.trim().toLowerCase();
+    this.dataSourceShared.filter = this.searchTerm.trim().toLowerCase();
+    console.log("dataSourceLocal",this.dataSourceLocal.filteredData);
+    console.log("dataSourceShared",this.dataSourceShared.filteredData);
   }
 
 }

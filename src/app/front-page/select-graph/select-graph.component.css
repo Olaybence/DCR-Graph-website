@@ -1,5 +1,5 @@
 .page {
-    max-width: 800px;
+    max-width: 80%;
     margin: auto;
 }
 
@@ -8,21 +8,21 @@
 }
 
 /* Styles for tab labels */
-.mat-tab-label {
+/* .mat-tab-label {
     min-width: 25px !important;
     background-color: transparent;
     color: black;
     font-weight: 700;
-}
+} */
 
 /* Styles for the active tab label */
-.mat-tab-label.mat-tab-label-active {
+/* .mat-tab-label.mat-tab-label-active {
     min-width: 25px !important;
     background-color: transparent;
     color: black;
     font-weight: 700;
     background-color: rgb(240, 240, 240);
-}
+} */
 
 .items {
     outline-style: double;
@@ -36,10 +36,10 @@
     cursor: pointer;
 }
 
-.mat-list {
+/* .mat-list {
     padding: 0.1cm;
     background-color: white;
-}
+} */
 
 /* Lines of the items,
 line1 is the title, line2 is the undertext */

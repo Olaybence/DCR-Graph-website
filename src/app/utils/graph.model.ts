@@ -65,7 +65,9 @@ export class Graph {
     public shortDescription: string;
     public comments: Array<string>;
     public collaborators: Array<User>;
-
+    public lastOpened: Date;
+    public creationDate: Date;
+    
     public roles: Array<Role>;
     public startRole: number;
     public endRole: number;
@@ -80,6 +82,8 @@ export class Graph {
         this.shortDescription = description;
         this.comments = [];
         this.collaborators = [];
+        this.lastOpened = new Date();
+        this.creationDate = new Date();
 
         // Graph inner data
         this.startRole = 0;

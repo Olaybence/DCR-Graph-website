@@ -8,7 +8,7 @@ import { DataSyncService, DiagramComponent, PaletteComponent, OverviewComponent 
 
 /// ACHIEVEMENT: REALTIME SELECTION FROM THE EXTENSION FOLDER
 /// WORKS
-import { RealtimeDragSelectingTool } from 'GoJS-Samples/extensionsTS/RealtimeDragSelectingTool';
+// import { RealtimeDragSelectingTool } from 'GoJS-Samples/extensionsTS/RealtimeDragSelectingTool';
 
 /// OUR STUFF
 import { Graph, RelationTypesTo, RelationTypesFrom, getType } from 'src/app/utils/graph.model';
@@ -79,7 +79,7 @@ export class VisualViewComponent {
       'commandHandler.archetypeGroupData': { text: 'Group', isGroup: true, color: 'blue' },
       // THIS IS FOR THE REALTIME SELECTING THAT WORKS IN THE BASIC SAMPLE PROJECT
       // TODO: MAKE IT TWERK
-      dragSelectingTool: $(RealtimeDragSelectingTool, { isPartialInclusion: true }),
+      // dragSelectingTool: $(RealtimeDragSelectingTool, { isPartialInclusion: true }),
       model: $(go.GraphLinksModel,
         {
           /// Basic link properties

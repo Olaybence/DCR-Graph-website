@@ -1,30 +1,19 @@
-<header class="header sticky sticky--top js-header">
+<mat-toolbar class="navigation">
+  <mat-toolbar-row>
 
-    <div class="grid">
-  
-      <nav class="navigation">
-        <ul class="navigation__list navigation__list--inline">
-          <li class="navigation__item"><a routerLink="/select" class="navigation__link" routerLinkActive="navigation__link--is-active">Home</a></li>
-          <li class="navigation__item"><a routerLink="/about" class="navigation__link" routerLinkActive="navigation__link--is-active">About</a></li>
-          <li class="navigation__item"><a routerLink="/contact" class="navigation__link" routerLinkActive="navigation__link--is-active">Contact Us</a></li>
-        </ul>
-      </nav>
-  
-    </div>
-  
-    <button mat-stroked-button (click)="createProject()">
-      New Project
-   </button>
+    <button mat-button routerLink="/select" routerLinkActive="navigation__link--is-active">Home</button>
+    <button mat-button routerLink="/about" routerLinkActive="navigation__link--is-active">About</button>
+    <button mat-button routerLink="/contact" routerLinkActive="navigation__link--is-active">Contact Us</button>
 
-  </header>
-  
-  <main class="main">
-  
-    <div class="grid">
-  
-      <h1>DCR Graph Manager</h1>
-  
-      <p>A Dynamic Condition Response Graphs Tool</p>
-      
-    </div>
-  </main>
+    <span class="spacer"></span>
+
+    <button mat-button (click)="createProject()">New Project</button>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div style="margin-top: 100px;
+            margin-bottom: 50px;
+            margin-left: 50px;">
+  <h1>DCR Graph Manager</h1>
+  <p>A Dynamic Condition Response Graphs Tool</p>
+</div>

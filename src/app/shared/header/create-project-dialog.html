@@ -1,19 +1,27 @@
 <div class="container">
   <h1 mat-dialog-title>Create new project</h1>
-  <div mat-dialog-content>
-    <p>Choose the name of the graph</p>
-    <mat-form-field appearance="outline">
-      <mat-label>A name</mat-label>
-      <input matInput [(ngModel)]="name" />
-    </mat-form-field>
-    <p>Write the description for the graph</p>
-    <mat-form-field appearance="outline">
-      <mat-label>A description</mat-label>
-      <input matInput [(ngModel)]="description" />
-    </mat-form-field>
-  </div>
-  <div mat-dialog-actions>
-    <button mat-button (click)="onCancel()">Cancel</button>
-    <button mat-button cdkFocusInitial (click)="onCreate()">Create</button>
-  </div>
+  
+  
+    <div mat-dialog-content>
+
+      <p>Choose the name of the graph</p>
+      <mat-form-field appearance="outline">
+        <mat-label>Graph name</mat-label>
+        <input matInput placeholder="name" [formControl]="nameControl" [(ngModel)]="name" required>
+        <mat-error *ngIf="nameControl.invalid">{{getErrorMessage()}}</mat-error>
+      </mat-form-field>
+
+      <p>Write the description for the graph</p>
+      <mat-form-field appearance="outline">
+        <mat-label>A description</mat-label>
+        <!-- <input type="textarea" matInput [(ngModel)]="description" /> -->
+        <textarea matInput rows="5" cols="50" [(ngModel)]="description"></textarea>
+      </mat-form-field>
+
+    </div>
+
+    <div mat-dialog-actions>
+      <button mat-raised-button (click)="onCancel()">Cancel</button>
+      <button mat-raised-button style="margin-left: 10px;" type="submit" (click)="onCreate()">Create</button>
+    </div>
 </div>

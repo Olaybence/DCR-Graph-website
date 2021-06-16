@@ -19,6 +19,11 @@ import { SortParamsDirective } from 'src/sortParams';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
+import { MatSortModule } from '@angular/material/sort';
+import {MatTableModule} from '@angular/material/table';
+
+import {MatTooltipModule} from '@angular/material/tooltip';
+
 @NgModule({
   declarations: [
     SelectGraphComponent,
@@ -38,7 +43,11 @@ import { MatInputModule } from '@angular/material/input';
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
-    FormsModule
+    FormsModule,
+    
+    MatTooltipModule,
+    MatSortModule,
+    MatTableModule
   ], exports: [
     SelectGraphComponent,
     SortPipe,
