@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import { Router } from '@angular/router';
 import { GraphService } from 'src/app/services/graph.service';
-import { Graph } from 'src/app/utils/graph.model';
+import { Graph, Location } from 'src/app/utils/graph.model';
 
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -105,10 +105,13 @@ export class SelectGraphComponent implements OnInit {
   //Routing the graphs to a unique path based on graph ID.
   //For both local and shared.
   selectGraph(graph: Graph) {
-    console.log("selecting", graph.id, graph);
+    console.log("selecting", graph.id,graph);
+    this.graphService.graph = graph;
     if (this.sharedGraphs.includes(graph)) {
+      this.graphService.graph.location = Location.shared;
       this.router.navigate(['./edit/shared/' + graph.id]);
     } else {
+      this.graphService.graph.location = Location.local;
       this.router.navigate(['./edit/local/' + graph.id]);
     }
   }
@@ -117,8 +120,8 @@ export class SelectGraphComponent implements OnInit {
     console.log(this.searchTerm.trim().toLowerCase());
     this.dataSourceLocal.filter = this.searchTerm.trim().toLowerCase();
     this.dataSourceShared.filter = this.searchTerm.trim().toLowerCase();
-    console.log("dataSourceLocal",this.dataSourceLocal.filteredData);
-    console.log("dataSourceShared",this.dataSourceShared.filteredData);
+    // console.log("dataSourceLocal",this.dataSourceLocal.filteredData);
+    // console.log("dataSourceShared",this.dataSourceShared.filteredData);
   }
 
 }

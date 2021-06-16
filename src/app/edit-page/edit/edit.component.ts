@@ -26,24 +26,29 @@ export class EditComponent implements OnInit {
         let idString = evt.url.split('/')[3];
         this.location = Location[evt.url.split('/')[2]];
         this.edit_id = Number(idString);
-        console.log("url",evt.url.split('/'));
-        console.log("location",location);
-        console.log("I got it in .ts!!! " + this.edit_id);
+        // console.log("url",evt.url.split('/'));
+        // console.log("location",location);
+        // console.log("I got it in .ts!!! " + this.edit_id);
       }
     })
   }
 
   ngOnInit(): void {
-    this.graphService.getGraph(this.edit_id,this.location).subscribe(
-      graph => {
-        console.log("localGraphService - getGraph ",this.edit_id,":",graph);
-        this.graph = graph;
-        this.graph.location = this.location;
-      },
-      error => {
-        console.log("localGraphService - getGraph Error:",error);
-      }
-    );
+    if(this.graphService.graph) {
+      this.graph = this.graphService.graph;
+      console.log(this.graph);
+    } else {
+      this.graphService.getGraph(this.edit_id,this.location).subscribe(
+        graph => {
+          console.log("localGraphService - getGraph ",this.edit_id,":",graph);
+          this.graph = graph;
+          this.graph.location = this.location;
+        },
+        error => {
+          console.log("localGraphService - getGraph Error:",error);
+        }
+      );
+    }
     //this.graph = this.graphService.getGraphMockUp(this.edit_id);
   }
 

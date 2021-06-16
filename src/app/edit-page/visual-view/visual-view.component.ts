@@ -81,6 +81,8 @@ export class VisualViewComponent {
   /// initDiagram() IS THE MAIN STUFF WHAT BUILDS OUR TOOLS
   /// REPLACE THIS FROM SAMPLES AND WILL WORK IN GENERAL
 
+  public myDiagram: go.Diagram;
+
   // initialize diagram / templates
   public initDiagram(): go.Diagram {
     // let sai = this.showArrowInfo;
@@ -242,7 +244,7 @@ export class VisualViewComponent {
             )
         }
       );
-
+    this.myDiagram = dia;
     return dia;
   }
 
@@ -281,8 +283,8 @@ export class VisualViewComponent {
     this.diagramNodeData = DataSyncService.syncNodeData(changes, this.diagramNodeData);
     this.diagramLinkData = DataSyncService.syncLinkData(changes, this.diagramLinkData);
     this.diagramModelData = DataSyncService.syncModelData(changes, this.diagramModelData);
-    // this.graph.nodes = this.diagramNodeData;
-    // this.graph.links = this.diagramLinkData;
+    this.graph.nodes = this.diagramNodeData;
+    this.graph.links = this.diagramLinkData;
     this.logger.log(this.graph);
 
     // if(this.graph.links) {
@@ -379,8 +381,10 @@ export class VisualViewComponent {
   public selectedLink: go.Link | null = null;
 
   public ngAfterViewInit() {
+    console.log("ngAfterViewInit",this.graph);
     this.diagramNodeData = this.graph.links;
     this.diagramLinkData = this.graph.nodes;
+
     if (this.observedDiagram) return;
     this.observedDiagram = this.myDiagramComponent.diagram;
     this.cdr.detectChanges(); // IMPORTANT: without this, Angular will throw ExpressionChangedAfterItHasBeenCheckedError (dev mode only)
@@ -436,7 +440,7 @@ export class VisualViewComponent {
   }
 
   public addObject(): void {
-    // this.diag.nodeDataArray
+    // this.myDiagram.model.addLinkData({ from: "Alpha", to: "Beta" });
   }
   
   public removeObject(): void {
