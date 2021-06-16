@@ -2,11 +2,21 @@
   flex: 1 1 auto;
 }
 
-.navigation {
+.toolbar {
   position: sticky;
   position: -webkit-sticky; /* For macOS/iOS Safari */
   top: 0; /* Sets the sticky toolbar to be on top */
   z-index: 1000; /* Ensure that your app's content doesn't overlap the toolbar */
+}
+
+.ml {
+  margin-left: 10px important!;
+}
+
+.title {
+  margin-top: 100px;
+  margin-bottom: 50px;
+  margin-left: 50px;
 }
 
 /* OLD STUFF */

@@ -1,14 +1,13 @@
-<div class="page">
-    <app-header></app-header>
+<app-header></app-header>
 
+<mat-form-field class="example-full-width">
+    <input matInput [(ngModel)]="searchTerm" name="searchTerm" matTooltip="Search on Name and Description"
+        placeholder="Search" (keyup)="applyFilter()">
+</mat-form-field>
 
-    <mat-form-field class="example-full-width">
-        <input matInput [(ngModel)]="searchTerm" name="searchTerm" matTooltip="Search on Name and Description" placeholder="Search" (keyup)="applyFilter()">
-    </mat-form-field>
-
-    <mat-tab-group>
-        <mat-tab label="Local Projects">
-            <!-- <table class="table-bordered">
+<mat-tab-group>
+    <mat-tab label="Local Projects">
+        <!-- <table class="table-bordered">
                 <tr>
                     <th>Id
                         <i appSortParams (param)="setSortParams($event)" class="fa fa-arrow-up" id="firstAsc"></i>
@@ -49,92 +48,90 @@
                     </tr>
                 </tbody>
             </table> -->
-            
-            <table mat-table  [dataSource]="dataSourceLocal" matSort class="mat-elevation-z8">
 
-                <!--- Note that these columns can be defined in any order.
+        <table mat-table [dataSource]="dataSourceLocal" matSort class="mat-elevation-z8">
+
+            <!--- Note that these columns can be defined in any order.
                       The actual rendered columns are set as a property on the row definition" -->
-              
-                <!-- Position Column -->
-                <ng-container matColumnDef="id">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header> No. </th>
-                  <td mat-cell *matCellDef="let graph"> {{graph.id}} </td>
-                </ng-container>
-              
-                <!-- Name Column -->
-                <ng-container matColumnDef="name">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-                  <td mat-cell *matCellDef="let graph"> {{graph.name}} </td>
-                </ng-container>
-              
-                <!-- Weight Column -->
-                <ng-container matColumnDef="shortDescription">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
-                  <td mat-cell *matCellDef="let graph"> {{graph.shortDescription}} </td>
-                </ng-container>
-              
-                <!-- Symbol Column -->
-                <ng-container matColumnDef="creationDate">
-                  <th mat-header-cell *matHeaderCellDef> Creation Date </th>
-                  <td mat-cell *matCellDef="let graph"> {{graph.creationDate}} </td>
-                </ng-container>
-                
-                <!-- Symbol Column -->
-                <ng-container matColumnDef="lastOpened">
-                  <th mat-header-cell *matHeaderCellDef> Last Opened </th>
-                  <td mat-cell *matCellDef="let graph"> {{graph.lastOpened}} </td>
-                </ng-container>
-              
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row 
-                    *matRowDef="let row; columns: displayedColumns;"
-                    (click)="selectGraph(row)"></tr>
-              </table>
-        </mat-tab>
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> No. </th>
+                <td mat-cell *matCellDef="let graph"> {{graph.id}} </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                <td mat-cell *matCellDef="let graph"> {{graph.name}} </td>
+            </ng-container>
+
+            <!-- Weight Column -->
+            <ng-container matColumnDef="shortDescription">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+                <td mat-cell *matCellDef="let graph"> {{graph.shortDescription}} </td>
+            </ng-container>
+
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="creationDate">
+                <th mat-header-cell *matHeaderCellDef> Creation Date </th>
+                <td mat-cell *matCellDef="let graph"> {{graph.creationDate}} </td>
+            </ng-container>
+
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="lastOpened">
+                <th mat-header-cell *matHeaderCellDef> Last Opened </th>
+                <td mat-cell *matCellDef="let graph"> {{graph.lastOpened}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selectGraph(row)"></tr>
+        </table>
+    </mat-tab>
 
 
 
-        <mat-tab label="Shared Projects">
-            <table mat-table  [dataSource]="dataSourceShared" matSort class="mat-elevation-z8">
+    <mat-tab label="Shared Projects">
+        <table mat-table [dataSource]="dataSourceShared" matSort class="mat-elevation-z8">
 
-                <!--- Note that these columns can be defined in any order.
+            <!--- Note that these columns can be defined in any order.
                       The actual rendered columns are set as a property on the row definition" -->
-              
-                <!-- Position Column -->
-                <ng-container matColumnDef="id">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header> No. </th>
-                  <td mat-cell *matCellDef="let graph"> {{graph.id}} </td>
-                </ng-container>
-              
-                <!-- Name Column -->
-                <ng-container matColumnDef="name">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-                  <td mat-cell *matCellDef="let graph"> {{graph.name}} </td>
-                </ng-container>
-              
-                <!-- Weight Column -->
-                <ng-container matColumnDef="shortDescription">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
-                  <td mat-cell *matCellDef="let graph"> {{graph.shortDescription}} </td>
-                </ng-container>
-              
-                <!-- Symbol Column -->
-                <ng-container matColumnDef="creationDate">
-                  <th mat-header-cell *matHeaderCellDef> Creation Date </th>
-                  <td mat-cell *matCellDef="let graph"> {{graph.creationDate}} </td>
-                </ng-container>
-                
-                <!-- Symbol Column -->
-                <ng-container matColumnDef="lastOpened">
-                  <th mat-header-cell *matHeaderCellDef> Last Opened </th>
-                  <td mat-cell *matCellDef="let graph"> {{graph.lastOpened}} </td>
-                </ng-container>
-              
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-              </table>
-        </mat-tab>
-    </mat-tab-group>
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> No. </th>
+                <td mat-cell *matCellDef="let graph"> {{graph.id}} </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                <td mat-cell *matCellDef="let graph"> {{graph.name}} </td>
+            </ng-container>
+
+            <!-- Weight Column -->
+            <ng-container matColumnDef="shortDescription">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+                <td mat-cell *matCellDef="let graph"> {{graph.shortDescription}} </td>
+            </ng-container>
+
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="creationDate">
+                <th mat-header-cell *matHeaderCellDef> Creation Date </th>
+                <td mat-cell *matCellDef="let graph"> {{graph.creationDate}} </td>
+            </ng-container>
+
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="lastOpened">
+                <th mat-header-cell *matHeaderCellDef> Last Opened </th>
+                <td mat-cell *matCellDef="let graph"> {{graph.lastOpened}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </mat-tab>
+</mat-tab-group>
 
 
 
@@ -149,37 +146,5 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
       -->
-      
 
-
-
-
-    <!--
-    <mat-tab-group>
-        <mat-tab label="Local Projects">
-            <mat-list>
-                <mat-list-item (click)="selectGraph(graph)" class="items" *ngFor="let graph of localGraphs">
-                    <div mat-line class= "line1">#{{graph.id}} - {{graph.name}}</div>
-                    <div mat-line class="line2">{{graph.shortDescription}}</div>
-                </mat-list-item>
-            </mat-list>
-        </mat-tab>
-
-        <mat-tab label="Shared Projects">
-            <mat-list class="items-items">
-                <mat-list-item (click)="selectGraph(graph)" class="items" *ngFor="let graph of sharedGraphs">
-                    <div mat-line class= "line1">  #{{graph.id}} - {{graph.name}} </div>
-                    <div mat-line class="line2">  {{graph.shortDescription}} </div>
-                </mat-list-item>
-            </mat-list>
-        </mat-tab>
-    </mat-tab-group>
-    -->
-    
-
-    <div class="space"></div>
-    <app-footer></app-footer>
-</div>
-
-   
-
+<app-footer></app-footer>

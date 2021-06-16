@@ -7,6 +7,11 @@
     flex: 1 1 auto;
 }
 
+tbody tr:hover{
+    cursor: pointer;
+    background-color: #8080803b;
+}
+
 /* Styles for tab labels */
 /* .mat-tab-label {
     min-width: 25px !important;
