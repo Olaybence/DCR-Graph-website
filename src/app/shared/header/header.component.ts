@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { GraphService } from 'src/app/services/graph.service';
 import { AbstractControl, FormBuilder, FormControl, NgForm, ValidatorFn, Validators } from '@angular/forms';
-import { Graph, Task, Role, Location } from '../../utils/graph.model';
+import { Graph, Location } from '../../utils/graph.model';
 
 // import { VisualViewComponent } from 'src/app/edit-page/visual-view/visual-view.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -26,7 +26,7 @@ export class HeaderComponent implements OnInit {
 
   createProject() {
     const dialogRef = this.dialog.open(CreateProjectDialog, {
-      width: '350px'
+      width: '250px'
     });
     
     dialogRef.afterClosed().subscribe(result => {
@@ -94,7 +94,7 @@ export class CreateProjectDialog {
   public onCreate() {
     this.newId = this.localGraphs.length;
 
-    this.graph = new Graph(this.newId,this.name,this.description,Location.local);
+    this.graph = new Graph(this.newId,this.name,this.description,Location.local,[],[]);
     //console.log("this is the new id", this.newId);
     //console.log("this is my new graph", this.graph);
     

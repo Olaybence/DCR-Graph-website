@@ -20,7 +20,7 @@ import { MatDialog } from '@angular/material/dialog';
 /// Here they are finally ran before we use them in the model
 /// (The link click red text)
 
-/// TODO: make these change the text of the HTML element (but they already have the changes, so rather suit the !!!INSPECTOR HANDLE ARROWS!!!)
+/// TODO: make these change the text of the HTML element (but they already have the changes, so rather suit the !!!INSPECTOR Ins ARROWS!!!)
 
 // a conversion function used to get arrowhead information for a Part
 export function infoString(obj: go.GraphObject) {
@@ -65,7 +65,19 @@ export class VisualViewComponent {
   @ViewChild('myDiagram', { static: true }) public myDiagramComponent: DiagramComponent;
   @ViewChild('myPalette', { static: true }) public myPaletteComponent: PaletteComponent;
 
-
+  public defaultRelation = "Exclusion";
+  public defaultLink = {
+    relation: this.defaultRelation,
+    toArrow: RelationTypesTo[this.defaultRelation],
+    fromArrow: RelationTypesFrom[this.defaultRelation]
+  }
+  public defaultNode: Object = {
+    name: "Default",
+    color: null,
+    text: "default text",
+    pending: false,
+  };
+  
   /// initDiagram() IS THE MAIN STUFF WHAT BUILDS OUR TOOLS
   /// REPLACE THIS FROM SAMPLES AND WILL WORK IN GENERAL
 
@@ -203,14 +215,13 @@ export class VisualViewComponent {
 
         /// One end definition
         $(go.Shape,  // the "from" arrowhead
-          new go.Binding('fromArrow', 'fromArrow'),
+          new go.Binding('fromArrow', 'fromArrow',RelationTypesFrom[this.defaultRelation]),
           { scale: 2, fill: '#D4B52C' }),
 
         /// And the other end definition
         $(go.Shape,  // the "to" arrowhead
-          new go.Binding('toArrow', 'toArrow'),
+          new go.Binding('toArrow', 'toArrow',RelationTypesTo[this.defaultRelation]),
           { scale: 2, fill: '#D4B52C' }),
-
         /// General propoerties
         {
           /// The click and show red text (Not shows rn, but called)
@@ -237,20 +248,22 @@ export class VisualViewComponent {
 
 
   /// The basic nodes we start with (MISTAKE/MISSING CAN DO WIERD STUFF)
-  public diagramNodeData: Array<go.ObjectData> = [
-    { key: 'Alpha', text: "Node Alpha", color: 'lightblue', pending: true },
-    { key: 'Beta', text: "Node Beta", color: 'orange' },
-    { key: 'Gamma', text: "Node Gamma", color: 'lightgreen' },
-    { key: 'Delta', text: "Node Delta", color: 'pink', pending: true }
-  ];
+  public diagramNodeData: Array<go.ObjectData> = [];
+  // public diagramNodeData: Array<go.ObjectData> = [
+  //   { key: 'Alpha', text: "Node Alpha", color: 'lightblue', pending: true },
+  //   { key: 'Beta', text: "Node Beta", color: 'orange' },
+  //   { key: 'Gamma', text: "Node Gamma", color: 'lightgreen' },
+  //   { key: 'Delta', text: "Node Delta", color: 'pink', pending: true }
+  // ];
 
   /// The links we have (MISTAKE/MISSING CAN DO WIERD STUFF)
-  public diagramLinkData: Array<go.ObjectData> = [
-    { key: -1, from: 'Alpha', to: 'Beta', fromPort: 'r', toPort: 'l', toArrow: RelationTypesTo.Exclusion, fromArrow: RelationTypesFrom.Exclusion },
-    { key: -2, from: 'Alpha', to: 'Gamma', fromPort: 'b', toPort: 't', toArrow: RelationTypesTo.Inclusion, fromArrow: RelationTypesFrom.Inclusion },
-    { key: -3, from: 'Gamma', to: 'Delta', fromPort: 'r', toPort: 'l', toArrow: RelationTypesTo.Condition, fromArrow: RelationTypesFrom.Condition },
-    { key: -4, from: 'Delta', to: 'Alpha', fromPort: 't', toPort: 'r', toArrow: RelationTypesTo.Spawn, fromArrow: RelationTypesFrom.Spawn }
-  ];
+  public diagramLinkData: Array<go.ObjectData> = [];
+  // public diagramLinkData: Array<go.ObjectData> = [
+  //   { key: -1, from: 'Alpha', to: 'Beta', fromPort: 'r', toPort: 'l', toArrow: RelationTypesTo.Exclusion, fromArrow: RelationTypesFrom.Exclusion },
+  //   { key: -2, from: 'Alpha', to: 'Gamma', fromPort: 'b', toPort: 't', toArrow: RelationTypesTo.Inclusion, fromArrow: RelationTypesFrom.Inclusion },
+  //   { key: -3, from: 'Gamma', to: 'Delta', fromPort: 'r', toPort: 'l', toArrow: RelationTypesTo.Condition, fromArrow: RelationTypesFrom.Condition },
+  //   { key: -4, from: 'Delta', to: 'Alpha', fromPort: 't', toPort: 'r', toArrow: RelationTypesTo.Spawn, fromArrow: RelationTypesFrom.Spawn }
+  // ];
 
 
   public diagramDivClassName: string = 'myDiagramDiv';
@@ -264,13 +277,35 @@ export class VisualViewComponent {
     // (since this is a GoJS model changed listener event function)
     // this way, we don't log an unneeded transaction in the Diagram's undoManager history
     this.skipsDiagramUpdate = true;
-
+    console.log("changes",changes);
     this.diagramNodeData = DataSyncService.syncNodeData(changes, this.diagramNodeData);
     this.diagramLinkData = DataSyncService.syncLinkData(changes, this.diagramLinkData);
     this.diagramModelData = DataSyncService.syncModelData(changes, this.diagramModelData);
-    this.graph.nodes = this.diagramNodeData;
-    this.graph.links = this.diagramLinkData;
+    // this.graph.nodes = this.diagramNodeData;
+    // this.graph.links = this.diagramLinkData;
     this.logger.log(this.graph);
+
+    // if(this.graph.links) {
+    //   let index = null;
+    //   this.graph.links.map((link,i) => {
+    //     console.log(link.toArrow,link.toArrow == undefined);
+    //     if(link.toArrow === undefined) {
+    //       index = i;
+    //     }
+    //   });
+  
+    //   console.log("this.graph.link",this.graph.links.length[this.graph.links.length-1]);
+    //   if(index) {
+    //     let newLink = this.diagramLinkData[index];
+    //     newLink.toArrow = this.defaultLink.toArrow;
+    //     newLink.fromArrow = this.defaultLink.fromArrow;
+        
+    //     this.skipsDiagramUpdate = false;
+    //     this.diagramLinkData[index] = _.cloneDeep(newLink);
+        
+    //     console.log("new made",this.graph.links);
+    //   }
+    // }
   };
 
 
@@ -344,7 +379,8 @@ export class VisualViewComponent {
   public selectedLink: go.Link | null = null;
 
   public ngAfterViewInit() {
-
+    this.diagramNodeData = this.graph.links;
+    this.diagramLinkData = this.graph.nodes;
     if (this.observedDiagram) return;
     this.observedDiagram = this.myDiagramComponent.diagram;
     this.cdr.detectChanges(); // IMPORTANT: without this, Angular will throw ExpressionChangedAfterItHasBeenCheckedError (dev mode only)
@@ -370,56 +406,48 @@ export class VisualViewComponent {
 
   public handleInspectorChangeLink(newLinkData) {
     console.log("handleInspectorChangeLink", newLinkData);
-    const key = newLinkData.key;
-
-    // find the entry in nodeDataArray with this key, replace it with newLinkData
-    let index = null;
-    for (let i = 0; i < this.diagramLinkData.length; i++) {
-      const entry = this.diagramLinkData[i];
-      if (entry.key && entry.key === key) {
-        index = i;
-      }
-    }
-
+    console.log(newLinkData.key);
+    console.log(this.diagramLinkData);
+    
+    const index = this.diagramLinkData.map(link => link.key).indexOf(newLinkData.key);
+    console.log(index);
     if (index >= 0) {
       // here, we set skipsDiagramUpdate to false, since GoJS does not yet have this update
       this.skipsDiagramUpdate = false;
-      let modifications = _.cloneDeep(newLinkData);
-      this.diagramLinkData[index].toArrow = modifications.toArrow;
-      this.diagramLinkData[index].fromArrow = modifications.fromArrow;
-      this.diagramLinkData[index].type = modifications.type;
-      console.log('this.diagramLinkData[index].toArrow', this.diagramLinkData[index].toArrow);
-
-      console.log('newLinkData', newLinkData);
-      console.log('modifications', modifications);
-      console.log('modifications.fromArrow', modifications.fromArrow);
-      console.log('modifications.toArrow', modifications.toArrow);
-      console.log('modifications.type', modifications.type);
-      
-      console.log('this.diagramLinkData', this.diagramLinkData);
-      // this.diagramNodeData[index] = _.cloneDeep(newNodeData);
+      this.diagramLinkData[index] = _.cloneDeep(newLinkData);
     }
 
   }
 
   public handleInspectorChangeNode(newNodeData) {
     console.log("handleInspectorChangeNode", newNodeData);
-    const key = newNodeData.key;
-
-    // Node
-    let index = null;
-    for (let i = 0; i < this.diagramNodeData.length; i++) {
-      const entry = this.diagramNodeData[i];
-      if (entry.key && entry.key === key) {
-        index = i;
-      }
-    }
+    
+    const index = this.diagramNodeData.map(link => link.key).indexOf(newNodeData.key);
 
     if (index >= 0) {
       // here, we set skipsDiagramUpdate to false, since GoJS does not yet have this update
       this.skipsDiagramUpdate = false;
+      
+      console.log("newNodeData",newNodeData);
+      console.log("this.diagramNodeData[index]",this.diagramNodeData[index]);
       this.diagramNodeData[index] = _.cloneDeep(newNodeData);
-      // this.diagramNodeData[index] = _.cloneDeep(newNodeData);
+
     }
+  }
+
+  public addObject(): void {
+    // this.diag.nodeDataArray
+  }
+  
+  public removeObject(): void {
+
+  }
+  
+  public connectObject(): void {
+
+  }
+  
+  public saveAs(): void {
+
   }
 }

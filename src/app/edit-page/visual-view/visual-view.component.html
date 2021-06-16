@@ -1,22 +1,26 @@
-<div class="left">
-  Palette
-  <gojs-palette #myPalette [initPalette]='initPalette' [divClassName]='paletteDivClassName' [nodeDataArray]='paletteNodeData'
-    [linkDataArray]='paletteLinkData' [modelData]='paletteModelData' (modelChange)='paletteModelChange($event)' [skipsPaletteUpdate]='skipsPaletteUpdate'></gojs-palette>
+ <div class="left">
+  <!-- <gojs-palette #myPalette [initPalette]='initPalette' [divClassName]='paletteDivClassName' [nodeDataArray]='paletteNodeData'
+    [linkDataArray]='paletteLinkData' [modelData]='paletteModelData' (modelChange)='paletteModelChange($event)' [skipsPaletteUpdate]='skipsPaletteUpdate'></gojs-palette> -->
 </div>
 
 <div class="left">
-  Diagram
+  <div style="display:flex;flex-direction: row;align-items: center;">
+    <h3 class="graph-title">{{graph ? graph.name : ''}}</h3>
+    <button mat-mini-fab color="primary" aria-label="Help button" (click)="addObject()" style="margin-left: 15px;" matTooltip="Add node">
+      <mat-icon aria-hidden="true">add</mat-icon>
+    </button>
+  </div>
+
   <gojs-diagram #myDiagram [initDiagram]='initDiagram' [nodeDataArray]='diagramNodeData' [linkDataArray]='diagramLinkData'
     [divClassName]='diagramDivClassName' [modelData]='diagramModelData' [skipsDiagramUpdate]='skipsDiagramUpdate'
     (modelChange)='diagramModelChange($event)'>
   </gojs-diagram>
 </div>
 
-<div class="left">
+<div class="left" style="width: 280px;">
   <p>Overview</p>
   <gojs-overview #myOverview [initOverview]='initOverview' [divClassName]='oDivClassName' [observedDiagram]='observedDiagram'></gojs-overview>
-  <p>Editor</p>
-  <app-inspector 
+  <app-inspector
     [selectedNode]='selectedNode' 
     [selectedLink]='selectedLink' 
     (onFormChangeNode)='handleInspectorChangeNode($event)'

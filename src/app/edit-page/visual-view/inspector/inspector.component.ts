@@ -1,5 +1,7 @@
 import { KeyValue } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { AbstractControl, FormControl } from '@angular/forms';
+import { ThemePalette } from '@angular/material/core';
 import * as go from 'gojs';
 import { getType, RELATIONS, RelationTypesFrom, RelationTypesTo } from 'src/app/utils/graph.model';
 
@@ -15,6 +17,11 @@ export class InspectorComponent {
   public _selectedLink: go.Link;
 
   public relations: Array<string> = RELATIONS; // just for HTML select
+  
+  public disabled = false;
+  public color: ThemePalette = 'primary';
+  public touchUi = false;
+  colorCtr: AbstractControl = new FormControl(null);
 
   public nodeData = {
     key: null,
@@ -113,8 +120,7 @@ export class InspectorComponent {
     console.log("linkData",this.linkData);
   }
 
-  constructor() {
-  }
+  constructor() { }
 
   public onCommitNodeForm() {
     console.log("onCommitNodeForm", this.nodeData);

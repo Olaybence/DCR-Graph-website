@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { GraphService } from 'src/app/services/graph.service';
-import { Graph, Task, Role, Location } from 'src/app/utils/graph.model';
+import { Graph, Node, Link, Location } from 'src/app/utils/graph.model';
 
 export type ViewType = 'text' | 'visual' | 'simulate' | 'analyze';
 

@@ -50,7 +50,10 @@ export class SelectGraphComponent implements OnInit {
           this.dataSourceLocal.filterPredicate = (data: Graph, filter: string) => {
             if(data.collaborators.map(user => user.name).includes(filter) ||
               data.name.toLowerCase().includes(filter) ||
-              data.description.toLowerCase().includes(filter) ) {
+              data.description.toLowerCase().includes(filter)
+              // data.lastOpened.toString().includes(filter) ||
+              // data.creationDate.toString().includes(filter)
+              ) {
                 return true;
               } else {
                 return false;

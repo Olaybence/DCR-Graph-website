@@ -1,24 +1,15 @@
-<mat-toolbar class= "header">
+<mat-toolbar class="header">
 
-  <div> 
+  <span>
     <a class="home" href="/select">DCR Graphs</a>
-    <h3 class="graph-title">{{graph.name ? graph.name : ''}}</h3>
-  </div>
+  </span>
 
-  <button mat-button [matMenuTriggerFor]="edit">
+  <!-- <button mat-button [matMenuTriggerFor]="edit">
     Edit
   </button>
   <mat-menu #edit="matMenu" class="customize">
-    <button mat-menu-item (click)="handleOnAddObject()">Add object</button>
-    <button mat-menu-item (click)="handleOnRemoveObject()">
-      Remove object
-    </button>
-    <button mat-menu-item (click)="handleOnConnectObject()">
-      Connect object
-    </button>
-    <button mat-menu-item (click)="handleOnSaveAs()">Save as</button>
-    <button mat-menu-item (click)="handleOnLoad()">Load</button>
-  </mat-menu>
+    
+  </mat-menu> -->
 
   <button mat-button [matMenuTriggerFor]="simulate">
     Simulate
@@ -46,20 +37,22 @@
     <button mat-menu-item (click)="handleOnViewLogs()">View logs</button>
   </mat-menu>
 
+  
+  
+  <span class="spacer"></span>
+  <button mat-mini-fab color="primary" aria-label="Help button" (click)="handleOnSaveAs()"
+    style="margin-right: 15px;">
+    <mat-icon aria-hidden="true">save</mat-icon>
+  </button>
+
   <span class="spacer"></span>
 
-  <button mat-button [matMenuTriggerFor]="viewType">
-    Selected view: {{ selectedView }}
+  <button mat-mini-fab color="primary" aria-label="Help button" (click)="handleOnShareGraph()"
+    style="margin-right: 15px;">
+    <mat-icon aria-hidden="true">help_outline</mat-icon>
   </button>
-  <mat-menu #viewType="matMenu" class="customize">
-    <button mat-menu-item *ngFor="let vt of viewTypes" (click)="changeView(vt)">
-      {{ vt.charAt(0).toUpperCase() + vt.slice(1) }}
-    </button>
-  </mat-menu>
 
-  <button mat-button (click)="handleOnShareGraph()">
-    Share graph
+  <button mat-mini-fab color="primary" aria-label="Share button" (click)="handleOnShareGraph()">
+    <mat-icon aria-hidden="false" aria-label="Example home icon">share</mat-icon>
   </button>
 </mat-toolbar>
-
-

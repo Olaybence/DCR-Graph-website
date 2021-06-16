@@ -9,13 +9,15 @@ body {
   width: 700px;
   height: 600px;
   border: 1px solid black;
+  border-radius: 10px;
 }
 
 .myPaletteDiv {
   background: lightcyan;
   border: 1px solid navy;
+  border-radius: 10px;
   width: 125px;
-  height: 300px;
+  height: 120px;
 }
 
 .myOverviewDiv {
@@ -23,6 +25,7 @@ body {
   height: 150px;
   background: whitesmoke;
   border: 1px solid black;
+  border-radius: 10px;
 }
 
 .left {

@@ -55,7 +55,7 @@ export enum Location {
  * @public roles  : Array(Role)
  * @public startRole : number
  * @public endRole : number
- * @public tasks : Array(Task)
+ * @public nodes : Array(Task)
  */
 export class Graph {
     public id: number; // Primary key
@@ -71,9 +71,10 @@ export class Graph {
     public roles: Array<Role>;
     public startRole: number;
     public endRole: number;
-    public tasks: Array<Task>; // Graph edges
+    public nodes: Array<Node>; // Graph edges
+    public links: Array<Link>; // Graph edges
 
-    constructor(id: number, name: string, description: string, location: Location) {
+    constructor(id: number, name: string, description: string, location: Location, nodes: Array<Node>, links: Array<Link>) {
         // Basic data
         this.id = id;
         this.location = location;
@@ -84,16 +85,15 @@ export class Graph {
         this.collaborators = [];
         this.lastOpened = new Date();
         this.creationDate = new Date();
+        this.nodes = nodes;
+        this.links = links;
 
         // Graph inner data
         this.startRole = 0;
         this.endRole = 0;
         this.roles = [];
-        this.tasks = [];
-    }
-
-    addTask(task: Task) {
-        this.tasks.push()
+        this.nodes = [];
+        this.links = [];
     }
 }
 
@@ -129,13 +129,18 @@ export class Role {
  * @public prevID: number
  * @public nextID: number
  */
-export class Task {
-    public id: number; // Primary key
-    public roleID: number; // Role it's binded to
-    public name: string; // Description of the task
-    public prevID: number; // Previous task (might be null if it's the start)
-    public nextID: number; // Next task (TODO: make it an array, so conjunctions can be made - After the base solution is working)
-    public parameters: Map<string, number>;
+export class Node {
+    public color: string;
+    public key: number;
+    public pend: string;
+    public text: string;
+    
+    // public id: number; // Primary key
+    // public roleID: number; // Role it's binded to
+    // public name: string; // Description of the task
+    // public prevID: number; // Previous task (might be null if it's the start)
+    // public nextID: number; // Next task (TODO: make it an array, so conjunctions can be made - After the base solution is working)
+    // public parameters: Map<string, number>;
 
     // Visual placement attributes
     // (CALCULATED IN VISUAL-VIEW-COMPONENT)
@@ -149,29 +154,57 @@ export class Task {
      * @param roleID: role it's bind to
      * @param prevID: the previous task it comes from
      */
-    constructor(id: number, name: string, roleID: number, prevID: number) {
-        this.name = name;
-        this.roleID = roleID;
-        this.id = id;
-        this.prevID = prevID;
-        this.nextID = null;
+    constructor(color: string, key: number, pend: string, text: string) {
+        this.color = color;
+        this.key = key;
+        this.pend = pend;
+        this.text = text;
     }
+}
+
+/**
+ * DCR Graph
+ * @public id: number
+ * @public roleID: number
+ * @public name: string
+ * @public prevID: number
+ * @public nextID: number
+ */
+export class Link {
+    public from: string;
+    public fromAr: string;
+    public fromPort: string;
+    public key: number;
+    public to: string;
+    public toArrow: string;
+    public toPort: string;
+
+    // public id: number; // Primary key
+    // public roleID: number; // Role it's binded to
+    // public name: string; // Description of the task
+    // public prevID: number; // Previous task (might be null if it's the start)
+    // public nextID: number; // Next task (TODO: make it an array, so conjunctions can be made - After the base solution is working)
+    // public parameters: Map<string, number>;
+
+    // Visual placement attributes
+    // (CALCULATED IN VISUAL-VIEW-COMPONENT)
+    public x: number; // Position on the canvas (horizontal distance from the right side)
+    public y: number; // Position on the canvas (vertical distance from the top side)
 
     /**
-     * Set the next task
-     * @param id: number
+     * The constructor
+     * @param id: primary key
+     * @param name: name of the task
+     * @param roleID: role it's bind to
+     * @param prevID: the previous task it comes from
      */
-    setNextForMockUp(id: number): Task {
-        this.nextID = id;
-        return this;
-    }
-
-    /**
-     * Set the next task
-     * @param id: number
-     */
-    setNext(id: number) {
-        this.nextID = id;
-        return this;
+    constructor(from: string,fromAr: string,fromPort: string,key: number,to: string,toArrow: string,toPort: string) {
+        this.from = from;
+        this.fromAr = fromAr;
+        this.fromPort = fromPort;
+        this.key = key;
+        this.to = to;
+        this.toArrow = toArrow;
+        this.toPort = toPort;
     }
 }
