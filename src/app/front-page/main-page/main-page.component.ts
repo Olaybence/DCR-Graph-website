@@ -7,19 +7,20 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 @Component({
   selector: 'app-select-graph',
-  templateUrl: './select-graph.component.html',
-  styleUrls: ['./select-graph.component.css'],
+  templateUrl: './main-page.component.html',
+  styleUrls: ['./main-page.component.css'],
   encapsulation: ViewEncapsulation.None
 })
 //Component for creating select-graph
-export class SelectGraphComponent implements OnInit {
+export class MainPageComponent implements OnInit {
   searchTerm:string = "";
   
   //variables used for local or shared graphs
   public localGraphs: Array<Graph> = new Array<Graph>();
   public sharedGraphs: Array<Graph> = new Array<Graph>();
   
-  displayedColumns: string[] = ['id', 'name', 'shortDescription', 'creationDate', 'lastOpened', 'description'];
+  displayedColumns: string[] = ['id', 'name', 'shortDescription', 'creationDate', 'lastOpened'];
+  // displayedColumns: string[] = ['id', 'name', 'shortDescription', 'creationDate', 'lastOpened', 'description'];
   dataSourceLocal = new MatTableDataSource<Graph>(this.localGraphs);
   dataSourceShared = new MatTableDataSource<Graph>(this.sharedGraphs);
 

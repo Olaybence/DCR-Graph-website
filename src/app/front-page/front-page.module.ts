@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SelectGraphComponent } from './select-graph/select-graph.component';
+import { MainPageComponent } from './main-page/main-page.component';
 
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatTabsModule} from '@angular/material/tabs';
@@ -9,8 +9,7 @@ import {MatButtonModule} from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import {MatCardModule} from '@angular/material/card';
 import {MatDialogModule} from '@angular/material/dialog';
-import { FormsModule } from '@angular/forms';
-import { SharedModule } from '../shared/shared.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { SortPipe } from 'src/sort';
 import { FilterPipe } from 'src/filter';
@@ -24,16 +23,26 @@ import {MatTableModule} from '@angular/material/table';
 
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
+import { UsermanualPageComponent } from './usermanual-page/usermanual-page.component';
+import { ContactPageComponent } from './contact-page/contact-page.component';
+import { FooterComponent } from './footer/footer.component';
+import { CreateProjectDialog, HeaderComponent } from './header/header.component';
+
 
 @NgModule({
   declarations: [
-    SelectGraphComponent,
+    MainPageComponent,
     SortPipe,
     FilterPipe,
     SortParamsDirective,
+    ContactPageComponent,
+    UsermanualPageComponent,
+    FooterComponent,
+    HeaderComponent,
+    CreateProjectDialog,
+    FooterComponent
   ],
   imports: [
-    SharedModule,
     CommonModule,
     MatGridListModule,
     MatTabsModule,
@@ -45,15 +54,16 @@ import { MatIconModule } from '@angular/material/icon';
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
+    ReactiveFormsModule,
     
     MatTooltipModule,
     MatSortModule,
     MatTableModule,
     MatIconModule
   ], exports: [
-    SelectGraphComponent,
-    SortPipe,
-    FilterPipe,
+    MainPageComponent,
+    ContactPageComponent,
+    UsermanualPageComponent,
     SortParamsDirective
   ]
 })

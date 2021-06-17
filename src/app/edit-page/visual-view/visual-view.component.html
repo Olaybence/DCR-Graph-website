@@ -5,10 +5,10 @@
 
 <div class="left">
   <div style="display:flex;flex-direction: row;align-items: center;">
-    <h3 class="graph-title">{{graph ? graph.name : ''}}</h3>
-    <button mat-mini-fab color="primary" aria-label="Help button" (click)="addObject()" style="margin-left: 15px;" matTooltip="Add node">
+    <h3 class="graph-title">Project Name: <span class="project" (click)="editProject()">{{graph ? graph.name : ''}}</span></h3>
+    <!-- <button mat-mini-fab color="primary" aria-label="Help button" (click)="addObject()" style="margin-left: 15px;" matTooltip="Add node">
       <mat-icon aria-hidden="true">add</mat-icon>
-    </button>
+    </button> -->
   </div>
 
   <gojs-diagram #myDiagram [initDiagram]='initDiagram' [nodeDataArray]='diagramNodeData' [linkDataArray]='diagramLinkData'

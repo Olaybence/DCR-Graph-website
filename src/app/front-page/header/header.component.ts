@@ -20,7 +20,8 @@ export interface DataThings {
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog,
+    public router: Router) { }
 
   ngOnInit(): void {  }
 
@@ -34,6 +35,10 @@ export class HeaderComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
     });
   }
+
+  directMain() {        this.router.navigate(['./main']); }
+  directUserManual() {  this.router.navigate(['./usermanual']); }
+  directContactUs() {   this.router.navigate(['./contact']); }
 
 }
 

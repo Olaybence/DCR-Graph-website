@@ -30,7 +30,7 @@ export function infoString(obj: go.GraphObject) {
   let msg = '';
   if (part instanceof go.Link) {
     const link = part;
-    msg = getType(link.data.fromArrow,link.data.toArrow);
+    msg = getType(link.data.fromArrow, link.data.toArrow);
     // msg = 'toArrow: ' + link.data.toArrow + ';\nfromArrow: ' + link.data.fromArrow;
   } else if (part instanceof go.Node) {
     const node = part;
@@ -77,7 +77,7 @@ export class VisualViewComponent {
     text: "default text",
     pending: false,
   };
-  
+
   /// initDiagram() IS THE MAIN STUFF WHAT BUILDS OUR TOOLS
   /// REPLACE THIS FROM SAMPLES AND WILL WORK IN GENERAL
 
@@ -118,12 +118,10 @@ export class VisualViewComponent {
       );
     }
 
-
     /// HOW NODES LOOKS LIKE IN GENERAL
     // define the Node template
     this.myDiagram.nodeTemplate =
       $(go.Node, 'Spot', // It's a Sport typed Node
-
         /// Click function on the nodes
         {
           contextMenu:
@@ -136,7 +134,8 @@ export class VisualViewComponent {
                 }).ofObject())
             )
         },
-
+        // Location
+        // new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
         /// Shape of the Nodes
         $(go.Panel, 'Auto',
           $(go.Shape, 'RoundedRectangle', { stroke: null },
@@ -145,17 +144,6 @@ export class VisualViewComponent {
           $(go.TextBlock, { margin: 8 },
             new go.Binding('text'))
         ),
-
-        // /// Pending Response
-        // // Not working with built in figures
-        // // Club doesn't exists (idk what does)
-        // $(go.Shape, {
-        //   alignment: go.Spot.TopRight,
-        //   // figure: "Club",
-        //   width: 40,
-        //   height: 40,
-        //   margin: 4
-        // }),
 
         /// Pending Response (! on the right top corner)
         $(go.Shape,
@@ -202,13 +190,15 @@ export class VisualViewComponent {
         }
       );
 
+    // Group template
+    // this.myDiagram.groupTemplate = $(go.Group, { });
 
     /// Link  properties
     this.myDiagram.linkTemplate =
       $(go.Link,  // the whole link panel
 
         /// The type of curving and stuff
-        { 
+        {
           routing: go.Link.Orthogonal,
           curve: go.Link.JumpOver,
           corner: 10
@@ -221,13 +211,18 @@ export class VisualViewComponent {
 
         /// One end definition
         $(go.Shape,  // the "from" arrowhead
-          new go.Binding('fromArrow', 'fromArrow',RelationTypesFrom[this.defaultRelation]),
-          { scale: 2, fill: '#D4B52C' }),
+          new go.Binding('fromArrow', 'fromArrow'),
+          { scale: 2, fill: '#969696' }),
 
         /// And the other end definition
         $(go.Shape,  // the "to" arrowhead
-          new go.Binding('toArrow', 'toArrow',RelationTypesTo[this.defaultRelation]),
-          { scale: 2, fill: '#D4B52C' }),
+          new go.Binding('toArrow', 'toArrow'),
+          { scale: 2, fill: '#969696' }),
+
+        // $(go.Shape, {
+        //   toArrow: RelationTypesTo[this.defaultRelation],
+        //   fromArrow: RelationTypesFrom[this.defaultRelation]
+        // }),
         /// General propoerties
         {
           /// The click and show red text (Not shows rn, but called)
@@ -248,29 +243,16 @@ export class VisualViewComponent {
             )
         }
       );
-    console.log("fuck you",this.myDiagram);
+    console.log("fuck you", this.myDiagram);
     return this.myDiagram;
   }
 
 
   /// The basic nodes we start with (MISTAKE/MISSING CAN DO WIERD STUFF)
   public diagramNodeData: Array<go.ObjectData> = [];
-  // public diagramNodeData: Array<go.ObjectData> = [
-  //   { key: 'Alpha', text: "Node Alpha", color: 'lightblue', pending: true },
-  //   { key: 'Beta', text: "Node Beta", color: 'orange' },
-  //   { key: 'Gamma', text: "Node Gamma", color: 'lightgreen' },
-  //   { key: 'Delta', text: "Node Delta", color: 'pink', pending: true }
-  // ];
 
   /// The links we have (MISTAKE/MISSING CAN DO WIERD STUFF)
   public diagramLinkData: Array<go.ObjectData> = [];
-  // public diagramLinkData: Array<go.ObjectData> = [
-  //   { key: -1, from: 'Alpha', to: 'Beta', fromPort: 'r', toPort: 'l', toArrow: RelationTypesTo.Exclusion, fromArrow: RelationTypesFrom.Exclusion },
-  //   { key: -2, from: 'Alpha', to: 'Gamma', fromPort: 'b', toPort: 't', toArrow: RelationTypesTo.Inclusion, fromArrow: RelationTypesFrom.Inclusion },
-  //   { key: -3, from: 'Gamma', to: 'Delta', fromPort: 'r', toPort: 'l', toArrow: RelationTypesTo.Condition, fromArrow: RelationTypesFrom.Condition },
-  //   { key: -4, from: 'Delta', to: 'Alpha', fromPort: 't', toPort: 'r', toArrow: RelationTypesTo.Spawn, fromArrow: RelationTypesFrom.Spawn }
-  // ];
-
 
   public diagramDivClassName: string = 'myDiagramDiv';
   public diagramModelData = { prop: 'value' };
@@ -283,16 +265,27 @@ export class VisualViewComponent {
     // (since this is a GoJS model changed listener event function)
     // this way, we don't log an unneeded transaction in the Diagram's undoManager history
     this.skipsDiagramUpdate = true;
-    console.log("changes",changes);
+    if(changes && changes.modifiedLinkData && changes.modifiedLinkData.length >= 1) {
+      console.log("changes", changes.modifiedLinkData[0].toArrow);
+      changes.modifiedLinkData.map((link,i) => {
+        if(!link.toArrow) {
+          link.toArrow = RelationTypesTo[this.defaultRelation];
+          link.fromArrow = RelationTypesFrom[this.defaultRelation];
+          changes.modifiedLinkData[i] = _.cloneDeep(link);
+        }
+      });
+      console.log("changes", changes.modifiedLinkData[0].toArrow);
+    }
     this.diagramNodeData = DataSyncService.syncNodeData(changes, this.diagramNodeData);
     this.diagramLinkData = DataSyncService.syncLinkData(changes, this.diagramLinkData);
     this.diagramModelData = DataSyncService.syncModelData(changes, this.diagramModelData);
     this.graph.nodes = this.diagramNodeData;
     this.graph.links = this.diagramLinkData;
-    
-    console.log("seriously???",this.myDiagram);
-    if(this.myDiagram && this.myDiagram.model) {
-      console.log("myDiagram.model",this.myDiagram.model.toJson());
+
+    console.log(this.myDiagramComponent.diagram.diagramNodeData);
+    console.log(this.diagramNodeData,this.diagramLinkData);
+    if (this.myDiagram && this.myDiagram.model) {
+      console.log("myDiagram.model", this.myDiagram.model.toJson());
     }
   };
 
@@ -330,7 +323,7 @@ export class VisualViewComponent {
     return palette;
   }
   public paletteNodeData: Array<go.ObjectData> = [
-    { key: '0', text: "PaletteNode1", color: 'red' }
+    { key: '0', text: "New Node", color: 'white' }
   ];
   public paletteLinkData: Array<go.ObjectData> = [
     {}
@@ -367,8 +360,8 @@ export class VisualViewComponent {
   public selectedLink: go.Link | null = null;
 
   public ngAfterViewInit() {
-    console.log("ngAfterViewInit",this.graph);
-    
+    console.log("ngAfterViewInit", this.graph);
+
     this.diagramNodeData = this.graph.nodes;
     this.diagramLinkData = this.graph.links;
 
@@ -399,7 +392,7 @@ export class VisualViewComponent {
     console.log("handleInspectorChangeLink", newLinkData);
     console.log(newLinkData.key);
     console.log(this.diagramLinkData);
-    
+
     const index = this.diagramLinkData.map(link => link.key).indexOf(newLinkData.key);
     console.log(index);
     if (index >= 0) {
@@ -412,33 +405,25 @@ export class VisualViewComponent {
 
   public handleInspectorChangeNode(newNodeData) {
     console.log("handleInspectorChangeNode", newNodeData);
-    
+
     const index = this.diagramNodeData.map(link => link.key).indexOf(newNodeData.key);
 
     if (index >= 0) {
       // here, we set skipsDiagramUpdate to false, since GoJS does not yet have this update
       this.skipsDiagramUpdate = false;
-      
-      console.log("newNodeData",newNodeData);
-      console.log("this.diagramNodeData[index]",this.diagramNodeData[index]);
+
+      console.log("newNodeData", newNodeData);
+      console.log("this.diagramNodeData[index]", this.diagramNodeData[index]);
       this.diagramNodeData[index] = _.cloneDeep(newNodeData);
 
     }
   }
 
-  public addObject(): void {
-    // this.myDiagram.model.addLinkData({ from: "Alpha", to: "Beta" });
-  }
-  
-  public removeObject(): void {
+  // public addObject(): void {
+  //   // this.myDiagram.model.addLinkData({ from: "Alpha", to: "Beta" });
+  // }
 
-  }
-  
-  public connectObject(): void {
-
-  }
-  
-  public saveAs(): void {
-
+  editProject() {
+    // TODO: Edit Project
   }
 }

@@ -10,7 +10,6 @@ import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
-import { SharedModule } from '../shared/shared.module';
 import { MatIconModule } from '@angular/material/icon';
 
 // GOJS
@@ -30,7 +29,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCardModule } from '@angular/material/card';
 import { MAT_COLOR_FORMATS, NgxMatColorPickerModule, NGX_MAT_COLOR_FORMATS } from '@angular-material-components/color-picker';
 import { VisualViewComponent } from './visual-view/visual-view.component';
-
+import { EditFooterComponent } from './edit-footer/edit-footer.component';
 @NgModule({
   declarations: [
     EditComponent,
@@ -46,9 +45,9 @@ import { VisualViewComponent } from './visual-view/visual-view.component';
 
     SimulateComponent,
     AnalyzeComponent,
+    EditFooterComponent
   ],
   imports: [
-    SharedModule,
     CommonModule,
 
     FormsModule,

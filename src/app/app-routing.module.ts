@@ -6,28 +6,30 @@ import { EditModule } from './edit-page/edit.module';
 import { FrontPageModule } from './front-page/front-page.module';
 
 import { EditComponent } from './edit-page/edit/edit.component';
-import { SelectGraphComponent } from './front-page/select-graph/select-graph.component';
+import { MainPageComponent } from './front-page/main-page/main-page.component';
 
-import { UsermanualPageComponent } from './usermanual-page/usermanual-page.component';
-import { UsermanualPageModule } from './usermanual-page/usermanual-page.module';
-import { ContactPageComponent } from './contact-page/contact-page.component';
+import { UsermanualPageComponent } from './front-page/usermanual-page/usermanual-page.component';
+import { ContactPageComponent } from './front-page/contact-page/contact-page.component';
 
 const routes: Routes = [
   {
-    path: 'select', // Component Selected (Select feature)
-    component: SelectGraphComponent, 
-    // children: [
-    //   {
-    //     path: ':id',
-    //     component: SelectGraphComponent,
-    //   }
-    // ]
+    path: 'main', // Component Selected (Select feature)
+    component: MainPageComponent
+  },
+  {
+    path: 'usermanual',
+    component: UsermanualPageComponent,
+  },
+  {
+    path: 'contact',
+    component: ContactPageComponent
   },
   // About and contact routing
-  { path: 'usermanual', component: UsermanualPageComponent },
-  { path: 'contact', component: ContactPageComponent },
+  // { path: 'usermanual', component: UsermanualPageComponent },
+  // { path: 'contact', component: ContactPageComponent },
 
-  { path: 'edit', // Edit the selected graph
+  {
+    path: 'edit', // Edit the selected graph
     component: EditComponent, children: [
       {
         path: ':local',
@@ -51,18 +53,17 @@ const routes: Routes = [
       },
       {
         path: '**',
-        redirectTo: "/select"
+        redirectTo: "/main"
       }
     ]
   },
-  { path: "**", redirectTo: "/select", pathMatch: "full" }
+  { path: "**", redirectTo: "/main", pathMatch: "full" }
 ];
 
 @NgModule({
   imports: [
     RouterModule.forRoot(routes),
     FrontPageModule,
-    UsermanualPageModule,
     EditModule
   ],
   exports: [RouterModule]

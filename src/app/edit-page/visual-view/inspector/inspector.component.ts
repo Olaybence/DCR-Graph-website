@@ -17,26 +17,29 @@ export class InspectorComponent {
   public _selectedLink: go.Link;
 
   public relations: Array<string> = RELATIONS; // just for HTML select
-  
+  public defaultRelation = "Exclusion";
+
   public disabled = false;
   public color: ThemePalette = 'primary';
   public touchUi = false;
   colorCtr: AbstractControl = new FormControl(null);
 
-  public nodeData = {
-    key: null,
-    color: null,
-    text: null,
-    pending: null
-  };
-  public linkData = {
-    key: null,
-    type: null,
-    to: null,
-    from: null,
-    toArrow: null,
-    fromArrow: null
-  }
+  public linkData = null;
+  public nodeData = null;
+  // public nodeData = {
+  //   key: null,
+  //   color: null,
+  //   text: null,
+  //   pending: null
+  // };
+  // public linkData = {
+  //   key: null,
+  //   type: null,
+  //   to: null,
+  //   from: null,
+  //   toArrow: null,
+  //   fromArrow: null
+  // }
 
   @Input()
   public model: go.Model;
@@ -50,14 +53,15 @@ export class InspectorComponent {
   get selectedNode() { return this._selectedNode; }
   set selectedNode(node: go.Node) {
     this._selectedLink = null;
-    this.linkData = {
-      key: null,
-      type: null,
-      toArrow: null,
-      to: null,
-      fromArrow: null,
-      from: null
-    };
+    this.linkData = null;
+    // this.linkData = {
+    //   key: null,
+    //   type: null,
+    //   toArrow: null,
+    //   to: null,
+    //   fromArrow: null,
+    //   from: null
+    // };
 
     if (node) {
 
@@ -72,12 +76,13 @@ export class InspectorComponent {
     } else {
 
       this._selectedNode = null;
-      this.nodeData = {
-        key: null,
-        color: null,
-        text: null,
-        pending: null
-      };
+      this.nodeData = null;
+      // this.nodeData = {
+      //   key: null,
+      //   color: null,
+      //   text: null,
+      //   pending: null
+      // };
 
     }
   }
@@ -89,12 +94,13 @@ export class InspectorComponent {
 
     // Remove selected node 
     this._selectedNode = null;
-    this.nodeData = {
-      key: null,
-      color: null,
-      text: null,
-      pending: null
-    };
+    this.nodeData = null;
+    // this.nodeData = {
+    //   key: null,
+    //   color: null,
+    //   text: null,
+    //   pending: null
+    // };
 
     // If a link is selected
     if (link) {
@@ -115,15 +121,22 @@ export class InspectorComponent {
     } else { // No link selected
 
       this._selectedLink = null;
-      this.linkData = {
-        key: null,
-        type: null,
-        toArrow: null,
-        to: null,
-        fromArrow: null,
-        from: null
-      }
+      this.linkData = null;
+      // this.linkData = {
+      //   key: null,
+      //   type: null,
+      //   toArrow: null,
+      //   to: null,
+      //   fromArrow: null,
+      //   from: null
+      // }
 
+    }
+    
+    if(!this.linkData.toArrow || !this.linkData.fromArrow) {
+      this.linkData.toArrow = RelationTypesTo[this.defaultRelation];
+      this.linkData.fromArrow = RelationTypesFrom[this.defaultRelation];
+      this.onFormChangeLink.emit(this.linkData);
     }
     console.log("linkData",this.linkData);
   }

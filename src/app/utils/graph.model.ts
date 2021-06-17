@@ -70,10 +70,10 @@ export class Graph {
     public roles: Array<Role>;
     
     public startRoles: number;
-    public nodes: Array<Node>; // Graph edges
-    public links: Array<Link>; // Graph edges
+    public nodes: Array<Object>; // Graph edges
+    public links: Array<Object>; // Graph edges
 
-    constructor(id: number, name: string, description: string, location: Location, nodes: Array<Node>, links: Array<Link>) {
+    constructor(id: number, name: string, description: string, location: Location, nodes: Array<Object>, links: Array<Object>) {
         this.id = id;
         this.location = location;
         this.name = name;
