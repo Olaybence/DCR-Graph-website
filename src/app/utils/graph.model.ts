@@ -61,37 +61,31 @@ export class Graph {
     public id: number; // Primary key
     public location: Location;
     public name: string;
+    public creationDate: Date;
+    public lastOpened: Date;
     public description: string;
     public shortDescription: string;
     public comments: Array<string>;
     public collaborators: Array<User>;
-    public lastOpened: Date;
-    public creationDate: Date;
-    
     public roles: Array<Role>;
-    public startRole: number;
-    public endRole: number;
+    
+    public startRoles: number;
     public nodes: Array<Node>; // Graph edges
     public links: Array<Link>; // Graph edges
 
     constructor(id: number, name: string, description: string, location: Location, nodes: Array<Node>, links: Array<Link>) {
-        // Basic data
         this.id = id;
         this.location = location;
         this.name = name;
+        this.creationDate = new Date();
+        this.lastOpened = new Date();
         this.description = description;
         this.shortDescription = description;
         this.comments = [];
         this.collaborators = [];
-        this.lastOpened = new Date();
-        this.creationDate = new Date();
-        this.nodes = nodes;
-        this.links = links;
-
-        // Graph inner data
-        this.startRole = 0;
-        this.endRole = 0;
         this.roles = [];
+        
+        this.startRoles = 0;
         this.nodes = [];
         this.links = [];
     }
@@ -132,7 +126,7 @@ export class Role {
 export class Node {
     public color: string;
     public key: number;
-    public pend: string;
+    public pending: string;
     public text: string;
     
     // public id: number; // Primary key
@@ -154,10 +148,10 @@ export class Node {
      * @param roleID: role it's bind to
      * @param prevID: the previous task it comes from
      */
-    constructor(color: string, key: number, pend: string, text: string) {
+    constructor(color: string, key: number, pending: string, text: string) {
         this.color = color;
         this.key = key;
-        this.pend = pend;
+        this.pending = pending;
         this.text = text;
     }
 }
@@ -172,7 +166,6 @@ export class Node {
  */
 export class Link {
     public from: string;
-    public fromAr: string;
     public fromPort: string;
     public key: number;
     public to: string;
@@ -188,8 +181,8 @@ export class Link {
 
     // Visual placement attributes
     // (CALCULATED IN VISUAL-VIEW-COMPONENT)
-    public x: number; // Position on the canvas (horizontal distance from the right side)
-    public y: number; // Position on the canvas (vertical distance from the top side)
+    // public x: number; // Position on the canvas (horizontal distance from the right side)
+    // public y: number; // Position on the canvas (vertical distance from the top side)
 
     /**
      * The constructor
@@ -198,9 +191,8 @@ export class Link {
      * @param roleID: role it's bind to
      * @param prevID: the previous task it comes from
      */
-    constructor(from: string,fromAr: string,fromPort: string,key: number,to: string,toArrow: string,toPort: string) {
+    constructor(from: string,fromPort: string,key: number,to: string,toArrow: string,toPort: string) {
         this.from = from;
-        this.fromAr = fromAr;
         this.fromPort = fromPort;
         this.key = key;
         this.to = to;

@@ -67,6 +67,7 @@ export class GraphService {
     let location = graph.location == Location.local ? "local" : "shared";
     // MIGHT NEED TO BE CHANGED
     // The URL can be changed as idk what is the convenient calling.
+    console.log("SENDING",graph);
     this.http.post<Graph>(`http://localhost:8080/${location}/${graph.id}`,graph).subscribe(
       response => {
         console.log(response);

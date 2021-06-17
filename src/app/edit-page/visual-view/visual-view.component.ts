@@ -24,7 +24,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 // a conversion function used to get arrowhead information for a Part
 export function infoString(obj: go.GraphObject) {
-  console.log("infoString", obj);
+  // console.log("infoString", obj);
   let part = obj.part;
   if (part instanceof go.Adornment) part = part.adornedPart;
   let msg = '';
@@ -43,7 +43,7 @@ export function infoString(obj: go.GraphObject) {
 
 // a GraphObject.click event handler to show arrowhead information
 export function showInfo(e: go.InputEvent, obj: go.GraphObject) {
-  console.log("showinfo", obj);
+  // console.log("showinfo", obj);
   const msg = infoString(obj);
   if (msg) {
     const status = document.getElementById('myArrowheadInfo');
@@ -81,14 +81,14 @@ export class VisualViewComponent {
   /// initDiagram() IS THE MAIN STUFF WHAT BUILDS OUR TOOLS
   /// REPLACE THIS FROM SAMPLES AND WILL WORK IN GENERAL
 
-  public myDiagram: go.Diagram;
+  myDiagram: go.Diagram;
 
   // initialize diagram / templates
   public initDiagram(): go.Diagram {
     // let sai = this.showArrowInfo;
     // let infoString = this.infoString;
     const $ = go.GraphObject.make;
-    const dia = $(go.Diagram, {
+    this.myDiagram = $(go.Diagram, {
       'undoManager.isEnabled': true,
       'commandHandler.archetypeGroupData': { text: 'Group', isGroup: true, color: 'blue' },
       // THIS IS FOR THE REALTIME SELECTING THAT WORKS IN THE BASIC SAMPLE PROJECT
@@ -104,7 +104,7 @@ export class VisualViewComponent {
       )
     });
 
-    dia.commandHandler.archetypeGroupData = { key: 'Group', isGroup: true };
+    this.myDiagram.commandHandler.archetypeGroupData = { key: 'Group', isGroup: true };
 
     // Create functions for the ports
     const makePort = function (id: string, spot: go.Spot) {
@@ -121,7 +121,7 @@ export class VisualViewComponent {
 
     /// HOW NODES LOOKS LIKE IN GENERAL
     // define the Node template
-    dia.nodeTemplate =
+    this.myDiagram.nodeTemplate =
       $(go.Node, 'Spot', // It's a Sport typed Node
 
         /// Click function on the nodes
@@ -204,11 +204,15 @@ export class VisualViewComponent {
 
 
     /// Link  properties
-    dia.linkTemplate =
+    this.myDiagram.linkTemplate =
       $(go.Link,  // the whole link panel
 
         /// The type of curving and stuff
-        { routing: go.Link.Normal },
+        { 
+          routing: go.Link.Orthogonal,
+          curve: go.Link.JumpOver,
+          corner: 10
+        },
 
         /// General stuff (doesn't works without it)
         $(go.Shape,  // the link shape
@@ -244,8 +248,8 @@ export class VisualViewComponent {
             )
         }
       );
-    this.myDiagram = dia;
-    return dia;
+    console.log("fuck you",this.myDiagram);
+    return this.myDiagram;
   }
 
 
@@ -285,29 +289,11 @@ export class VisualViewComponent {
     this.diagramModelData = DataSyncService.syncModelData(changes, this.diagramModelData);
     this.graph.nodes = this.diagramNodeData;
     this.graph.links = this.diagramLinkData;
-    this.logger.log(this.graph);
-
-    // if(this.graph.links) {
-    //   let index = null;
-    //   this.graph.links.map((link,i) => {
-    //     console.log(link.toArrow,link.toArrow == undefined);
-    //     if(link.toArrow === undefined) {
-    //       index = i;
-    //     }
-    //   });
-  
-    //   console.log("this.graph.link",this.graph.links.length[this.graph.links.length-1]);
-    //   if(index) {
-    //     let newLink = this.diagramLinkData[index];
-    //     newLink.toArrow = this.defaultLink.toArrow;
-    //     newLink.fromArrow = this.defaultLink.fromArrow;
-        
-    //     this.skipsDiagramUpdate = false;
-    //     this.diagramLinkData[index] = _.cloneDeep(newLink);
-        
-    //     console.log("new made",this.graph.links);
-    //   }
-    // }
+    
+    console.log("seriously???",this.myDiagram);
+    if(this.myDiagram && this.myDiagram.model) {
+      console.log("myDiagram.model",this.myDiagram.model.toJson());
+    }
   };
 
 
@@ -382,8 +368,9 @@ export class VisualViewComponent {
 
   public ngAfterViewInit() {
     console.log("ngAfterViewInit",this.graph);
-    this.diagramNodeData = this.graph.links;
-    this.diagramLinkData = this.graph.nodes;
+    
+    this.diagramNodeData = this.graph.nodes;
+    this.diagramLinkData = this.graph.links;
 
     if (this.observedDiagram) return;
     this.observedDiagram = this.myDiagramComponent.diagram;

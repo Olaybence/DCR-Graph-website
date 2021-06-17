@@ -23,6 +23,7 @@ import { MatSortModule } from '@angular/material/sort';
 import {MatTableModule} from '@angular/material/table';
 
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     
     MatTooltipModule,
     MatSortModule,
-    MatTableModule
+    MatTableModule,
+    MatIconModule
   ], exports: [
     SelectGraphComponent,
     SortPipe,

@@ -14,16 +14,12 @@ import { MatTableDataSource } from '@angular/material/table';
 //Component for creating select-graph
 export class SelectGraphComponent implements OnInit {
   searchTerm:string = "";
-  direction:string = "asc";
-  column:string = "first";
-  type:string = "string";
-
   
   //variables used for local or shared graphs
   public localGraphs: Array<Graph> = new Array<Graph>();
   public sharedGraphs: Array<Graph> = new Array<Graph>();
   
-  displayedColumns: string[] = ['id', 'name', 'shortDescription', 'creationDate', 'lastOpened'];
+  displayedColumns: string[] = ['id', 'name', 'shortDescription', 'creationDate', 'lastOpened', 'description'];
   dataSourceLocal = new MatTableDataSource<Graph>(this.localGraphs);
   dataSourceShared = new MatTableDataSource<Graph>(this.sharedGraphs);
 
@@ -122,6 +118,10 @@ export class SelectGraphComponent implements OnInit {
     this.dataSourceShared.filter = this.searchTerm.trim().toLowerCase();
     // console.log("dataSourceLocal",this.dataSourceLocal.filteredData);
     // console.log("dataSourceShared",this.dataSourceShared.filteredData);
+  }
+
+  deleteGraph(id: number) {
+    alert("delete" + id);
   }
 
 }

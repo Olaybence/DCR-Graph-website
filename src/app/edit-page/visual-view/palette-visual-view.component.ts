@@ -166,6 +166,7 @@ export class VisualViewComponent implements OnInit {
 
     save() {
         this.linkModel = this.myDiagram.model.toJson();
+        console.log(this.linkModel)
         this.myDiagram.isModified = false;
     }
 

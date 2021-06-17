@@ -32,6 +32,8 @@ export class InspectorComponent {
   public linkData = {
     key: null,
     type: null,
+    to: null,
+    from: null,
     toArrow: null,
     fromArrow: null
   }
@@ -52,7 +54,9 @@ export class InspectorComponent {
       key: null,
       type: null,
       toArrow: null,
+      to: null,
       fromArrow: null,
+      from: null
     };
 
     if (node) {
@@ -100,7 +104,9 @@ export class InspectorComponent {
         key: this._selectedLink.key,
         type: getType(this._selectedLink.data.fromArrow, this._selectedLink.data.toArrow),
         toArrow: this._selectedLink.data.toArrow,
-        fromArrow: this._selectedLink.data.fromArrow
+        to: this._selectedLink.data.to,
+        fromArrow: this._selectedLink.data.fromArrow,
+        from: this._selectedLink.data.from
       }
 
       console.log("from,to", this._selectedLink.data.fromArrow, this._selectedLink.data.toArrow);
@@ -113,7 +119,9 @@ export class InspectorComponent {
         key: null,
         type: null,
         toArrow: null,
-        fromArrow: null
+        to: null,
+        fromArrow: null,
+        from: null
       }
 
     }

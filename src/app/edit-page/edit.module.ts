@@ -20,7 +20,7 @@ import { GojsAngularModule } from 'gojs-angular';
 import { EditComponent } from './edit/edit.component';
 import { EditHeaderComponent } from './edit-header/edit-header.component';
 import { TextViewComponent } from './text-view/text-view.component';
-import { VisualViewComponent } from './visual-view/visual-view.component';
+
 import { InspectorComponent } from './visual-view/inspector/inspector.component';
 import { ErrorDialog } from '../utils/error-dialog/error-dialog';
 import { SimulateComponent } from './simulate/simulate.component';
@@ -29,6 +29,7 @@ import { ParametersDialog } from './simulate/parameters-dialog.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCardModule } from '@angular/material/card';
 import { MAT_COLOR_FORMATS, NgxMatColorPickerModule, NGX_MAT_COLOR_FORMATS } from '@angular-material-components/color-picker';
+import { VisualViewComponent } from './visual-view/visual-view.component';
 
 @NgModule({
   declarations: [
