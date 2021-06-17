@@ -1,9 +1,8 @@
 <mat-toolbar class="header">
 
-  <span>
-    <a class="home" href="/select">DCR Graphs</a>
-  </span>
-
+  
+    <span class="home" (click)="goHome()">DCR Graphs</span>
+  
   <!-- <button mat-button [matMenuTriggerFor]="edit">
     Edit
   </button>
@@ -30,25 +29,22 @@
     Analyze
   </button>
   <mat-menu #analyze="matMenu" class="customize">
-    <button mat-menu-item (click)="handleOnAnalyzeGraph()">
-      Run analyse on graph
-    </button>
+    <button mat-menu-item (click)="handleOnAnalyzeGraph()">Run analyse on graph</button>
     <button mat-menu-item (click)="handleOnViewMetrics()">View metrics</button>
     <button mat-menu-item (click)="handleOnViewLogs()">View logs</button>
   </mat-menu>
 
-  
-  
-  <span class="spacer"></span>
-  <button mat-mini-fab color="primary" aria-label="Help button" (click)="handleOnSaveAs()"
-    style="margin-right: 15px;">
+
+  <span class="spacer"></span> <!-- Middle space -->
+
+
+  <button mat-mini-fab color="primary" aria-label="Help button" (click)="handleOnSaveAs()" style="margin-right: 15px;">
     <mat-icon aria-hidden="true">save</mat-icon>
   </button>
 
-  <span class="spacer"></span>
+  <!-- <span class="spacer"></span> -->
 
-  <button mat-mini-fab color="primary" aria-label="Help button" (click)="handleOnShareGraph()"
-    style="margin-right: 15px;">
+  <button mat-mini-fab color="primary" aria-label="Help button" (click)="helper()" style="margin-right: 15px;">
     <mat-icon aria-hidden="true">help_outline</mat-icon>
   </button>
 

@@ -22,11 +22,9 @@
 
 
 .home {
-  padding-top: 2cm;
+  margin: 10px;
   color: black;
-  font-size: 170%;
-  margin-right: 2cm;
-  
+  font-size: 50px;
 }
 
 ::ng-deep .customize {

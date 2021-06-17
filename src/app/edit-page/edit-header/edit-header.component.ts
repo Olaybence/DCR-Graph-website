@@ -21,50 +21,48 @@ export class EditHeaderComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  handleOnHomePage() {
-    console.log('clicked on HomePage');
-    this.router.navigate(['./select']);
+  goHome() {
+    this.router.navigate(['./main']);
   }
-  handleOnAddObject() {
-    console.log('clicked on AddObject');
-  }
-  handleOnRemoveObject() {
-    console.log('clicked on RemoveObject');
-  }
-  handleOnConnectObject() {
-    console.log('clicked on ConnectObject');
-  }
+  
   handleOnSaveAs() {
     console.log("Save as",this.graph)
     this.graphService.save(this.graph);
   }
-  handleOnLoad() {
-    console.log('clicked on Load');
-  }
+  
+  // Simulate
   handleOnSimulateGraph() {
-    this.changeView('simulate')
+    this.onChangeView.emit('simulate');
   }
+
   handleOnEditParameters() {
     console.log('clicked on EditParameters');
   }
+  
   handleOnViewExecutionLog() {
     console.log('clicked on ViewExecutionLog');
   }
+  
+  // Analyze
   handleOnAnalyzeGraph() {
-    this.changeView('analyze')
+    this.onChangeView.emit('analyze');
   }
+
   handleOnViewMetrics() {
     console.log('clicked on ViewMetrics');
   }
+  
   handleOnViewLogs() {
     console.log('clicked on AddObject');
   }
+
+  // Other functions
   handleOnShareGraph() {
     console.log('clicked on ShareGraph');
   }
 
-  changeView(vt: ViewType) {
-    this.onChangeView.emit(vt);
+  helper() {
+    alert("Informations that explains every aspects of the graphs (nodes parameters, links types, shortcuts)!");
   }
 
   get selectedView(): string {

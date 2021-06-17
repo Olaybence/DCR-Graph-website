@@ -133,7 +133,7 @@ export class InspectorComponent {
 
     }
     
-    if(!this.linkData.toArrow || !this.linkData.fromArrow) {
+    if(this.linkData && (!this.linkData.toArrow || !this.linkData.fromArrow)) {
       this.linkData.toArrow = RelationTypesTo[this.defaultRelation];
       this.linkData.fromArrow = RelationTypesFrom[this.defaultRelation];
       this.onFormChangeLink.emit(this.linkData);
