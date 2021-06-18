@@ -63,3 +63,15 @@ line1 is the title, line2 is the undertext */
 table {
     width: 100%;
 }
+
+/* Trying */
+/* body {
+    margin: 0;
+    overflow: hidden;
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background-image: url("https://user-images.githubusercontent.com/26748614/96337412-581f2e80-1087-11eb-90f3-f033a8a1b41e.jpg");
+    background-size: cover;
+    z-index: -100;
+} */

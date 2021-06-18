@@ -29,7 +29,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCardModule } from '@angular/material/card';
 import { MAT_COLOR_FORMATS, NgxMatColorPickerModule, NGX_MAT_COLOR_FORMATS } from '@angular-material-components/color-picker';
 import { VisualViewComponent } from './visual-view/visual-view.component';
-import { EditFooterComponent } from './edit-footer/edit-footer.component';
+import { FooterComponent } from '../shared/footer/footer.component';
+import { SharedModule } from '../shared/shared.module';
+
 @NgModule({
   declarations: [
     EditComponent,
@@ -44,8 +46,7 @@ import { EditFooterComponent } from './edit-footer/edit-footer.component';
     ErrorDialog,
 
     SimulateComponent,
-    AnalyzeComponent,
-    EditFooterComponent
+    AnalyzeComponent
   ],
   imports: [
     CommonModule,
@@ -64,7 +65,8 @@ import { EditFooterComponent } from './edit-footer/edit-footer.component';
 
     GojsAngularModule,
 
-    NgxMatColorPickerModule
+    // NgxMatColorPickerModule,
+    SharedModule
   ],
   providers: [
     { provide: MAT_COLOR_FORMATS, useValue: NGX_MAT_COLOR_FORMATS }

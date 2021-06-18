@@ -1,31 +1,41 @@
+/* BENCE */
+
 .spacer {
-  flex: 1 1 auto;
+    flex: 1 1 auto;
 }
 
 .toolbar {
-  position: sticky;
-  position: -webkit-sticky; /* For macOS/iOS Safari */
-  top: 0; /* Sets the sticky toolbar to be on top */
-  z-index: 1000; /* Ensure that your app's content doesn't overlap the toolbar */
+    position: sticky;
+    position: -webkit-sticky;
+    /* For macOS/iOS Safari */
+    top: 0;
+    /* Sets the sticky toolbar to be on top */
+    z-index: 1000;
+    /* Ensure that your app's content doesn't overlap the toolbar */
 }
 
 .ml {
-  margin-left: 10px important!;
+    margin-left: 10px important!;
 }
 
 .title {
-  margin-top: 100px;
-  margin-bottom: 50px;
-  margin-left: 50px;
+    margin-top: 100px;
+    margin-bottom: 50px;
+    margin-left: 50px;
+    /* color:rgb(255 200 0); */
 }
 
-/* OLD STUFF */
 
+/* OLD STUFF */
 
 .header {
     display: flex;
     justify-content: space-between;
     padding: 15px
+}
+
+.new-project {
+    color: white
 }
 
 .middle {
@@ -34,50 +44,51 @@
     color: pink;
 }
 
-  
-  .grid {
+.grid {
     inline-size: 90%;
     margin-inline: auto;
     max-inline-size: 48em;
-  }
-  
-  /* helpers/sticky.css */
-  
-  .sticky {
+}
+
+
+/* helpers/sticky.css */
+
+.sticky {
     position: sticky;
     will-change: transform;
-  }
-  
-  .sticky--top {
+}
+
+.sticky--top {
     top: 0;
-  }
-  
-  /* layout/base.css */
-  
-  * {
+}
+
+
+/* layout/base.css */
+
+* {
     box-sizing: inherit;
-  }
-  
-  html {
+}
+
+html {
     box-sizing: border-box;
-  }
-  
-  body {
+}
+
+body {
     font-family: 'Roboto', sans-serif;
     line-height: 1.75;
     margin: 0;
     min-block-size: 100vh;
-  }
-  
-  /* layout/header.css */
-  
-  .header {
+}
+
+
+/* layout/header.css */
+
+.header {
     background-color: #fff;
     padding-block: 1em;
-  }
-  
-  
-  .header::after {
+}
+
+.header::after {
     bottom: 0;
     box-shadow: 0 0.0625em 0.5em rgba(0, 0, 0, 0.3);
     content: '';
@@ -88,53 +99,61 @@
     top: 0;
     transition: opacity 0.3s;
     z-index: -1;
-  }
-  
-  .header.is-active::after {
+}
+
+.header.is-active::after {
     opacity: 1;
-  }
-  
-  /* layout/main.css */
-  
-  .main {
+}
+
+
+/* layout/main.css */
+
+.main {
     padding-block: 6em;
-  }
-  
-  /* modules/headline.css */
-  
-  h1 {
+}
+
+
+/* modules/headline.css */
+
+h1 {
     margin-block: 0.1em;
     font-size: 400%;
     left: 0;
-  }
-  
-  /* modules/navigation.css */
-  
-  .navigation__list {
+}
+
+
+/* modules/navigation.css */
+
+.navigation__list {
     list-style: none;
     margin: 0;
     padding: 0;
-  }
-  
-  .navigation__list--inline {
+}
+
+.navigation__list--inline {
     display: flex;
     gap: 1.5em;
-  }
-  
-  .navigation__link {
+}
+
+.navigation__link {
     color: inherit;
     display: block;
     padding-inline: 1em;
     text-decoration: none;
-  }
-  
-  .navigation__link--is-active {
+}
+
+.navigation__link--is-active {
     background-color: #3f51b5;
     border-radius: 7px;
     color: #fff;
-  }
-  
-  
-  p {
+}
+
+button {
+    color: #3f51b5;
+    border-width: 0.1cm;
+    border-color: black;
+}
+
+p {
     padding-block: 1.5em;
-  }
+}

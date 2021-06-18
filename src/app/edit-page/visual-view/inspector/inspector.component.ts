@@ -17,6 +17,8 @@ export class InspectorComponent {
   public _selectedLink: go.Link;
 
   public relations: Array<string> = RELATIONS; // just for HTML select
+  
+  // The default relation for arrows
   public defaultRelation = "Exclusion";
 
   public disabled = false;
@@ -26,23 +28,12 @@ export class InspectorComponent {
 
   public linkData = null;
   public nodeData = null;
-  // public nodeData = {
-  //   key: null,
-  //   color: null,
-  //   text: null,
-  //   pending: null
-  // };
-  // public linkData = {
-  //   key: null,
-  //   type: null,
-  //   to: null,
-  //   from: null,
-  //   toArrow: null,
-  //   fromArrow: null
-  // }
 
   @Input()
   public model: go.Model;
+  
+  @Input()
+  public diagramNodeData: Array<Object>;
 
   @Output()
   public onFormChangeNode: EventEmitter<any> = new EventEmitter<any>();
@@ -52,38 +43,27 @@ export class InspectorComponent {
   @Input()
   get selectedNode() { return this._selectedNode; }
   set selectedNode(node: go.Node) {
+    console.log("Inspector diagramNodeData", this.diagramNodeData);
+    // Deselect link
     this._selectedLink = null;
     this.linkData = null;
-    // this.linkData = {
-    //   key: null,
-    //   type: null,
-    //   toArrow: null,
-    //   to: null,
-    //   fromArrow: null,
-    //   from: null
-    // };
 
+    // Clicked on a node
     if (node) {
 
       this._selectedNode = node;
       this.nodeData = {
-        key: this._selectedNode.data.key,
-        color: this._selectedNode.data.color,
-        text: this._selectedNode.data.text,
-        pending: this._selectedNode.data.pending
+        key: node.data.key,
+        color: node.data.color,
+        text: node.data.text,
+        pending: node.data.pending,
+        loc: node.data.loc
       };
 
+      // Clicked on the canvas's background
     } else {
-
       this._selectedNode = null;
       this.nodeData = null;
-      // this.nodeData = {
-      //   key: null,
-      //   color: null,
-      //   text: null,
-      //   pending: null
-      // };
-
     }
   }
 
@@ -92,53 +72,42 @@ export class InspectorComponent {
   set selectedLink(link: go.Link) {
     console.log("set selectedLink", link);
 
-    // Remove selected node 
+    // Deselect node
     this._selectedNode = null;
     this.nodeData = null;
-    // this.nodeData = {
-    //   key: null,
-    //   color: null,
-    //   text: null,
-    //   pending: null
-    // };
 
     // If a link is selected
     if (link) {
 
       this._selectedLink = link;
       this.linkData = {
-        key: this._selectedLink.key,
-        type: getType(this._selectedLink.data.fromArrow, this._selectedLink.data.toArrow),
-        toArrow: this._selectedLink.data.toArrow,
-        to: this._selectedLink.data.to,
-        fromArrow: this._selectedLink.data.fromArrow,
-        from: this._selectedLink.data.from
+        key: link.key,
+        type: getType(link.data.fromArrow, link.data.toArrow),
+        toArrow: link.data.toArrow,
+        to: link.data.to,
+        fromArrow: link.data.fromArrow,
+        from: link.data.from
       }
 
-      console.log("from,to", this._selectedLink.data.fromArrow, this._selectedLink.data.toArrow);
-      console.log("getType", getType(this._selectedLink.data.fromArrow, this._selectedLink.data.toArrow));
+      console.log("from,to", link.data.fromArrow, link.data.toArrow);
+      console.log("getType", getType(link.data.fromArrow, link.data.toArrow));
 
+      // Clicked on the canvas's background
     } else { // No link selected
-
       this._selectedLink = null;
       this.linkData = null;
-      // this.linkData = {
-      //   key: null,
-      //   type: null,
-      //   toArrow: null,
-      //   to: null,
-      //   fromArrow: null,
-      //   from: null
-      // }
-
     }
-    
-    if(this.linkData && (!this.linkData.toArrow || !this.linkData.fromArrow)) {
+
+    // Set a default relations if there wasn't
+    if (this.linkData && (!this.linkData.toArrow || !this.linkData.fromArrow)) {
       this.linkData.toArrow = RelationTypesTo[this.defaultRelation];
       this.linkData.fromArrow = RelationTypesFrom[this.defaultRelation];
+      
+      this._selectedLink = this.linkData;
+      this._selectedNode = null;
       this.onFormChangeLink.emit(this.linkData);
     }
-    console.log("linkData",this.linkData);
+    console.log("linkData", this.linkData);
   }
 
   constructor() { }

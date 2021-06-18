@@ -135,7 +135,7 @@ export class VisualViewComponent {
             )
         },
         // Location
-        // new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+        new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
         /// Shape of the Nodes
         $(go.Panel, 'Auto',
           $(go.Shape, 'RoundedRectangle', { stroke: null },
@@ -219,10 +219,6 @@ export class VisualViewComponent {
           new go.Binding('toArrow', 'toArrow'),
           { scale: 2, fill: '#969696' }),
 
-        // $(go.Shape, {
-        //   toArrow: RelationTypesTo[this.defaultRelation],
-        //   fromArrow: RelationTypesFrom[this.defaultRelation]
-        // }),
         /// General propoerties
         {
           /// The click and show red text (Not shows rn, but called)
@@ -265,10 +261,12 @@ export class VisualViewComponent {
     // (since this is a GoJS model changed listener event function)
     // this way, we don't log an unneeded transaction in the Diagram's undoManager history
     this.skipsDiagramUpdate = true;
-    if(changes && changes.modifiedLinkData && changes.modifiedLinkData.length >= 1) {
+
+    // This part is for new links to give them a default relation
+    if (changes && changes.modifiedLinkData && changes.modifiedLinkData.length >= 1) {
       console.log("changes", changes.modifiedLinkData[0].toArrow);
-      changes.modifiedLinkData.map((link,i) => {
-        if(!link.toArrow) {
+      changes.modifiedLinkData.map((link, i) => {
+        if (!link.toArrow) {
           link.toArrow = RelationTypesTo[this.defaultRelation];
           link.fromArrow = RelationTypesFrom[this.defaultRelation];
           changes.modifiedLinkData[i] = _.cloneDeep(link);
@@ -276,17 +274,33 @@ export class VisualViewComponent {
       });
       console.log("changes", changes.modifiedLinkData[0].toArrow);
     }
+
+    // 
+    if (changes && changes.modifiedNodeData && changes.modifiedNodeData.length >= 1) {
+      changes.modifiedNodeData.map((node, i) => {
+        console.log("changes", i, node.pending);
+        if (!node.pending) {
+          node.pending = false;
+          changes.modifiedNodeData[i] = _.cloneDeep(node);
+        }
+        console.log("changes", i, node.toArrow);
+      });
+    }
+
+    // Loading in the changes
     this.diagramNodeData = DataSyncService.syncNodeData(changes, this.diagramNodeData);
     this.diagramLinkData = DataSyncService.syncLinkData(changes, this.diagramLinkData);
     this.diagramModelData = DataSyncService.syncModelData(changes, this.diagramModelData);
     this.graph.nodes = this.diagramNodeData;
     this.graph.links = this.diagramLinkData;
 
-    console.log(this.myDiagramComponent.diagram.diagramNodeData);
-    console.log(this.diagramNodeData,this.diagramLinkData);
-    if (this.myDiagram && this.myDiagram.model) {
-      console.log("myDiagram.model", this.myDiagram.model.toJson());
-    }
+    console.log("this.myDiagramComponent.diagram.diagramNodeData", this.myDiagramComponent.diagram.diagramNodeData);
+    console.log("this.diagramNodeData", this.diagramNodeData, "this.diagramLinkData", this.diagramLinkData);
+
+    // Testing the toJson to get the whole data to the back-end
+    // if (this.myDiagram && this.myDiagram.model) {
+    //   console.log("myDiagram.model", this.myDiagram.model.toJson());
+    // }
   };
 
 
@@ -389,9 +403,9 @@ export class VisualViewComponent {
 
 
   public handleInspectorChangeLink(newLinkData) {
-    console.log("handleInspectorChangeLink", newLinkData);
-    console.log(newLinkData.key);
-    console.log(this.diagramLinkData);
+    console.log("handleInspectorChangeLink newLinkData", newLinkData);
+    console.log("newLinkData.key", newLinkData.key);
+    console.log("this.diagramLinkData", this.diagramLinkData);
 
     const index = this.diagramLinkData.map(link => link.key).indexOf(newLinkData.key);
     console.log(index);
@@ -413,8 +427,8 @@ export class VisualViewComponent {
       this.skipsDiagramUpdate = false;
 
       console.log("newNodeData", newNodeData);
-      console.log("this.diagramNodeData[index]", this.diagramNodeData[index]);
       this.diagramNodeData[index] = _.cloneDeep(newNodeData);
+      console.log("this.diagramNodeData[index]", index, this.diagramNodeData[index]);
 
     }
   }

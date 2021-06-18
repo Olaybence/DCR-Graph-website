@@ -1,21 +1,22 @@
 .bordered {
-  background: #f5f5f5;
-  border: 1px solid black;
-  margin-top: 20px;
-  border-radius: 10px;
+    background: #f5f5f5;
+    border: 1px solid black;
+    margin-top: 20px;
+    border-radius: 10px;
 }
 
 .save {
-  margin: 10px;
-  margin-left: 25px;
-  background-color: #a1ec94;
+    margin: 10px;
+    margin-left: 25px;
+    background-color: #a1ec94;
 }
 
 .delete {
-  margin: 10px;
-  margin-left: 25px;
-  background-color: #ff19196b;
+    margin: 10px;
+    margin-left: 25px;
+    background-color: #ff19196b;
 }
+
 
 /* * {
   padding: 5px;

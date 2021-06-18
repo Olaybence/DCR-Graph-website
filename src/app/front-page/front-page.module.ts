@@ -25,8 +25,9 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 import { UsermanualPageComponent } from './usermanual-page/usermanual-page.component';
 import { ContactPageComponent } from './contact-page/contact-page.component';
-import { FooterComponent } from './footer/footer.component';
-import { CreateProjectDialog, HeaderComponent } from './header/header.component';
+import { FooterComponent } from '../shared/footer/footer.component';
+import { CreateProjectDialog, HeaderComponent } from '../shared/header/header.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -37,10 +38,6 @@ import { CreateProjectDialog, HeaderComponent } from './header/header.component'
     SortParamsDirective,
     ContactPageComponent,
     UsermanualPageComponent,
-    FooterComponent,
-    HeaderComponent,
-    CreateProjectDialog,
-    FooterComponent
   ],
   imports: [
     CommonModule,
@@ -59,7 +56,9 @@ import { CreateProjectDialog, HeaderComponent } from './header/header.component'
     MatTooltipModule,
     MatSortModule,
     MatTableModule,
-    MatIconModule
+    MatIconModule,
+
+    SharedModule
   ], exports: [
     MainPageComponent,
     ContactPageComponent,

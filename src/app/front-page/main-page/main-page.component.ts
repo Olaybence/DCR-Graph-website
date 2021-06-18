@@ -38,6 +38,9 @@ export class MainPageComponent implements OnInit {
         graphs => {
           console.log("graphService - getAllLocalGraphs:",graphs);
           this.localGraphs = graphs;
+          // this.localGraphs.map(graph => {
+          //   console.log(graph.lastOpened.getDate() + graph.lastOpened.getHours() + graph.lastOpened.getMinutes());
+          // });
 
           // SET UP LOCAL GRAPH TABLE
           this.dataSourceLocal = new MatTableDataSource<Graph>(this.localGraphs);
@@ -47,9 +50,9 @@ export class MainPageComponent implements OnInit {
           this.dataSourceLocal.filterPredicate = (data: Graph, filter: string) => {
             if(data.collaborators.map(user => user.name).includes(filter) ||
               data.name.toLowerCase().includes(filter) ||
-              data.description.toLowerCase().includes(filter)
-              // data.lastOpened.toString().includes(filter) ||
-              // data.creationDate.toString().includes(filter)
+              data.description.toLowerCase().includes(filter) ||
+              data.lastOpened.toString().includes(filter) ||
+              data.creationDate.toString().includes(filter)
               ) {
                 return true;
               } else {
@@ -80,9 +83,9 @@ export class MainPageComponent implements OnInit {
             if(data.collaborators.map(user => user.name).includes(filter) ||
               data.name.toLowerCase().includes(filter) ||
               data.description.toLowerCase().includes(filter) ||
-              data.comments.map(comment => comment.toLowerCase().includes(filter))
-              // data.lastOpened.toString().includes(filter) ||
-              // data.creationDate.toString().includes(filter)
+              data.comments.map(comment => comment.toLowerCase().includes(filter)) ||
+              data.lastOpened.toString().includes(filter) ||
+              data.creationDate.toString().includes(filter)
                ) {
                 return true;
               } else {
@@ -123,6 +126,17 @@ export class MainPageComponent implements OnInit {
 
   deleteGraph(id: number) {
     alert("delete" + id);
+    // TODO: DELETE
   }
+
+  formatDate(graph) {
+    console.log(graph);
+    let date = graph.lastOpened.split('T')[0];
+    let time = graph.lastOpened.split('T')[1].substring(0,5);
+    console.log(date, time);
+    return date;
+    // return date + " " + time;
+  }
+
 
 }

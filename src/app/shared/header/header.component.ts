@@ -72,6 +72,7 @@ export class CreateProjectDialog {
 
   //Doesnt properly close the dialog
   public onCancel() {
+    this.dialogRef.close();
     return;
   }
 
