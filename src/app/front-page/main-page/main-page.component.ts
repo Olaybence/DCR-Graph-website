@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import { Router } from '@angular/router';
 import { GraphService } from 'src/app/services/graph.service';
 import { Graph, Location } from 'src/app/utils/graph.model';
 
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator';
 @Component({
   selector: 'app-select-graph',
   templateUrl: './main-page.component.html',
@@ -12,7 +13,7 @@ import { MatTableDataSource } from '@angular/material/table';
   encapsulation: ViewEncapsulation.None
 })
 //Component for creating select-graph
-export class MainPageComponent implements OnInit {
+export class MainPageComponent implements OnInit, AfterViewInit {
   searchTerm:string = "";
   
   //variables used for local or shared graphs
@@ -25,22 +26,19 @@ export class MainPageComponent implements OnInit {
   dataSourceShared = new MatTableDataSource<Graph>(this.sharedGraphs);
 
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginatorLocal: MatPaginator;
+  @ViewChild(MatPaginator) paginatorShared: MatPaginator;
 
   //Constructor has implementation of getting local and shared graphs from database.
   constructor(
     protected router: Router,
     private graphService: GraphService
     ) {
-      // GET LOCAL GRAPHS
-      // this.localGraphs = this.graphService.getAllLocalGraphs();
-      // WITH HTTP REQUEST
+      // GET LOCAL GRAPHS WITH HTTP REQUEST
       this.graphService.getAllLocalGraphs().subscribe(
         graphs => {
           console.log("graphService - getAllLocalGraphs:",graphs);
           this.localGraphs = graphs;
-          // this.localGraphs.map(graph => {
-          //   console.log(graph.lastOpened.getDate() + graph.lastOpened.getHours() + graph.lastOpened.getMinutes());
-          // });
 
           // SET UP LOCAL GRAPH TABLE
           this.dataSourceLocal = new MatTableDataSource<Graph>(this.localGraphs);
@@ -66,9 +64,7 @@ export class MainPageComponent implements OnInit {
         }
       );
 
-      // GET SHARED GRAPHS
-      // this.sharedGraphs = this.graphService.getAllSharedGraphs();
-      // WITH HTTP REQUEST
+      // GET SHARED GRAPHS WITH HTTP REQUEST
       this.graphService.getAllSharedGraphs().subscribe(
         graphs => {
           console.log("graphService - getAllSharedGraphs:",graphs);
@@ -102,6 +98,11 @@ export class MainPageComponent implements OnInit {
 
   ngOnInit(): void { }
 
+  ngAfterViewInit(): void {
+    this.dataSourceLocal.paginator = this.paginatorLocal;
+    this.dataSourceShared.paginator = this.paginatorShared;
+  }
+
   //Routing the graphs to a unique path based on graph ID.
   //For both local and shared.
   selectGraph(graph: Graph) {
@@ -120,23 +121,11 @@ export class MainPageComponent implements OnInit {
     console.log(this.searchTerm.trim().toLowerCase());
     this.dataSourceLocal.filter = this.searchTerm.trim().toLowerCase();
     this.dataSourceShared.filter = this.searchTerm.trim().toLowerCase();
-    // console.log("dataSourceLocal",this.dataSourceLocal.filteredData);
-    // console.log("dataSourceShared",this.dataSourceShared.filteredData);
   }
 
   deleteGraph(id: number) {
     alert("delete" + id);
     // TODO: DELETE
   }
-
-  formatDate(graph) {
-    console.log(graph);
-    let date = graph.lastOpened.split('T')[0];
-    let time = graph.lastOpened.split('T')[1].substring(0,5);
-    console.log(date, time);
-    return date;
-    // return date + " " + time;
-  }
-
 
 }

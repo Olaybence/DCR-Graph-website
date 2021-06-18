@@ -20,6 +20,7 @@ import { MatInputModule } from '@angular/material/input';
 
 import { MatSortModule } from '@angular/material/sort';
 import {MatTableModule} from '@angular/material/table';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
@@ -55,8 +56,10 @@ import { AboutPageComponent } from './about-page/about-page.component';
     MatTooltipModule,
     MatSortModule,
     MatTableModule,
-    MatIconModule,
+    MatPaginatorModule,
 
+    MatIconModule,
+    
     SharedModule
   ], exports: [
     MainPageComponent,
