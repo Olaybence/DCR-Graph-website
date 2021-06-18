@@ -1,18 +1,22 @@
+.spacer {
+    flex: 1 1 auto;
+    padding-bottom: 130px;
+}
+
 .page {
-    max-width: 80%;
+    max-width: 800px;
     margin: auto;
 }
 
-.spacer {
-    flex: 1 1 auto;
-}
-
-tbody tr:hover{
+tbody tr:hover {
     cursor: pointer;
     background-color: #8080803b;
 }
 
+
 /* Styles for tab labels */
+
+
 /* .mat-tab-label {
     min-width: 25px !important;
     background-color: transparent;
@@ -20,7 +24,10 @@ tbody tr:hover{
     font-weight: 700;
 } */
 
+
 /* Styles for the active tab label */
+
+
 /* .mat-tab-label.mat-tab-label-active {
     min-width: 25px !important;
     background-color: transparent;
@@ -35,19 +42,25 @@ tbody tr:hover{
     outline-color: rgb(240, 240, 240);
 }
 
+
 /* hover of items in tabs */
+
 .items:hover {
     background-color: rgb(240, 240, 240);
     cursor: pointer;
 }
+
 
 /* .mat-list {
     padding: 0.1cm;
     background-color: white;
 } */
 
+
 /* Lines of the items,
 line1 is the title, line2 is the undertext */
+
+
 /*
 .line1{   
 }
@@ -56,7 +69,8 @@ line1 is the title, line2 is the undertext */
     color: rgb(138, 138, 138);
 }
 */
-.space  {
+
+.space {
     padding-bottom: 6cm;
 }
 
@@ -64,7 +78,10 @@ table {
     width: 100%;
 }
 
+
 /* Trying */
+
+
 /* body {
     margin: 0;
     overflow: hidden;
