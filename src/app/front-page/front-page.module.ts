@@ -23,11 +23,10 @@ import {MatTableModule} from '@angular/material/table';
 
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
-import { UsermanualPageComponent } from './usermanual-page/usermanual-page.component';
+
 import { ContactPageComponent } from './contact-page/contact-page.component';
-import { FooterComponent } from '../shared/footer/footer.component';
-import { CreateProjectDialog, HeaderComponent } from '../shared/header/header.component';
 import { SharedModule } from '../shared/shared.module';
+import { AboutPageComponent } from './about-page/about-page.component';
 
 
 @NgModule({
@@ -37,7 +36,7 @@ import { SharedModule } from '../shared/shared.module';
     FilterPipe,
     SortParamsDirective,
     ContactPageComponent,
-    UsermanualPageComponent,
+    AboutPageComponent
   ],
   imports: [
     CommonModule,
@@ -62,7 +61,7 @@ import { SharedModule } from '../shared/shared.module';
   ], exports: [
     MainPageComponent,
     ContactPageComponent,
-    UsermanualPageComponent,
+    AboutPageComponent,
     SortParamsDirective
   ]
 })

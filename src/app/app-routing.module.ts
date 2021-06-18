@@ -8,7 +8,7 @@ import { FrontPageModule } from './front-page/front-page.module';
 import { EditComponent } from './edit-page/edit/edit.component';
 import { MainPageComponent } from './front-page/main-page/main-page.component';
 
-import { UsermanualPageComponent } from './front-page/usermanual-page/usermanual-page.component';
+import { AboutPageComponent } from './front-page/about-page/about-page.component';
 import { ContactPageComponent } from './front-page/contact-page/contact-page.component';
 
 const routes: Routes = [
@@ -17,17 +17,13 @@ const routes: Routes = [
     component: MainPageComponent
   },
   {
-    path: 'usermanual',
-    component: UsermanualPageComponent,
+    path: 'about',
+    component: AboutPageComponent,
   },
   {
     path: 'contact',
     component: ContactPageComponent
   },
-  // About and contact routing
-  // { path: 'usermanual', component: UsermanualPageComponent },
-  // { path: 'contact', component: ContactPageComponent },
-
   {
     path: 'edit', // Edit the selected graph
     component: EditComponent, children: [
