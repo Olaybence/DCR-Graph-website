@@ -21,7 +21,6 @@ import { EditHeaderComponent } from './edit-header/edit-header.component';
 import { TextViewComponent } from './text-view/text-view.component';
 
 import { InspectorComponent } from './visual-view/inspector/inspector.component';
-import { ErrorDialog } from '../utils/error-dialog/error-dialog';
 import { SimulateComponent } from './simulate/simulate.component';
 import { AnalyzeComponent } from './analyze/analyze.component';
 import { ParametersDialog } from './simulate/parameters-dialog.component';
@@ -42,7 +41,6 @@ import { SharedModule } from '../shared/shared.module';
     TextViewComponent,
 
     ParametersDialog,
-    ErrorDialog,
 
     SimulateComponent,
     AnalyzeComponent

@@ -6,13 +6,8 @@ import * as _ from 'lodash';
 /// FROM HERE YOU CAN HAVE MORE ANGULAR COMPONENTS
 import { DataSyncService, DiagramComponent, PaletteComponent, OverviewComponent } from 'gojs-angular';
 
-/// ACHIEVEMENT: REALTIME SELECTION FROM THE EXTENSION FOLDER
-/// WORKS
-// import { RealtimeDragSelectingTool } from 'GoJS-Samples/extensionsTS/RealtimeDragSelectingTool';
-
 /// OUR STUFF
 import { Graph, RelationTypesTo, RelationTypesFrom, getType } from 'src/app/utils/graph.model';
-import { ErrorDialog } from 'src/app/utils/error-dialog/error-dialog';
 import { LoggingService } from 'src/app/services/logging.service';
 import { MatDialog } from '@angular/material/dialog';
 
