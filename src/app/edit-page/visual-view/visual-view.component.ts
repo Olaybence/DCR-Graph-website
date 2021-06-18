@@ -80,15 +80,16 @@ export class VisualViewComponent {
 
   // initialize diagram / templates
   public initDiagram(): go.Diagram {
-    // let sai = this.showArrowInfo;
-    // let infoString = this.infoString;
+
     const $ = go.GraphObject.make;
     this.myDiagram = $(go.Diagram, {
+      
+      // Undo enabled
       'undoManager.isEnabled': true,
+      
+      // Grouping enabled
       'commandHandler.archetypeGroupData': { text: 'Group', isGroup: true, color: 'blue' },
-      // THIS IS FOR THE REALTIME SELECTING THAT WORKS IN THE BASIC SAMPLE PROJECT
-      // TODO: MAKE IT TWERK
-      // dragSelectingTool: $(RealtimeDragSelectingTool, { isPartialInclusion: true }),
+      
       model: $(go.GraphLinksModel,
         {
           /// Basic link properties

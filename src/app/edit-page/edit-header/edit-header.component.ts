@@ -23,12 +23,13 @@ export class EditHeaderComponent implements OnInit {
 
   ngOnInit(): void { }
 
+  // Navigates to the main page
   goHome() {
     this.router.navigate(['./main']);
   }
 
   handleOnSaveAs() {
-    console.log("Save as", this.graph)
+    console.log("Save as", this.graph);
     this.graphService.save(this.graph);
   }
 
@@ -37,25 +38,9 @@ export class EditHeaderComponent implements OnInit {
     this.onChangeView.emit('simulate');
   }
 
-  handleOnEditParameters() {
-    console.log('clicked on EditParameters');
-  }
-
-  handleOnViewExecutionLog() {
-    console.log('clicked on ViewExecutionLog');
-  }
-
   // Analyze
   handleOnAnalyzeGraph() {
     this.onChangeView.emit('analyze');
-  }
-
-  handleOnViewMetrics() {
-    console.log('clicked on ViewMetrics');
-  }
-
-  handleOnViewLogs() {
-    console.log('clicked on AddObject');
   }
 
   // Other functions
@@ -63,6 +48,7 @@ export class EditHeaderComponent implements OnInit {
     console.log('clicked on ShareGraph');
   }
 
+  // Opens up the dialog of the keyboard shortcuts
   helper() {
     const dialogRef = this.dialog.open(GojsShortcutHelperComponent, {
       width: '450px'

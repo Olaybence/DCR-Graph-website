@@ -18,7 +18,6 @@ import { GojsAngularModule } from 'gojs-angular';
 // OWN STUFF
 import { EditComponent } from './edit/edit.component';
 import { EditHeaderComponent } from './edit-header/edit-header.component';
-import { TextViewComponent } from './text-view/text-view.component';
 
 import { InspectorComponent } from './visual-view/inspector/inspector.component';
 import { SimulateComponent } from './simulate/simulate.component';
@@ -27,7 +26,6 @@ import { ParametersDialog } from './simulate/parameters-dialog.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCardModule } from '@angular/material/card';
 import { VisualViewComponent } from './visual-view/visual-view.component';
-import { FooterComponent } from '../shared/footer/footer.component';
 import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
@@ -37,8 +35,6 @@ import { SharedModule } from '../shared/shared.module';
     EditHeaderComponent,
     VisualViewComponent,
     InspectorComponent,
-
-    TextViewComponent,
 
     ParametersDialog,
 

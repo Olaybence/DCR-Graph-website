@@ -26,7 +26,6 @@ export class InspectorComponent {
   // The default relation for arrows
   public defaultRelation = "Exclusion";
 
-
   @Input()
   public model: go.Model;
   
@@ -43,6 +42,7 @@ export class InspectorComponent {
   @Input()
   get selectedNode() { return this._selectedNode; }
   set selectedNode(node: go.Node) {
+    console.log("SelectedNode", node);
     
     // Deselect link
     this._selectedLink = null;
@@ -69,7 +69,7 @@ export class InspectorComponent {
   @Input()
   get selectedLink() { return this._selectedLink; }
   set selectedLink(link: go.Link) {
-    console.log("set selectedLink", link);
+    console.log("selectedLink", link);
 
     // Deselect node
     this._selectedNode = null;
@@ -77,7 +77,7 @@ export class InspectorComponent {
 
     // If a link is selected
     if (link) {
-
+      console.log("set selectedLink", link.data);
       this._selectedLink = link;
       this.linkData = {
         key: link.key,
@@ -95,12 +95,21 @@ export class InspectorComponent {
     }
 
     // Set a default relations if there wasn't
-    if (this.linkData && (!this.linkData.toArrow || !this.linkData.fromArrow)) {
+    if (this.linkData && 
+        (this.linkData.toArrow == null || this.linkData.toArrow == undefined || 
+          this.linkData.fromArrow == null || this.linkData.fromArrow == undefined)) {
+      
+      // Set the default on the editor
+      this.linkData.type = this.defaultRelation;
+      // Set the link arrows
       this.linkData.toArrow = RelationTypesTo[this.defaultRelation];
       this.linkData.fromArrow = RelationTypesFrom[this.defaultRelation];
       
       this._selectedLink = this.linkData;
+      
+      // Deselect node
       this._selectedNode = null;
+      
       this.onFormChangeLink.emit(this.linkData);
     }
   }

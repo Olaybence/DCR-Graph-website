@@ -5,7 +5,6 @@ import { Graph, Location } from 'src/app/utils/graph.model';
 
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
 @Component({
   selector: 'app-select-graph',
   templateUrl: './main-page.component.html',
@@ -24,9 +23,8 @@ export class MainPageComponent implements OnInit, AfterViewInit {
   dataSourceLocal = new MatTableDataSource<Graph>(this.localGraphs);
   dataSourceShared = new MatTableDataSource<Graph>(this.sharedGraphs);
 
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginatorLocal: MatPaginator;
-  @ViewChild(MatPaginator) paginatorShared: MatPaginator;
+  @ViewChild(MatSort) sortLocal: MatSort;
+  @ViewChild(MatSort) sortShared: MatSort;
 
   //Constructor has implementation of getting local and shared graphs from database.
   constructor(
@@ -41,7 +39,7 @@ export class MainPageComponent implements OnInit, AfterViewInit {
 
           // SET UP LOCAL GRAPH TABLE
           this.dataSourceLocal = new MatTableDataSource<Graph>(this.localGraphs);
-          this.dataSourceLocal.sort = this.sort;
+          this.dataSourceLocal.sort = this.sortLocal;
           
           // Set up filter for the table
           this.dataSourceLocal.filterPredicate = (data: Graph, filter: string) => {
@@ -56,7 +54,6 @@ export class MainPageComponent implements OnInit, AfterViewInit {
                 return false;
               }
           };
-
         },
         error => {
           console.log("graphService - getAllLocalGraphs Error:",error);
@@ -71,7 +68,7 @@ export class MainPageComponent implements OnInit, AfterViewInit {
 
           // SET UP SHARED GRAPH TABLE
           this.dataSourceShared = new MatTableDataSource<Graph>(this.sharedGraphs);
-          this.dataSourceShared.sort = this.sort;
+          this.dataSourceShared.sort = this.sortShared;
           
           // Set up filter for the table
           this.dataSourceShared.filterPredicate = (data: Graph, filter: string) => {
@@ -94,13 +91,9 @@ export class MainPageComponent implements OnInit, AfterViewInit {
       );
     }
 
-
   ngOnInit(): void { }
 
-  ngAfterViewInit(): void {
-    this.dataSourceLocal.paginator = this.paginatorLocal;
-    this.dataSourceShared.paginator = this.paginatorShared;
-  }
+  ngAfterViewInit(): void { }
 
   //Routing the graphs to a unique path based on graph ID.
   //For both local and shared.
@@ -116,8 +109,8 @@ export class MainPageComponent implements OnInit, AfterViewInit {
     }
   }
 
+  // Search filter
   applyFilter() {
-    console.log(this.searchTerm.trim().toLowerCase());
     this.dataSourceLocal.filter = this.searchTerm.trim().toLowerCase();
     this.dataSourceShared.filter = this.searchTerm.trim().toLowerCase();
   }

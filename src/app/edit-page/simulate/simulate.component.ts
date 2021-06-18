@@ -24,6 +24,7 @@ export class SimulateComponent implements OnInit {
     const dialogRef = this.dialog.open<ParametersDialog, DialogData>(
       ParametersDialog,
       {
+        // Serve data to the dialog component
         data: { parameters: this.parameters },
       }
     );
