@@ -3,6 +3,7 @@ import { ViewType } from '../edit/edit.component';
 import { Router } from '@angular/router';
 import { GraphService } from 'src/app/services/graph.service';
 import { Graph } from 'src/app/utils/graph.model';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-edit-header',
@@ -17,19 +18,20 @@ export class EditHeaderComponent implements OnInit {
   viewTypes: ViewType[] = ['text', 'visual'];
 
   constructor(private router: Router,
-    private graphService: GraphService) {}
+    private graphService: GraphService,
+    private dialog: MatDialog) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   goHome() {
     this.router.navigate(['./main']);
   }
-  
+
   handleOnSaveAs() {
-    console.log("Save as",this.graph)
+    console.log("Save as", this.graph)
     this.graphService.save(this.graph);
   }
-  
+
   // Simulate
   handleOnSimulateGraph() {
     this.onChangeView.emit('simulate');
@@ -38,11 +40,11 @@ export class EditHeaderComponent implements OnInit {
   handleOnEditParameters() {
     console.log('clicked on EditParameters');
   }
-  
+
   handleOnViewExecutionLog() {
     console.log('clicked on ViewExecutionLog');
   }
-  
+
   // Analyze
   handleOnAnalyzeGraph() {
     this.onChangeView.emit('analyze');
@@ -51,7 +53,7 @@ export class EditHeaderComponent implements OnInit {
   handleOnViewMetrics() {
     console.log('clicked on ViewMetrics');
   }
-  
+
   handleOnViewLogs() {
     console.log('clicked on AddObject');
   }
@@ -62,7 +64,11 @@ export class EditHeaderComponent implements OnInit {
   }
 
   helper() {
-    alert("Informations that explains every aspects of the graphs (nodes parameters, links types, shortcuts)!");
+    const dialogRef = this.dialog.open(GojsShortcutHelperComponent, {
+      width: '450px'
+    });
+
+    // alert("Informations that explains every aspects of the graphs (nodes parameters, links types, shortcuts)!");
   }
 
   get selectedView(): string {
@@ -70,5 +76,23 @@ export class EditHeaderComponent implements OnInit {
       this.selectedViewType.charAt(0).toUpperCase() +
       this.selectedViewType.slice(1)
     );
+  }
+}
+
+
+
+@Component({
+  selector: 'gojs-shortcut-helper',
+  templateUrl: 'gojs-shortcut-helper.html',
+})
+export class GojsShortcutHelperComponent {
+  constructor (private router: Router,
+    private graphService: GraphService,
+    private dialogRef: MatDialogRef<GojsShortcutHelperComponent>) {  }
+
+  //Doesnt properly close the dialog
+  public onCancel() {
+    this.dialogRef.close();
+    return;
   }
 }

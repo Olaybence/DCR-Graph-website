@@ -17,7 +17,7 @@
 <div class="left" style="width: 280px;">
     <p>Overview</p>
     <gojs-overview #myOverview [initOverview]='initOverview' [divClassName]='oDivClassName' [observedDiagram]='observedDiagram'></gojs-overview>
-    <app-inspector [diagramNodeData]='diagramNodeData' [selectedNode]='selectedNode' [selectedLink]='selectedLink' (onFormChangeNode)='handleInspectorChangeNode($event)' (onFormChangeLink)='handleInspectorChangeLink($event)'>
+    <app-inspector [diagramNodeData]='diagramNodeData' [diagramLinkData]='diagramLinkData' [selectedNode]='selectedNode' [selectedLink]='selectedLink' (onFormChangeNode)='handleInspectorChangeNode($event)' (onFormChangeLink)='handleInspectorChangeLink($event)'>
     </app-inspector>
     <div id="myArrowheadInfo" style="color:red"></div>
 </div>

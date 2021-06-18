@@ -10,6 +10,7 @@
   <ng-container *ngTemplateOutlet="graph ? Graph : Loading"></ng-container>
   <ng-template #Loading>
     <div style="text-align: center;">
+      <!-- Loading circle if graph is null -->
       <div class="loading">
         <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
       </div>

@@ -27,7 +27,6 @@ import { AnalyzeComponent } from './analyze/analyze.component';
 import { ParametersDialog } from './simulate/parameters-dialog.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCardModule } from '@angular/material/card';
-import { MAT_COLOR_FORMATS, NgxMatColorPickerModule, NGX_MAT_COLOR_FORMATS } from '@angular-material-components/color-picker';
 import { VisualViewComponent } from './visual-view/visual-view.component';
 import { FooterComponent } from '../shared/footer/footer.component';
 import { SharedModule } from '../shared/shared.module';
@@ -68,9 +67,7 @@ import { SharedModule } from '../shared/shared.module';
     // NgxMatColorPickerModule,
     SharedModule
   ],
-  providers: [
-    { provide: MAT_COLOR_FORMATS, useValue: NGX_MAT_COLOR_FORMATS }
-  ],
+  providers: [ ],
   exports: [
     EditComponent
   ]

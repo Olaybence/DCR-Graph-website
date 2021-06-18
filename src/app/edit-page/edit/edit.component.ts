@@ -38,6 +38,8 @@ export class EditComponent implements OnInit {
       this.graph = this.graphService.graph;
       console.log(this.graph);
     } else {
+      
+      // Re
       this.graphService.getGraph(this.edit_id,this.location).subscribe(
         graph => {
           console.log("localGraphService - getGraph ",this.edit_id,":",graph);

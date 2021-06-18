@@ -13,27 +13,27 @@ import { getType, RELATIONS, RelationTypesFrom, RelationTypesTo } from 'src/app/
 })
 export class InspectorComponent {
 
+  // Selected Node and Link
   public _selectedNode: go.Node;
   public _selectedLink: go.Link;
+  
+  // Form data coming in
+  public nodeData = null;
+  public linkData = null;
 
   public relations: Array<string> = RELATIONS; // just for HTML select
   
   // The default relation for arrows
   public defaultRelation = "Exclusion";
 
-  public disabled = false;
-  public color: ThemePalette = 'primary';
-  public touchUi = false;
-  colorCtr: AbstractControl = new FormControl(null);
-
-  public linkData = null;
-  public nodeData = null;
 
   @Input()
   public model: go.Model;
   
   @Input()
   public diagramNodeData: Array<Object>;
+  @Input()
+  public diagramLinkData: Array<Object>;
 
   @Output()
   public onFormChangeNode: EventEmitter<any> = new EventEmitter<any>();
@@ -43,14 +43,13 @@ export class InspectorComponent {
   @Input()
   get selectedNode() { return this._selectedNode; }
   set selectedNode(node: go.Node) {
-    console.log("Inspector diagramNodeData", this.diagramNodeData);
+    
     // Deselect link
     this._selectedLink = null;
     this.linkData = null;
 
     // Clicked on a node
     if (node) {
-
       this._selectedNode = node;
       this.nodeData = {
         key: node.data.key,
@@ -89,9 +88,6 @@ export class InspectorComponent {
         from: link.data.from
       }
 
-      console.log("from,to", link.data.fromArrow, link.data.toArrow);
-      console.log("getType", getType(link.data.fromArrow, link.data.toArrow));
-
       // Clicked on the canvas's background
     } else { // No link selected
       this._selectedLink = null;
@@ -107,20 +103,22 @@ export class InspectorComponent {
       this._selectedNode = null;
       this.onFormChangeLink.emit(this.linkData);
     }
-    console.log("linkData", this.linkData);
   }
 
   constructor() { }
 
   public onCommitNodeForm() {
-    console.log("onCommitNodeForm", this.nodeData);
+    // This is needed to keep the node in place if it's moved after selection
+    this.nodeData.loc = this._selectedNode.data.loc;
+    
     this.onFormChangeNode.emit(this.nodeData);
   }
 
   public onCommitLinkForm() {
-    console.log("onCommitLinkForm", this.linkData);
+    // In order to transform the type data to an acceptable format for GoJS we make those to 
     this.linkData.fromArrow = RelationTypesFrom[this.linkData.type];
     this.linkData.toArrow = RelationTypesTo[this.linkData.type];
+
     this.onFormChangeLink.emit(this.linkData);
   }
 }

@@ -6,9 +6,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { CommonModule } from '@angular/common';
-import { CreateProjectDialog, HeaderComponent } from './header/header.component';
+import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { NgModule } from '@angular/core';
+import { CreateProjectDialog } from './header/create-project-dialog';
 
 @NgModule({
     declarations: [

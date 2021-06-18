@@ -16,8 +16,8 @@ export class AnalyzeComponent implements OnInit {
   }
 
   arrayOfData = [
-    'LogsLogsLogsLogs LogsLogsLogsLogs LogsLogsLogsLogs LogsLogsLogsLogs LogsLogsLogsLogs LogsLogsLogsLogs LogsLogsLogsLogs LogsLogsLogsLogs LogsLogsLogsLogs LogsLogsLogsLogs LogsLogsLogsLogs LogsLogsLogsLogs LogsLogsLogsLogs LogsLogsLogsLogs LogsLogsLogsLogs LogsLogsLogsLogs',
-    'MetricsMetrics MetricsMetrics MetricsMetrics MetricsMetrics MetricsMetrics MetricsMetrics MetricsMetrics MetricsMetrics MetricsMetrics MetricsMetrics MetricsMetrics MetricsMetrics MetricsMetrics MetricsMetrics MetricsMetrics MetricsMetrics MetricsMetrics MetricsMetrics MetricsMetrics MetricsMetrics',
+    'TODO: Logging of the analyze will get here.',
+    'TODO: Metrics needs to go here.',
   ];
 
   myFunctionLogs() {
