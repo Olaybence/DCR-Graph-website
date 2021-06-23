@@ -5,15 +5,26 @@
     border-radius: 10px;
 }
 
+.buttons {
+  display: flex;
+  text-align: center;
+  flex-direction: row;
+  align-content: center;
+  justify-content: space-evenly;
+  align-items: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
 .save {
-    margin: 10px;
-    margin-left: 25px;
+    /* margin: 10px;
+    margin-left: 25px; */
     background-color: #a1ec94;
 }
 
 .delete {
-    margin: 10px;
-    margin-left: 25px;
+    /* margin: 10px;
+    margin-left: 25px; */
     background-color: #ff19196b;
 }
 

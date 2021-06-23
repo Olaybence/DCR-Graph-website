@@ -10,7 +10,7 @@
     </mat-form-field> -->
     <p>Color: <input matInput name='color' [(ngModel)]='nodeData.color' /></p>
     <p>Text: <input matInput name='text' [(ngModel)]='nodeData.text' /></p>
-    <div mat-dialog-actions>
+    <div class="buttons">
       <button mat-raised-button class="save" type="submit">Save</button>
       <button mat-raised-button class="delete">Delete</button>
     </div>
@@ -25,7 +25,9 @@
         </option>
       </select>
     </p> <!-- Select dropdown -->
-    <button mat-raised-button class="save" type="submit">Save</button>
-    <button mat-raised-button class="delete">Delete</button>
+    <div class="buttons">
+      <button mat-raised-button class="save" type="submit">Save</button>
+      <button mat-raised-button class="delete">Delete</button>
+    </div>
   </form>
 </div>

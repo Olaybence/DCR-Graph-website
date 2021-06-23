@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { CommonModule } from '@angular/common';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -27,11 +27,13 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCardModule } from '@angular/material/card';
 import { VisualViewComponent } from './visual-view/visual-view.component';
 import { SharedModule } from '../shared/shared.module';
+import { EditProjectDialog } from './visual-view/edit-project-dialog';
 
 @NgModule({
   declarations: [
     EditComponent,
 
+    EditProjectDialog,
     EditHeaderComponent,
     VisualViewComponent,
     InspectorComponent,
@@ -55,6 +57,12 @@ import { SharedModule } from '../shared/shared.module';
     MatInputModule,
     MatTooltipModule,
     MatCardModule,
+    
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatInputModule,
 
     GojsAngularModule,
 

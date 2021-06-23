@@ -10,6 +10,7 @@ import { DataSyncService, DiagramComponent, PaletteComponent, OverviewComponent 
 import { Graph, RelationTypesTo, RelationTypesFrom, getType } from 'src/app/utils/graph.model';
 import { LoggingService } from 'src/app/services/logging.service';
 import { MatDialog } from '@angular/material/dialog';
+import { EditProjectDialog } from './edit-project-dialog';
 
 
 /// Here they are finally ran before we use them in the model
@@ -30,7 +31,7 @@ export function infoString(obj: go.GraphObject) {
   } else if (part instanceof go.Node) {
     const node = part;
     const link = node.linksConnected.first();
-    if (link) msg = 'TODO: show parameters';
+    if (link) msg = 'No parameters assigned';
   }
 
   return msg;
@@ -258,6 +259,7 @@ export class VisualViewComponent {
     // this way, we don't log an unneeded transaction in the Diagram's undoManager history
     this.skipsDiagramUpdate = true;
 
+    // CHANGE REGARGDING LINKS
     // This part is for new links to give them a default relation
     if (changes && changes.modifiedLinkData && changes.modifiedLinkData.length >= 1) {
       console.log("changes", changes.modifiedLinkData[0].toArrow);
@@ -270,8 +272,9 @@ export class VisualViewComponent {
       });
       console.log("changes", changes.modifiedLinkData[0].toArrow);
     }
-
-    // 
+    
+    // CHANGE - REGARGDING NODES
+    // Add pending if it's null
     if (changes && changes.modifiedNodeData && changes.modifiedNodeData.length >= 1) {
       changes.modifiedNodeData.map((node, i) => {
         console.log("changes", i, node.pending);
@@ -368,11 +371,16 @@ export class VisualViewComponent {
   // currently selected node; for inspector
   public selectedNode: go.Node | null = null;
   public selectedLink: go.Link | null = null;
-
+  
+  public startNode = {"color":"white","key":"-1", "loc":"155 -138", "category":"Start","text":"Start"};
+  public endNode = {"color":"white","key":"-2", "loc":"757 229", "category":"End","text":"End"};
   public ngAfterViewInit() {
     console.log("ngAfterViewInit", this.graph);
 
-    this.diagramNodeData = this.graph.nodes;
+
+    // this.diagramNodeData.push(this.startNode);
+    // this.diagramNodeData.push(this.endNode);
+    this.graph.nodes.map(node => this.diagramNodeData.push(node));
     this.diagramLinkData = this.graph.links;
 
     if (this.observedDiagram) return;
@@ -435,5 +443,11 @@ export class VisualViewComponent {
 
   editProject() {
     // TODO: Edit Project
+    const dialogRef = this.dialog.open(EditProjectDialog, {
+      width: '250px',
+      data: { graph: this.graph }
+    });  
   }
 }
+
+

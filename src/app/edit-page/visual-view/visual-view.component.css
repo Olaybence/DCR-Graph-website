@@ -45,5 +45,5 @@ body {
 }
 
 .project:hover {
-  
+  cursor: pointer;
 }

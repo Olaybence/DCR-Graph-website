@@ -1,6 +1,6 @@
 .site-footer {
     margin-bottom: 0px;
-    bottom: 0cm;
+    bottom: 0;
     left: 0;
     width: 100%;
     text-align: center;
@@ -9,6 +9,7 @@
     line-height: 20px;
     color: rgba(255, 255, 255, 0.493);
     clear: both;
+    position: absolute;
 }
 
 .site-footer hr {
