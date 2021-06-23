@@ -6,28 +6,26 @@ import { EditModule } from './edit-page/edit.module';
 import { FrontPageModule } from './front-page/front-page.module';
 
 import { EditComponent } from './edit-page/edit/edit.component';
-import { SelectGraphComponent } from './front-page/select-graph/select-graph.component';
+import { MainPageComponent } from './front-page/main-page/main-page.component';
 
-import { AboutPageComponent } from './about-page/about-page.component';
-import { AboutPageModule } from './about-page/about-page.module';
-import { ContactPageComponent } from './contact-page/contact-page.component';
+import { AboutPageComponent } from './front-page/about-page/about-page.component';
+import { ContactPageComponent } from './front-page/contact-page/contact-page.component';
 
 const routes: Routes = [
-  { path: "", redirectTo: "/select", pathMatch: "full" },
   {
-    path: 'select', // Component Selected (Select feature)
-    component: SelectGraphComponent, children: [
-      {
-        path: ':id',
-        component: SelectGraphComponent,
-      }
-    ]
+    path: 'main', // Component Selected (Select feature)
+    component: MainPageComponent
   },
-  // About and contact routing
-  { path: 'about', component: AboutPageComponent },
-  { path: 'contact', component: ContactPageComponent },
-
-  { path: 'edit', // Edit the selected graph
+  {
+    path: 'about',
+    component: AboutPageComponent,
+  },
+  {
+    path: 'contact',
+    component: ContactPageComponent
+  },
+  {
+    path: 'edit', // Edit the selected graph
     component: EditComponent, children: [
       {
         path: ':local',
@@ -48,16 +46,20 @@ const routes: Routes = [
             component: EditComponent,
           }
         ]
+      },
+      {
+        path: '**',
+        redirectTo: "/main"
       }
     ]
-  }
+  },
+  { path: "**", redirectTo: "/main", pathMatch: "full" }
 ];
 
 @NgModule({
   imports: [
     RouterModule.forRoot(routes),
     FrontPageModule,
-    AboutPageModule,
     EditModule
   ],
   exports: [RouterModule]

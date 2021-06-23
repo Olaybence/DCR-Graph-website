@@ -1,21 +1,33 @@
-<form *ngIf='selectedNode' (ngSubmit)='onCommitNodeForm()'>
-  <p>Key: <input style="display: inline;" name='key' disabled [(ngModel)]='nodeData.key' /></p>
-  <p>Color: <input style="display: inline;" name='color' [(ngModel)]='nodeData.color' /></p>
-  <p>Text: <input style="display: inline;" name='text' [(ngModel)]='nodeData.text' /></p>
-  <button type="submit">Commit</button>
-</form>
+<div class="bordered">
+  <h3>Editor</h3>
+  <form *ngIf='selectedNode' (ngSubmit)='onCommitNodeForm()'>
+    <p>Node: {{nodeData.key}}</p>
+    <mat-checkbox name='pending' [(ngModel)]='nodeData.pending'>Pending</mat-checkbox>
+    <!-- <mat-form-field>
+      <input matInput [ngxMatColorPicker]="picker" [formControl]="colorCtr" [(ngModel)]="nodeData.color" [disabled]="disabled">
+      <ngx-mat-color-toggle matSuffix [for]="picker"></ngx-mat-color-toggle>
+      <ngx-mat-color-picker #picker [touchUi]="touchUi" [color]="color"></ngx-mat-color-picker>
+    </mat-form-field> -->
+    <p>Color: <input matInput name='color' [(ngModel)]='nodeData.color' /></p>
+    <p>Text: <input matInput name='text' [(ngModel)]='nodeData.text' /></p>
+    <div class="buttons">
+      <button mat-raised-button class="save" type="submit">Save</button>
+      <button mat-raised-button class="delete">Delete</button>
+    </div>
+  </form>
 
-<form *ngIf='selectedLink' (ngSubmit)='onCommitLinkForm()'>
-  <p>Type: 
-    <select name="toArrow" [(ngModel)]="linkData.toArrow">
-      <option *ngFor="let relation of relations" [ngValue]="relation.value">
-        {{ relation.key }}
-      </option>
-    </select>
-  </p> <!-- Select dropdown -->
-  <button type="submit">Commit</button>
-</form>
-
-<div *ngIf='!selectedNode && !selectedLink'>
-  Select a Node to use Inspector
+  <form *ngIf='selectedLink' (ngSubmit)='onCommitLinkForm()'>
+    <p>Link: {{linkData.key}}</p>
+    <p>Type:
+      <select name="type" [(ngModel)]="linkData.type">
+        <option *ngFor="let relation of relations" [ngValue]="relation">
+          {{ relation }}
+        </option>
+      </select>
+    </p> <!-- Select dropdown -->
+    <div class="buttons">
+      <button mat-raised-button class="save" type="submit">Save</button>
+      <button mat-raised-button class="delete">Delete</button>
+    </div>
+  </form>
 </div>

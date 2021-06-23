@@ -1,4 +1,35 @@
-* {
+.bordered {
+    background: #f5f5f5;
+    border: 1px solid black;
+    margin-top: 20px;
+    border-radius: 10px;
+}
+
+.buttons {
+  display: flex;
+  text-align: center;
+  flex-direction: row;
+  align-content: center;
+  justify-content: space-evenly;
+  align-items: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.save {
+    /* margin: 10px;
+    margin-left: 25px; */
+    background-color: #a1ec94;
+}
+
+.delete {
+    /* margin: 10px;
+    margin-left: 25px; */
+    background-color: #ff19196b;
+}
+
+
+/* * {
   padding: 5px;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: 600;
@@ -28,4 +59,4 @@ input {
 input:focus {
   border-radius: 10px;
   outline: none;
-}
+} */

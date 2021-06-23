@@ -1,30 +1,46 @@
+<!-- <mat-toolbar>
+  <mat-toolbar-row>
+
+    <button style="margin-left:10px;" mat-button (click)="directMain()">Home</button>
+    <button style="margin-left:10px;" mat-button (click)="directUserManual()">User Manual</button>
+    <button style="margin-left:10px;" mat-button (click)="directContactUs()">Contact Us</button>
+
+    <span class="spacer"></span>
+
+    <button mat-button (click)="createProject()">New Project</button>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="title">
+  <h1>DCR Graph Manager</h1>
+  <p>A Dynamic Condition Response Graphs Tool</p>
+</div> -->
 <header class="header sticky sticky--top js-header">
 
     <div class="grid">
-  
-      <nav class="navigation">
-        <ul class="navigation__list navigation__list--inline">
-          <li class="navigation__item"><a routerLink="/select" class="navigation__link" routerLinkActive="navigation__link--is-active">Home</a></li>
-          <li class="navigation__item"><a routerLink="/about" class="navigation__link" routerLinkActive="navigation__link--is-active">About</a></li>
-          <li class="navigation__item"><a routerLink="/contact" class="navigation__link" routerLinkActive="navigation__link--is-active">Contact Us</a></li>
-        </ul>
-      </nav>
-  
-    </div>
-  
-    <button mat-stroked-button (click)="createProject()">
-      New Project
-   </button>
 
-  </header>
-  
-  <main class="main">
-  
-    <div class="grid">
-  
-      <h1>DCR Graph Manager</h1>
-  
-      <p>A Dynamic Condition Response Graphs Tool</p>
-      
+        <nav class="navigation">
+            <ul class="navigation__list navigation__list--inline">
+                <li class="navigation__item"><a routerLink="/main" class="navigation__link" routerLinkActive="navigation__link--is-active">Home</a></li>
+                <li class="navigation__item"><a routerLink="/about" class="navigation__link" routerLinkActive="navigation__link--is-active">About</a></li>
+                <li class="navigation__item"><a routerLink="/contact" class="navigation__link" routerLinkActive="navigation__link--is-active">Contact Us</a></li>
+            </ul>
+        </nav>
+
     </div>
-  </main>
+
+    <button mat-stroked-button (click)="createProject()">
+    New Project
+  </button>
+</header>
+
+<main class="main">
+
+    <div class="grid">
+
+        <h1>DCR Graph Manager</h1>
+
+        <p>A Dynamic Condition Response Graphs Tool</p>
+
+    </div>
+</main>

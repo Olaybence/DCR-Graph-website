@@ -1,28 +1,40 @@
+.spacer {
+    flex: 1 1 auto;
+    padding-bottom: 111px;
+}
+
 .page {
-    max-width: 800px;
+    max-width: 80%;
     margin: auto;
 }
 
-.spacer {
-    flex: 1 1 auto;
+tbody tr:hover {
+    cursor: pointer;
+    background-color: #8080803b;
 }
 
+
 /* Styles for tab labels */
-.mat-tab-label {
+
+
+/* .mat-tab-label {
     min-width: 25px !important;
     background-color: transparent;
     color: black;
     font-weight: 700;
-}
+} */
+
 
 /* Styles for the active tab label */
-.mat-tab-label.mat-tab-label-active {
+
+
+/* .mat-tab-label.mat-tab-label-active {
     min-width: 25px !important;
     background-color: transparent;
     color: black;
     font-weight: 700;
     background-color: rgb(240, 240, 240);
-}
+} */
 
 .items {
     outline-style: double;
@@ -30,19 +42,25 @@
     outline-color: rgb(240, 240, 240);
 }
 
+
 /* hover of items in tabs */
+
 .items:hover {
     background-color: rgb(240, 240, 240);
     cursor: pointer;
 }
 
-.mat-list {
+
+/* .mat-list {
     padding: 0.1cm;
     background-color: white;
-}
+} */
+
 
 /* Lines of the items,
 line1 is the title, line2 is the undertext */
+
+
 /*
 .line1{   
 }
@@ -51,10 +69,26 @@ line1 is the title, line2 is the undertext */
     color: rgb(138, 138, 138);
 }
 */
-.space  {
+
+.space {
     padding-bottom: 6cm;
 }
 
 table {
     width: 100%;
 }
+
+
+/* Trying */
+
+
+/* body {
+    margin: 0;
+    overflow: hidden;
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background-image: url("https://user-images.githubusercontent.com/26748614/96337412-581f2e80-1087-11eb-90f3-f033a8a1b41e.jpg");
+    background-size: cover;
+    z-index: -100;
+} */

@@ -1,4 +1,5 @@
-<div>
+
+  <div>
   <app-edit-header
     [graph]="graph"
     [selectedViewType]="selectedViewType"
@@ -9,7 +10,8 @@
 <div class="center">
   <ng-container *ngTemplateOutlet="graph ? Graph : Loading"></ng-container>
   <ng-template #Loading>
-    <div style="text-align: center;" (click)="graph = graphService.getGraphMockUp(1)">
+    <div style="text-align: center;">
+      <!-- Loading circle if graph is null -->
       <div class="loading">
         <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
       </div>
@@ -18,12 +20,12 @@
 
   <ng-template #Graph>
     <div style="text-align: center; margin-top: 10px;">
-      <app-text-view *ngIf="renderTextView()"></app-text-view>
-      <app-simulate (onBack)="handleOnChangeView('visual')" *ngIf="renderSimulate()"></app-simulate>
-      <app-analyze (onBack)="handleOnChangeView('visual')" *ngIf="renderAnalyze()"></app-analyze>
+      <app-simulate *ngIf="renderSimulate()" (onBack)="handleOnChangeView('visual')"></app-simulate>
+      <app-analyze *ngIf="renderAnalyze()" (onBack)="handleOnChangeView('visual')"></app-analyze>
       <app-visual-view *ngIf="renderVisualView()" [graph]="graph"></app-visual-view>
     </div>
   </ng-template>
 </div>
+  
 
 <app-footer></app-footer>

@@ -6,49 +6,43 @@ import * as _ from 'lodash';
 /// FROM HERE YOU CAN HAVE MORE ANGULAR COMPONENTS
 import { DataSyncService, DiagramComponent, PaletteComponent, OverviewComponent } from 'gojs-angular';
 
-/// ACHIEVEMENT: REALTIME SELECTION FROM THE EXTENSION FOLDER
-/// WORKS
-import { RealtimeDragSelectingTool } from 'GoJS-Samples/extensionsTS/RealtimeDragSelectingTool';
-
 /// OUR STUFF
-import { Graph, RelationTypes } from 'src/app/utils/graph.model';
-import { ErrorDialog } from 'src/app/utils/error-dialog/error-dialog';
+import { Graph, RelationTypesTo, RelationTypesFrom, getType } from 'src/app/utils/graph.model';
 import { LoggingService } from 'src/app/services/logging.service';
 import { MatDialog } from '@angular/material/dialog';
+import { EditProjectDialog } from './edit-project-dialog';
 
 
 /// Here they are finally ran before we use them in the model
 /// (The link click red text)
 
-/// TODO: make these change the text of the HTML element (but they already have the changes, so rather suit the !!!INSPECTOR HANDLE ARROWS!!!)
+/// TODO: make these change the text of the HTML element (but they already have the changes, so rather suit the !!!INSPECTOR Ins ARROWS!!!)
 
 // a conversion function used to get arrowhead information for a Part
 export function infoString(obj: go.GraphObject) {
-  console.log("infoString", obj);
+  // console.log("infoString", obj);
   let part = obj.part;
   if (part instanceof go.Adornment) part = part.adornedPart;
   let msg = '';
   if (part instanceof go.Link) {
     const link = part;
-    msg = 'toArrow: ' + link.data.toArrow + ';\nfromArrow: ' + link.data.fromArrow;
+    msg = getType(link.data.fromArrow, link.data.toArrow);
+    // msg = 'toArrow: ' + link.data.toArrow + ';\nfromArrow: ' + link.data.fromArrow;
   } else if (part instanceof go.Node) {
     const node = part;
     const link = node.linksConnected.first();
-    if (link) msg = 'toArrow: ' + link.data.toArrow + ';\nfromArrow: ' + link.data.fromArrow;
+    if (link) msg = 'No parameters assigned';
   }
+
   return msg;
 }
 
 // a GraphObject.click event handler to show arrowhead information
-export function showArrowInfo(e: go.InputEvent, obj: go.GraphObject) {
+export function showInfo(e: go.InputEvent, obj: go.GraphObject) {
+  // console.log("showinfo", obj);
   const msg = infoString(obj);
   if (msg) {
     const status = document.getElementById('myArrowheadInfo');
-    // console.log(document);
-    // console.log(document.getElementById);
-    // console.log(document.getElementById('myArrowheadInfo'));
-    // console.log('msg', msg);
-    // console.log('e', e, 'obj', obj);
     if (status) status.textContent = msg;
   }
 }
@@ -67,32 +61,47 @@ export class VisualViewComponent {
   @ViewChild('myDiagram', { static: true }) public myDiagramComponent: DiagramComponent;
   @ViewChild('myPalette', { static: true }) public myPaletteComponent: PaletteComponent;
 
+  public defaultRelation = "Exclusion";
+  public defaultLink = {
+    relation: this.defaultRelation,
+    toArrow: RelationTypesTo[this.defaultRelation],
+    fromArrow: RelationTypesFrom[this.defaultRelation]
+  }
+  public defaultNode: Object = {
+    name: "Default",
+    color: null,
+    text: "default text",
+    pending: false,
+  };
 
   /// initDiagram() IS THE MAIN STUFF WHAT BUILDS OUR TOOLS
   /// REPLACE THIS FROM SAMPLES AND WILL WORK IN GENERAL
 
+  myDiagram: go.Diagram;
+
   // initialize diagram / templates
   public initDiagram(): go.Diagram {
-    // let sai = this.showArrowInfo;
-    // let infoString = this.infoString;
+
     const $ = go.GraphObject.make;
-    const dia = $(go.Diagram, {
+    this.myDiagram = $(go.Diagram, {
+      
+      // Undo enabled
       'undoManager.isEnabled': true,
+      
+      // Grouping enabled
       'commandHandler.archetypeGroupData': { text: 'Group', isGroup: true, color: 'blue' },
-      // THIS IS FOR THE REALTIME SELECTING THAT WORKS IN THE BASIC SAMPLE PROJECT
-      // TODO: MAKE IT TWERK
-      dragSelectingTool: $(RealtimeDragSelectingTool, { isPartialInclusion: true }),
+      
       model: $(go.GraphLinksModel,
         {
           /// Basic link properties
           linkToPortIdProperty: 'toPort',
           linkFromPortIdProperty: 'fromPort',
-          linkKeyProperty: 'key' // IMPORTANT! must be defined for merges and data sync when using GraphLinksModel
+          linkKeyProperty: 'key', // IMPORTANT! must be defined for merges and data sync when using GraphLinksModel
         }
       )
     });
 
-    dia.commandHandler.archetypeGroupData = { key: 'Group', isGroup: true };
+    this.myDiagram.commandHandler.archetypeGroupData = { key: 'Group', isGroup: true };
 
     // Create functions for the ports
     const makePort = function (id: string, spot: go.Spot) {
@@ -106,12 +115,10 @@ export class VisualViewComponent {
       );
     }
 
-
     /// HOW NODES LOOKS LIKE IN GENERAL
     // define the Node template
-    dia.nodeTemplate =
+    this.myDiagram.nodeTemplate =
       $(go.Node, 'Spot', // It's a Sport typed Node
-
         /// Click function on the nodes
         {
           contextMenu:
@@ -124,7 +131,8 @@ export class VisualViewComponent {
                 }).ofObject())
             )
         },
-
+        // Location
+        new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
         /// Shape of the Nodes
         $(go.Panel, 'Auto',
           $(go.Shape, 'RoundedRectangle', { stroke: null },
@@ -133,17 +141,6 @@ export class VisualViewComponent {
           $(go.TextBlock, { margin: 8 },
             new go.Binding('text'))
         ),
-
-        // /// Pending Response
-        // // Not working with built in figures
-        // // Club doesn't exists (idk what does)
-        // $(go.Shape, {
-        //   alignment: go.Spot.TopRight,
-        //   // figure: "Club",
-        //   width: 40,
-        //   height: 40,
-        //   margin: 4
-        // }),
 
         /// Pending Response (! on the right top corner)
         $(go.Shape,
@@ -170,40 +167,14 @@ export class VisualViewComponent {
         makePort('b', go.Spot.BottomCenter),
 
         // makePort('fuckYouHole', go.Spot.BottomLeft), /// hihi :)
-      );
-
-
-    /// Link  properties
-    dia.linkTemplate =
-      $(go.Link,  // the whole link panel
-
-        /// The type of curving and stuff
-        { routing: go.Link.Normal },
-
-        /// General stuff (doesn't works without it)
-        $(go.Shape,  // the link shape
-          // the first element is assumed to be main element: as if isPanelMain were true
-          { stroke: 'gray', strokeWidth: 2 }),
-
-        /// One end definition
-        $(go.Shape,  // the "from" arrowhead
-          new go.Binding('fromArrow', 'fromArrow'),
-          { scale: 2, fill: '#D4B52C' }),
-
-        /// And the other end definition
-        $(go.Shape,  // the "to" arrowhead
-          new go.Binding('toArrow', 'toArrow'),
-          { scale: 2, fill: '#D4B52C' }),
-
-        /// General propoerties
         {
           /// The click and show red text (Not shows rn, but called)
-          click: showArrowInfo,
-          // toolTip:  // define a tooltip for each link that displays its information
-          //   $<go.Adornment>('ToolTip',
-          //     $(go.TextBlock, { margin: 4 },
-          //       new go.Binding('text', '', infoString).ofObject())
-          //   )
+          click: showInfo,
+          toolTip:  // define a tooltip for each link that displays its information
+            $<go.Adornment>('ToolTip',
+              $(go.TextBlock, { margin: 4 },
+                new go.Binding('text', '', infoString).ofObject())
+            ),
           contextMenu:
             $('ContextMenu',
               $('ContextMenuButton',
@@ -216,26 +187,65 @@ export class VisualViewComponent {
         }
       );
 
-    return dia;
+    // Group template
+    // this.myDiagram.groupTemplate = $(go.Group, { });
+
+    /// Link  properties
+    this.myDiagram.linkTemplate =
+      $(go.Link,  // the whole link panel
+
+        /// The type of curving and stuff
+        {
+          routing: go.Link.Orthogonal,
+          curve: go.Link.JumpOver,
+          corner: 10
+        },
+
+        /// General stuff (doesn't works without it)
+        $(go.Shape,  // the link shape
+          // the first element is assumed to be main element: as if isPanelMain were true
+          { stroke: 'gray', strokeWidth: 2 }),
+
+        /// One end definition
+        $(go.Shape,  // the "from" arrowhead
+          new go.Binding('fromArrow', 'fromArrow'),
+          { scale: 2, fill: '#969696' }),
+
+        /// And the other end definition
+        $(go.Shape,  // the "to" arrowhead
+          new go.Binding('toArrow', 'toArrow'),
+          { scale: 2, fill: '#969696' }),
+
+        /// General propoerties
+        {
+          /// The click and show red text (Not shows rn, but called)
+          click: showInfo,
+          toolTip:  // define a tooltip for each link that displays its information
+            $<go.Adornment>('ToolTip',
+              $(go.TextBlock, { margin: 4 },
+                new go.Binding('text', '', infoString).ofObject())
+            ),
+          contextMenu:
+            $('ContextMenu',
+              $('ContextMenuButton',
+                $(go.TextBlock, 'Group'),
+                { click: function (e, obj) { e.diagram.commandHandler.groupSelection(); } },
+                new go.Binding('visible', '', function (o) {
+                  return o.diagram.selection.count > 1;
+                }).ofObject())
+            )
+        }
+      );
+    console.log("fuck you", this.myDiagram);
+    return this.myDiagram;
   }
 
 
   /// The basic nodes we start with (MISTAKE/MISSING CAN DO WIERD STUFF)
-  public diagramNodeData: Array<go.ObjectData> = [
-    { key: 'Alpha', text: "Node Alpha", color: 'lightblue', pending: true },
-    { key: 'Beta', text: "Node Beta", color: 'orange' },
-    { key: 'Gamma', text: "Node Gamma", color: 'lightgreen' },
-    { key: 'Delta', text: "Node Delta", color: 'pink', pending: true }
-  ];
+  public diagramNodeData: Array<go.ObjectData> = [];
 
   /// The links we have (MISTAKE/MISSING CAN DO WIERD STUFF)
-  public diagramLinkData: Array<go.ObjectData> = [
-    { key: -1, from: 'Alpha', to: 'Beta', fromPort: 'r', toPort: 'l', toArrow: RelationTypes.Exclusion, fromArrow: "" },
-    { key: -2, from: 'Alpha', to: 'Gamma', fromPort: 'b', toPort: 't', toArrow: RelationTypes.Inclusion, fromArrow: "" },
-    { key: -3, from: 'Gamma', to: 'Delta', fromPort: 'r', toPort: 'l', toArrow: RelationTypes.Condition, fromArrow: "" },
-    { key: -4, from: 'Delta', to: 'Alpha', fromPort: 't', toPort: 'r', toArrow: RelationTypes.Condition, fromArrow: "" }
-  ];
-
+  public diagramLinkData: Array<go.ObjectData> = [];
 
   public diagramDivClassName: string = 'myDiagramDiv';
   public diagramModelData = { prop: 'value' };
@@ -249,12 +259,47 @@ export class VisualViewComponent {
     // this way, we don't log an unneeded transaction in the Diagram's undoManager history
     this.skipsDiagramUpdate = true;
 
+    // CHANGE REGARGDING LINKS
+    // This part is for new links to give them a default relation
+    if (changes && changes.modifiedLinkData && changes.modifiedLinkData.length >= 1) {
+      console.log("changes", changes.modifiedLinkData[0].toArrow);
+      changes.modifiedLinkData.map((link, i) => {
+        if (!link.toArrow) {
+          link.toArrow = RelationTypesTo[this.defaultRelation];
+          link.fromArrow = RelationTypesFrom[this.defaultRelation];
+          changes.modifiedLinkData[i] = _.cloneDeep(link);
+        }
+      });
+      console.log("changes", changes.modifiedLinkData[0].toArrow);
+    }
+    
+    // CHANGE - REGARGDING NODES
+    // Add pending if it's null
+    if (changes && changes.modifiedNodeData && changes.modifiedNodeData.length >= 1) {
+      changes.modifiedNodeData.map((node, i) => {
+        console.log("changes", i, node.pending);
+        if (!node.pending) {
+          node.pending = false;
+          changes.modifiedNodeData[i] = _.cloneDeep(node);
+        }
+        console.log("changes", i, node.toArrow);
+      });
+    }
+
+    // Loading in the changes
     this.diagramNodeData = DataSyncService.syncNodeData(changes, this.diagramNodeData);
     this.diagramLinkData = DataSyncService.syncLinkData(changes, this.diagramLinkData);
     this.diagramModelData = DataSyncService.syncModelData(changes, this.diagramModelData);
     this.graph.nodes = this.diagramNodeData;
     this.graph.links = this.diagramLinkData;
-    this.logger.log(this.graph);
+
+    console.log("this.myDiagramComponent.diagram.diagramNodeData", this.myDiagramComponent.diagram.diagramNodeData);
+    console.log("this.diagramNodeData", this.diagramNodeData, "this.diagramLinkData", this.diagramLinkData);
+
+    // Testing the toJson to get the whole data to the back-end
+    // if (this.myDiagram && this.myDiagram.model) {
+    //   console.log("myDiagram.model", this.myDiagram.model.toJson());
+    // }
   };
 
 
@@ -279,7 +324,8 @@ export class VisualViewComponent {
         ),
 
         $(go.TextBlock, { margin: 8 },
-          new go.Binding('text'))
+          new go.Binding('text')),
+
       );
 
     palette.model = $(go.GraphLinksModel,
@@ -290,7 +336,7 @@ export class VisualViewComponent {
     return palette;
   }
   public paletteNodeData: Array<go.ObjectData> = [
-    { key: '0', text: "PaletteNode1", color: 'red' }
+    { key: '0', text: "New Node", color: 'white' }
   ];
   public paletteLinkData: Array<go.ObjectData> = [
     {}
@@ -325,8 +371,17 @@ export class VisualViewComponent {
   // currently selected node; for inspector
   public selectedNode: go.Node | null = null;
   public selectedLink: go.Link | null = null;
-
+  
+  public startNode = {"color":"white","key":"-1", "loc":"155 -138", "category":"Start","text":"Start"};
+  public endNode = {"color":"white","key":"-2", "loc":"757 229", "category":"End","text":"End"};
   public ngAfterViewInit() {
+    console.log("ngAfterViewInit", this.graph);
+
+
+    // this.diagramNodeData.push(this.startNode);
+    // this.diagramNodeData.push(this.endNode);
+    this.graph.nodes.map(node => this.diagramNodeData.push(node));
+    this.diagramLinkData = this.graph.links;
 
     if (this.observedDiagram) return;
     this.observedDiagram = this.myDiagramComponent.diagram;
@@ -352,75 +407,47 @@ export class VisualViewComponent {
 
 
   public handleInspectorChangeLink(newLinkData) {
-    console.log("handleInspectorChangeLink", newLinkData);
-    const key = newLinkData.key;
+    console.log("handleInspectorChangeLink newLinkData", newLinkData);
+    console.log("newLinkData.key", newLinkData.key);
+    console.log("this.diagramLinkData", this.diagramLinkData);
 
-    // find the entry in nodeDataArray with this key, replace it with newLinkData
-    let index = null;
-    for (let i = 0; i < this.diagramLinkData.length; i++) {
-      const entry = this.diagramLinkData[i];
-      if (entry.key && entry.key === key) {
-        index = i;
-      }
-    }
-
+    const index = this.diagramLinkData.map(link => link.key).indexOf(newLinkData.key);
+    console.log(index);
     if (index >= 0) {
       // here, we set skipsDiagramUpdate to false, since GoJS does not yet have this update
       this.skipsDiagramUpdate = false;
       this.diagramLinkData[index] = _.cloneDeep(newLinkData);
-      // this.diagramNodeData[index] = _.cloneDeep(newNodeData);
     }
-
-    // var nd = this.observedDiagram.model.findNodeDataForKey(newNodeData.key);
-    // console.log(nd);
 
   }
-  public handleInspectorChangeNode(newNodeData) {
-    console.log("handleInspectorChangeLink", newNodeData);
-    const key = newNodeData.key;
 
-    // Node
-    let index = null;
-    for (let i = 0; i < this.diagramNodeData.length; i++) {
-      const entry = this.diagramNodeData[i];
-      if (entry.key && entry.key === key) {
-        index = i;
-      }
-    }
+  public handleInspectorChangeNode(newNodeData) {
+    console.log("handleInspectorChangeNode", newNodeData);
+
+    const index = this.diagramNodeData.map(link => link.key).indexOf(newNodeData.key);
 
     if (index >= 0) {
       // here, we set skipsDiagramUpdate to false, since GoJS does not yet have this update
       this.skipsDiagramUpdate = false;
-      this.diagramNodeData[index] = _.cloneDeep(newNodeData);
-      // this.diagramNodeData[index] = _.cloneDeep(newNodeData);
-    }
 
-    // var nd = this.observedDiagram.model.findNodeDataForKey(newNodeData.key);
-    // console.log(nd);
+      console.log("newNodeData", newNodeData);
+      this.diagramNodeData[index] = _.cloneDeep(newNodeData);
+      console.log("this.diagramNodeData[index]", index, this.diagramNodeData[index]);
+
+    }
   }
 
-  // status: string = "asd";
-  // // a conversion function used to get arrowhead information for a Part
-  // infoString(obj: go.GraphObject) {
-  //   let part = obj.part;
-  //   if (part instanceof go.Adornment) part = part.adornedPart;
-  //   let msg = '';
-  //   if (part instanceof go.Link) {
-  //     const link = part;
-  //     msg = 'toArrow: ' + link.data.toArrow + ';\nfromArrow: ' + link.data.fromArrow;
-  //   } else if (part instanceof go.Node) {
-  //     const node = part;
-  //     const link = node.linksConnected.first();
-  //     if (link) msg = 'toArrow: ' + link.data.toArrow + ';\nfromArrow: ' + link.data.fromArrow;
-  //   }
+  // public addObject(): void {
+  //   // this.myDiagram.model.addLinkData({ from: "Alpha", to: "Beta" });
+  // }
 
-  //   return msg;
-  // }
-  // // a GraphObject.click event handler to show arrowhead information
-  // showArrowInfo(e: go.InputEvent, obj: go.GraphObject) {
-  //   const msg = this.infoString(obj);
-  //   if (msg) {
-  //     this.status = msg;
-  //   }
-  // }
+  editProject() {
+    // TODO: Edit Project
+    const dialogRef = this.dialog.open(EditProjectDialog, {
+      width: '250px',
+      data: { graph: this.graph }
+    });  
+  }
 }
+
+

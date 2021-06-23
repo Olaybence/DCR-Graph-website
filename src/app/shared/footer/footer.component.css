@@ -1,29 +1,26 @@
-
-.site-footer
-{
-  margin-bottom: 0px;
-  bottom: 0cm;
-  left: 0;
-  width: 100%;
-  text-align: center;
-  background-color: grey;
-  font-size:12px;
-  line-height:20px;
-  color:rgba(255, 255, 255, 0.493);
-  clear: both;
+.site-footer {
+    margin-bottom: 0px;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    background-color: grey;
+    font-size: 12px;
+    line-height: 20px;
+    color: rgba(255, 255, 255, 0.493);
+    clear: both;
+    position: absolute;
 }
 
-.site-footer hr
-{
-  border-top-color:White;
-  opacity:1
+.site-footer hr {
+    border-top-color: White;
+    opacity: 1
 }
 
-.site-footer h6
-{
-  color:#fff;
-  font-size:14px;
-  text-transform: uppercase;
-  margin-top:5px;
-  letter-spacing:2px
+.site-footer h6 {
+    color: #fff;
+    font-size: 14px;
+    text-transform: uppercase;
+    margin-top: 5px;
+    letter-spacing: 2px
 }
